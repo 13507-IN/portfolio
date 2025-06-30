@@ -7,6 +7,7 @@ import { useState } from 'react';
 // Import your project images
 import SerenityImage from '../assets/serenity.png'; // Adjust the path as necessary
 import ToDoImage from '../assets/taskmaster.png';
+import FinMateImage from '../assets/FinMate.jpeg'; // Add your other project images here
 
 const projects = [
   {
@@ -28,6 +29,16 @@ const projects = [
     demo: "#",
     image: ToDoImage, // Added image reference
     alt: "DSP Algorithms Preview"
+  },
+   {
+    id: 3,
+    title: "FinMate",
+    description: "A personal finance management app that helps users track expenses and savings using graphs and charts.",
+    tags: ["PHP", "Full-Stack", "MySQL"],
+    github: "https://github.com/13507-IN/FinMate",
+    demo: "#",
+    image: FinMateImage, // Added image reference
+    alt: "FinMate Finance Management App Preview"
   },
   // Add 2 more projects
 ];
