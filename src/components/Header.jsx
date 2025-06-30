@@ -85,7 +85,7 @@ export default function Header() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <ul className="flex flex-col gap-6">
+              <ul className="flex flex-col gap-5">
                 {navLinks.map((link) => (
                   <motion.li
                     key={link.name}

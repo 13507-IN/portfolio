@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { Github, Instagram, Linkedin, Mail, Twitter } from 'lucide-react';
 
 const socialLinks = [
   {
@@ -18,9 +18,9 @@ const socialLinks = [
     icon: <Mail size={20} />,
   },
   {
-    name: "Twitter",
-    url: "#",
-    icon: <Twitter size={20} />,
+    name: "Instagram",
+    url: "https://www.instagram.com/_rishiraj_debnath_",
+    icon: <Instagram size={20} />,
   },
 ];
 
