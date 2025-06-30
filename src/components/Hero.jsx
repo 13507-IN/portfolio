@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail } from "lucide-react";
+import myimage from "../assets/myphoto.jpeg"; // Adjust the path as necessary
 
 export default function Hero() {
   return (
@@ -131,7 +132,7 @@ export default function Hero() {
           <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-primary/20 overflow-hidden shadow-2xl">
             {/* Replace this div with your actual photo */}
             <img 
-                src="src/assets/myphoto.jpeg" 
+                src={myimage} // Ensure this path is correct
                 alt="Rishiraj Debnath"
                 className="w-full h-full object-cover"
             />
