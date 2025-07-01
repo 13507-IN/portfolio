@@ -1,7 +1,7 @@
 
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail } from "lucide-react";
-import myimage from "../assets/myphoto.jpeg";
+import myimage from "../assets/myimage.jpeg";
 
 export default function Hero() {
   return (
