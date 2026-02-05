@@ -8,6 +8,8 @@ import { useState } from 'react';
 import SerenityImage from '../assets/serenity.png';
 import ToDoImage from '../assets/taskmaster.png';
 import FinMateImage from '../assets/FinMate.jpeg';
+import InceptIQImage from '../assets/inceptIQ.png';
+
 
 const projects = [
   {
@@ -40,6 +42,16 @@ const projects = [
     image: FinMateImage,
     alt: "FinMate Finance Management App Preview"
   },
+  {
+    id: 4,
+    title: "InceptIQ",
+    description: "An AI-powered idea validator that helps to validate startup ideas quickly and efficiently , comparing them against existing market data.",
+    tags: ["AI", "Full-Stack", "Next.js"],
+    github: "https://github.com/13507-IN/InceptIQ",
+    demo: "https://incept-iq.vercel.app/",
+    image: InceptIQImage,
+    alt: "InceptIQ Idea Validator Preview"
+  }
 ];
 
 export default function Projects() {
