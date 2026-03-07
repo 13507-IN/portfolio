@@ -51,6 +51,16 @@ const projects = [
     demo: "https://incept-iq.vercel.app/",
     image: InceptIQImage,
     alt: "InceptIQ Idea Validator Preview"
+  },
+  {
+    id: 5,
+    title: "Mimic",
+    description: "An AI-powered chatbot that mimics user behavior and responses for enhanced interaction.",
+    tags: ["AI", "Full-Stack", "Next.js", "chatbot"],
+    github: "https://github.com/13507-IN/Mimic",
+    demo: "https://mimic-eta.vercel.app/",
+    image: InceptIQImage,
+    alt: "Mimic Chatbot Preview"
   }
 ];
 
@@ -89,10 +99,10 @@ export default function Projects() {
     <section 
       id="projects" 
       ref={ref}
-      className="py-12 md:py-20 bg-dark"
+      className="py-12 md:py-20 bg-background"
     >
       <div className="container mx-auto px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 relative text-black">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 relative text-foreground">
           My Projects
           <span className="absolute bottom-0 left-0 w-8 sm:w-12 h-1 bg-primary rounded-full"></span>
         </h2>
@@ -106,37 +116,37 @@ export default function Projects() {
           {projects.map((project) => (
             <motion.article
               key={project.id}
-              className="bg-dark-secondary rounded-lg sm:rounded-xl overflow-hidden border border-gray-800 hover:border-primary/50 transition-all duration-300"
+              className="bg-surface rounded-lg sm:rounded-xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300"
               variants={item}
               whileHover={{ y: -5 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
               {/* Project Image */}
               <div 
-                className="h-48 sm:h-60 bg-gray-900 overflow-hidden relative cursor-pointer"
+                className="h-48 sm:h-60 bg-surface-3 overflow-hidden relative cursor-pointer"
                 onClick={() => handleImageClick(project.image, project.alt)}
               >
                 {project.image ? (
                   <img 
                     src={project.image} 
                     alt={project.alt}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-102"
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center">
-                    <div className="text-gray-400 text-sm sm:text-lg font-bold">Project Preview</div>
-                  </div>
-                )}
-              </div>
-
-              <div className="p-4 sm:p-6">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-lg sm:text-xl font-semibold text-white">{project.title}</h3>
-                  <a href={project.github} className="text-gray-400 hover:text-primary transition-colors">
-                    <Github size={20} className="sm:size-6" />
-                  </a>
+                  <div className="text-muted text-sm sm:text-lg font-bold">Project Preview</div>
                 </div>
-                <p className="text-gray-400 text-sm sm:text-base mb-3 sm:mb-4">{project.description}</p>
+              )}
+            </div>
+
+            <div className="p-4 sm:p-6">
+              <div className="flex justify-between items-start mb-3">
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground">{project.title}</h3>
+                <a href={project.github} className="text-muted hover:text-primary transition-colors">
+                  <Github size={20} className="sm:size-6" />
+                </a>
+              </div>
+              <p className="text-muted text-sm sm:text-base mb-3 sm:mb-4">{project.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
                   {project.tags.map((tag) => (
@@ -154,7 +164,7 @@ export default function Projects() {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-primary transition-colors"
+                    className="text-muted hover:text-primary transition-colors"
                     aria-label="View code"
                   >
                     <Code size={18} className="sm:size-5" />
@@ -163,7 +173,7 @@ export default function Projects() {
                     href={project.demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-primary transition-colors"
+                    className="text-muted hover:text-primary transition-colors"
                     aria-label="View demo"
                   >
                     <ExternalLink size={18} className="sm:size-5" />

@@ -50,7 +50,7 @@ export default function Contact() {
       });
 
       const data = await response.json();
-      if (data.success === 'true') {
+      if (data.success === 'true' || data.success === true) {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', message: '' });
       } else {
@@ -68,10 +68,10 @@ export default function Contact() {
     <section 
       id="contact" 
       ref={ref}
-      className="py-20 bg-dark"
+      className="py-20 bg-background"
     >
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-12 relative text-white">
+        <h2 className="text-3xl font-bold mb-12 relative text-foreground">
           Get In Touch
           <span className="absolute bottom-0 left-0 w-12 h-1 bg-primary rounded-full"></span>
         </h2>
@@ -93,7 +93,7 @@ export default function Contact() {
                 <h3 className="text-xl font-semibold text-primary mb-2">Email</h3>
                 <a 
                   href="mailto:rishirajnatj@gmail.com" 
-                  className="text-gray-500 hover:text-primary transition-colors duration-300"
+                  className="text-muted hover:text-primary transition-colors duration-300"
                 >
                   rishirajnatj@gmail.com
                 </a>
@@ -108,7 +108,7 @@ export default function Contact() {
                 <h3 className="text-xl font-semibold text-primary mb-2">Phone</h3>
                 <a 
                   href="tel:+918240992946" 
-                  className="text-gray-500 hover:text-primary transition-colors duration-300"
+                  className="text-muted hover:text-primary transition-colors duration-300"
                 >
                   +91 8240992946
                 </a>
@@ -121,7 +121,7 @@ export default function Contact() {
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-primary mb-2">Location</h3>
-                <p className="text-gray-500">Kolkata, West Bengal, India</p>
+                <p className="text-muted">Kolkata, West Bengal, India</p>
               </div>
             </div>
           </div>
@@ -129,7 +129,7 @@ export default function Contact() {
           {/* Contact Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label htmlFor="name" className="block text-gray-800 font-medium">Name</label>
+              <label htmlFor="name" className="block text-muted font-medium">Name</label>
               <input
                 type="text"
                 id="name"
@@ -137,12 +137,12 @@ export default function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 bg-dark-secondary border border-gray-700 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-black"
+                className="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-foreground placeholder:text-muted-2"
               />
             </div>
             
             <div className="space-y-2">
-              <label htmlFor="email" className="block text-gray-800 font-medium">Email</label>
+              <label htmlFor="email" className="block text-muted font-medium">Email</label>
               <input
                 type="email"
                 id="email"
@@ -150,12 +150,12 @@ export default function Contact() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 bg-dark-secondary border border-gray-700 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-black"
+                className="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-foreground placeholder:text-muted-2"
               />
             </div>
             
             <div className="space-y-2">
-              <label htmlFor="message" className="block text-gray-800 font-medium">Message</label>
+              <label htmlFor="message" className="block text-muted font-medium">Message</label>
               <textarea
                 id="message"
                 name="message"
@@ -163,20 +163,20 @@ export default function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 bg-dark-secondary border border-gray-700 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-black"
+                className="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-foreground placeholder:text-muted-2"
               ></textarea>
             </div>
             
             <motion.button
               type="submit"
-              className="w-full bg-black hover:bg-primary-light text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300 relative"
+              className="w-full bg-primary hover:bg-primary-light text-primary-foreground font-medium py-3 px-6 rounded-lg transition-colors duration-300 relative disabled:opacity-60 disabled:cursor-not-allowed"
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
               disabled={isSubmitting}
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-primary-foreground" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>

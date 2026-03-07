@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="min-h-[calc(100vh-80px)] flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-dark to-dark-secondary pt-20 pb-10"
+      className="min-h-[calc(100vh-80px)] flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-background to-surface-2 pt-20 pb-10"
     >
       {/* Floating 2D elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -61,13 +61,13 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            <span className="text-gray-400">Hi, I'm </span>
-            <span className="text-black">Rishiraj Debnath</span>
+            <span className="text-muted">Hi, I'm </span>
+            <span className="text-foreground">Rishiraj Debnath</span>
           </h1>
           <h2 className="text-lg sm:text-xl md:text-2xl text-primary mb-4 sm:mb-6">
             Electronics & Communication Engineering Student
           </h2>
-          <p className="text-gray-500 text-sm sm:text-base max-w-2xl mx-auto lg:mx-0 mb-6 sm:mb-8">
+          <p className="text-muted-2 text-sm sm:text-base max-w-2xl mx-auto lg:mx-0 mb-6 sm:mb-8">
             Passionate about web development, AI, and open source. I love creating
             innovative solutions and contributing to the tech community.
           </p>
@@ -75,7 +75,7 @@ export default function Hero() {
           <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start mb-8 sm:mb-12">
             <motion.a
               href="#projects"
-              className="border-2 bg-primary hover:bg-primary-light text-black px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-medium transition-colors duration-300 shadow-primary/30 text-sm sm:text-base"
+              className="border-2 bg-primary hover:bg-primary-light text-primary-foreground px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-medium transition-colors duration-300 shadow-primary/30 text-sm sm:text-base"
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -96,7 +96,7 @@ export default function Hero() {
               href="https://github.com/13507-IN"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-primary transition-colors duration-300"
+              className="text-muted hover:text-primary transition-colors duration-300"
               whileHover={{ y: -3, scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -106,7 +106,7 @@ export default function Hero() {
               href="https://linkedin.com/in/rishiraj-debnath-890322313"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-primary transition-colors duration-300"
+              className="text-muted hover:text-primary transition-colors duration-300"
               whileHover={{ y: -3, scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -114,7 +114,7 @@ export default function Hero() {
             </motion.a>
             <motion.a
               href="mailto:rishirajnatj@gmail.com"
-              className="text-gray-400 hover:text-primary transition-colors duration-300"
+              className="text-muted hover:text-primary transition-colors duration-300"
               whileHover={{ y: -3, scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >

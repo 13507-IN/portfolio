@@ -17,7 +17,7 @@ export default function About() {
     <section 
       id="about" 
       ref={ref}
-      className="py-12 md:py-20 bg-dark-secondary relative overflow-hidden"
+      className="py-12 md:py-20 bg-surface-2 relative overflow-hidden"
     >
       {/* Background 2D Elements - Reduced on mobile */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -61,7 +61,7 @@ export default function About() {
         variants={variants}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 relative text-black">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 relative text-foreground">
           About Me
           <span className="absolute bottom-0 left-0 w-8 sm:w-12 h-1 bg-primary rounded-full"></span>
         </h2>
@@ -69,17 +69,17 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
           {/* Text Content */}
           <div className="space-y-4 sm:space-y-6">
-            <p className="text-gray-800 text-base sm:text-lg leading-relaxed">
+            <p className="text-muted text-base sm:text-lg leading-relaxed">
               I'm an <span className="text-primary font-semibold">Electronics & Communication Engineering</span> student at 
               <span className="text-primary font-semibold"> Techno Main Salt Lake</span>, passionate about web development, 
               IoT, and cutting-edge technology.
             </p>
-            <p className="text-gray-500 text-base sm:text-lg leading-relaxed">
+            <p className="text-muted-2 text-base sm:text-lg leading-relaxed">
               My journey in tech began when I first participated in a hackathon, and 
               since then I've been obsessed with creating solutions that solve real life
               problems we face daily. I love to explore new technologies, and making a positive impact in the society through my work is what drives me.
             </p>
-            <p className="text-gray-500 text-base sm:text-lg leading-relaxed">
+            <p className="text-muted-2 text-base sm:text-lg leading-relaxed">
               When I'm not coding or tinkering with circuits, you can find me 
               contributing to open-source projects or exploring new tech stacks. In free time I love to spend my time playing guitar and listening to music.
             </p>
@@ -88,34 +88,34 @@ export default function About() {
           {/* Highlight Cards - Adjusted for mobile */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
             <motion.div 
-              className="bg-dark p-4 sm:p-6 rounded-lg border border-primary/20 hover:border-primary/50 transition-all duration-300 backdrop-blur-sm"
+              className="bg-surface p-4 sm:p-6 rounded-lg border border-primary/20 hover:border-primary/50 transition-all duration-300 backdrop-blur-sm"
               whileHover={{ y: -5, scale: 1.02 }}
             >
               <GraduationCap size={24} className="text-primary mb-2 sm:mb-4" />
               <h3 className="text-lg sm:text-xl font-semibold text-primary mb-1 sm:mb-2">Education</h3>
-              <p className="text-gray-500 text-sm sm:text-base">B.Tech in ECE</p>
-              <p className="text-gray-600 text-sm sm:text-base">Techno Main Salt Lake</p>
-              <p className="text-gray-600 text-sm sm:text-base">2024-2028</p>
+              <p className="text-muted text-sm sm:text-base">B.Tech in ECE</p>
+              <p className="text-muted-2 text-sm sm:text-base">Techno Main Salt Lake</p>
+              <p className="text-muted-2 text-sm sm:text-base">2024-2028</p>
             </motion.div>
 
             <motion.div 
-              className="bg-dark p-4 sm:p-6 rounded-lg border border-primary/20 hover:border-primary/50 transition-all duration-300 backdrop-blur-sm"
+              className="bg-surface p-4 sm:p-6 rounded-lg border border-primary/20 hover:border-primary/50 transition-all duration-300 backdrop-blur-sm"
               whileHover={{ y: -5, scale: 1.02 }}
             >
               <Code2 size={24} className="text-primary mb-2 sm:mb-4" />
               <h3 className="text-lg sm:text-xl font-semibold text-primary mb-1 sm:mb-2">Development</h3>
-              <p className="text-gray-500 text-sm sm:text-base">4+ Projects</p>
-              <p className="text-gray-600 text-sm sm:text-base">JavaScript, Python</p>
+              <p className="text-muted text-sm sm:text-base">4+ Projects</p>
+              <p className="text-muted-2 text-sm sm:text-base">JavaScript, Python</p>
             </motion.div>
 
             <motion.div 
-              className="bg-dark p-4 sm:p-6 rounded-lg border border-primary/20 hover:border-primary/50 transition-all duration-300 backdrop-blur-sm"
+              className="bg-surface p-4 sm:p-6 rounded-lg border border-primary/20 hover:border-primary/50 transition-all duration-300 backdrop-blur-sm"
               whileHover={{ y: -5, scale: 1.02 }}
             >
               <Cpu size={24} className="text-primary mb-2 sm:mb-4" />
               <h3 className="text-lg sm:text-xl font-semibold text-primary mb-1 sm:mb-2">Hardware</h3>
-              <p className="text-gray-500 text-sm sm:text-base">Arduino Uno</p>
-              <p className="text-gray-600 text-sm sm:text-base">Line Follower Bot</p>
+              <p className="text-muted text-sm sm:text-base">Arduino Uno</p>
+              <p className="text-muted-2 text-sm sm:text-base">Line Follower Bot</p>
             </motion.div>
           </div>
         </div>

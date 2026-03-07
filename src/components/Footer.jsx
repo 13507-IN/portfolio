@@ -34,7 +34,7 @@ const footerLinks = [
 export default function Footer() {
   return (
     <motion.footer 
-      className="bg-dark-secondary border-t border-gray-800"
+      className="bg-surface-2 border-t border-border"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -47,17 +47,17 @@ export default function Footer() {
             className="space-y-4"
             whileHover={{ scale: 1.02 }}
           >
-            <h3 className="text-2xl font-bold font-heading text-black">
+            <h3 className="text-2xl font-bold font-heading text-foreground">
               Rishiraj<span className="text-primary">.dev</span>
             </h3>
-            <p className="text-gray-500">
+            <p className="text-muted">
               Electronics Engineer & Tech Enthusiast
             </p>
           </motion.div>
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-black">Quick Links</h4>
+            <h4 className="text-lg font-semibold text-foreground">Quick Links</h4>
             <ul className="space-y-2">
               {footerLinks.map((link) => (
                 <motion.li 
@@ -67,7 +67,7 @@ export default function Footer() {
                 >
                   <a 
                     href={link.href} 
-                    className="text-gray-500 hover:text-primary transition-colors duration-300"
+                    className="text-muted hover:text-primary transition-colors duration-300"
                   >
                     {link.name}
                   </a>
@@ -78,10 +78,10 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-black">Get In Touch</h4>
+            <h4 className="text-lg font-semibold text-foreground">Get In Touch</h4>
             <a 
               href="mailto:rishirajnatj@gmail.com" 
-              className="text-gray-400 hover:text-primary transition-colors duration-300"
+              className="text-muted hover:text-primary transition-colors duration-300"
             >
               rishirajnatj@gmail.com
             </a>
@@ -89,12 +89,12 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-800 my-8"></div>
+        <div className="border-t border-border my-8"></div>
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} Rishiraj Debnath. All rights reserved.
+          <p className="text-muted-2 text-sm">
+            (c) {new Date().getFullYear()} Rishiraj Debnath. All rights reserved.
           </p>
 
           <div className="flex gap-4">
@@ -105,7 +105,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.name}
-                className="text-gray-400 hover:text-primary transition-colors duration-300"
+                className="text-muted hover:text-primary transition-colors duration-300"
                 whileHover={{ y: -3 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -118,3 +118,6 @@ export default function Footer() {
     </motion.footer>
   );
 }
+
+
+
