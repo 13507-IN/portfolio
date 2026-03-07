@@ -9,6 +9,7 @@ import SerenityImage from '../assets/serenity.png';
 import ToDoImage from '../assets/taskmaster.png';
 import FinMateImage from '../assets/FinMate.jpeg';
 import InceptIQImage from '../assets/inceptIQ.png';
+import MimicImage from '../assets/mimic.png';
 
 
 const projects = [
@@ -59,7 +60,7 @@ const projects = [
     tags: ["AI", "Full-Stack", "Next.js", "chatbot"],
     github: "https://github.com/13507-IN/Mimic",
     demo: "https://mimic-eta.vercel.app/",
-    image: InceptIQImage,
+    image: MimicImage,
     alt: "Mimic Chatbot Preview"
   }
 ];
