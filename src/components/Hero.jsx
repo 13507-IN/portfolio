@@ -1,172 +1,179 @@
-
-import { motion } from "framer-motion";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Github, Linkedin, Mail, ChevronDown } from "lucide-react";
+import { useRef } from "react";
 import myimage from "../assets/myimage.jpeg";
 
+// Split text into individual characters for staggered animation
+function SplitText({ children, className = "", delay = 0 }) {
+  const chars = String(children).split("");
+  return (
+    <span className={className} aria-label={children}>
+      {chars.map((char, i) => (
+        <motion.span
+          key={i}
+          className="inline-block"
+          initial={{ y: 60, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            duration: 0.5,
+            delay: delay + i * 0.03,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
 export default function Hero() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Parallax: background text moves faster, photo moves slower
+  const bgTextY = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 50]);
+  const bgTextOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   return (
     <section
       id="hero"
-      className="min-h-[calc(100vh-80px)] flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-background to-surface-2 pt-20 pb-10"
+      ref={sectionRef}
+      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background pt-24 pb-16"
     >
-      {/* Floating 2D elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Geometric shapes - Reduced size for mobile */}
-        <motion.div
-          className="absolute w-40 h-40 md:w-64 md:h-64 rounded-lg border-2 border-primary/20 top-[15%] left-[5%] md:top-1/4 md:left-10% rotate-45"
-          animate={{
-            y: [0, -10, 0],
-            opacity: [0.3, 0.6, 0.3]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        
-        <motion.div
-          className="absolute w-20 h-20 md:w-32 md:h-32 rounded-full border-2 border-primary/20 bottom-[25%] left-[5%] md:bottom-1/3 md:left-1/4"
-          animate={{
-            x: [0, 8, 0],
-            y: [0, -8, 0]
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
+      {/* Giant background name */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+        style={{ y: bgTextY, opacity: bgTextOpacity }}
+      >
+        <span className="bg-text bg-text--light whitespace-nowrap">
+          RISHIRAJ
+        </span>
+      </motion.div>
 
-        {/* Abstract lines - Simplified for mobile */}
-        <svg className="absolute top-0 left-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <motion.path
-            d="M0,150 Q150,50 300,200 T600,100"
-            stroke="rgba(138, 43, 226, 0.1)"
-            strokeWidth="1"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 2, delay: 0.5 }}
-          />
-        </svg>
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-12 relative z-10">
-        {/* Text content - Adjusted padding for mobile */}
+      <div className="container mx-auto px-4 sm:px-6 flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-16 relative z-10">
+        {/* Text content */}
         <motion.div
-          className="w-full lg:w-1/2 text-center lg:text-left mt-8 lg:mt-0"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
+          className="w-full lg:w-1/2 text-center lg:text-left"
+          style={{ y: contentY }}
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            <span className="text-muted">Hi, I'm </span>
-            <span className="text-foreground">Rishiraj Debnath</span>
-          </h1>
-          <h2 className="text-lg sm:text-xl md:text-2xl text-primary mb-4 sm:mb-6">
-            Electronics & Communication Engineering Student
-          </h2>
-          <p className="text-muted-2 text-sm sm:text-base max-w-2xl mx-auto lg:mx-0 mb-6 sm:mb-8">
-            Passionate about web development, AI, and open source. I love creating
-            innovative solutions and contributing to the tech community.
-          </p>
+          <div className="mb-4 overflow-hidden">
+            <motion.p
+              className="text-sm sm:text-base font-medium tracking-widest uppercase text-primary"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Hello, I'm
+            </motion.p>
+          </div>
 
-          <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start mb-8 sm:mb-12">
-            <motion.a
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-[1.05] tracking-tight">
+            <SplitText delay={0.2}>Rishiraj</SplitText>
+            <br />
+            <SplitText className="text-primary" delay={0.5}>
+              Debnath
+            </SplitText>
+          </h1>
+
+          <div className="overflow-hidden mb-6 sm:mb-8">
+            <motion.p
+              className="text-muted-2 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed"
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
+            >
+              Electronics & Communication Engineering Student. Passionate about
+              web development, AI, and building things that solve real problems.
+            </motion.p>
+          </div>
+
+          <motion.div
+            className="flex flex-wrap gap-4 justify-center lg:justify-start mb-10"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.1 }}
+          >
+            <a
               href="#projects"
-              className="border-2 bg-primary hover:bg-primary-light text-primary-foreground px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-medium transition-colors duration-300 shadow-primary/30 text-sm sm:text-base"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              className="btn-slide-fill bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium text-sm sm:text-base transition-colors duration-300"
             >
               View My Work
-            </motion.a>
-            <motion.a
+            </a>
+            <a
               href="#contact"
-              className="border-2 border-primary text-primary hover:bg-primary/10 px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-medium transition-colors duration-300 text-sm sm:text-base"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              className="border-2 border-primary text-primary hover:bg-primary/10 px-6 py-3 rounded-lg font-medium text-sm sm:text-base transition-colors duration-300"
             >
               Contact Me
-            </motion.a>
-          </div>
+            </a>
+          </motion.div>
 
-          <div className="flex justify-center lg:justify-start gap-4 sm:gap-6">
-            <motion.a
-              href="https://github.com/13507-IN"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted hover:text-primary transition-colors duration-300"
-              whileHover={{ y: -3, scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Github size={20} className="w-5 h-5 sm:w-6 sm:h-6" />
-            </motion.a>
-            <motion.a
-              href="https://linkedin.com/in/rishiraj-debnath-890322313"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted hover:text-primary transition-colors duration-300"
-              whileHover={{ y: -3, scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Linkedin size={20} className="w-5 h-5 sm:w-6 sm:h-6" />
-            </motion.a>
-            <motion.a
-              href="mailto:rishirajnatj@gmail.com"
-              className="text-muted hover:text-primary transition-colors duration-300"
-              whileHover={{ y: -3, scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Mail size={20} className="w-5 h-5 sm:w-6 sm:h-6" />
-            </motion.a>
-          </div>
+          <motion.div
+            className="flex justify-center lg:justify-start gap-5"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.3 }}
+          >
+            {[
+              { icon: Github, href: "https://github.com/13507-IN", label: "GitHub" },
+              { icon: Linkedin, href: "https://linkedin.com/in/rishiraj-debnath-890322313", label: "LinkedIn" },
+              { icon: Mail, href: "mailto:rishirajnatj@gmail.com", label: "Email" },
+            ].map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="text-muted hover:text-primary transition-colors duration-300"
+                aria-label={label}
+              >
+                <Icon size={22} />
+              </a>
+            ))}
+          </motion.div>
         </motion.div>
 
-        {/* Photo - Adjusted size for mobile */}
+        {/* Photo — rotated rectangle with offset shadow */}
         <motion.div
           className="w-full lg:w-1/2 flex justify-center"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          style={{ y: photoY }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full border-4 border-primary/20 overflow-hidden shadow-lg md:shadow-2xl">
-            <img 
-              src={myimage}
-              alt="Rishiraj Debnath"
-              className="w-full h-full object-cover"
-            />
-            
-            {/* Decorative elements - Smaller for mobile */}
-            <div className="absolute -top-2 -left-2 w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full bg-primary/10 z-[-1]"></div>
-            <div className="absolute -bottom-2 -right-2 w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-lg bg-primary/20 z-[-1] rotate-12"></div>
+          <div className="relative">
+            {/* Offset colored shadow */}
+            <div className="absolute inset-0 bg-primary/20 rounded-2xl translate-x-4 translate-y-4 rotate-3" />
+            <div className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden rotate-[-2deg] border-2 border-border shadow-xl">
+              <img
+                src={myimage}
+                alt="Rishiraj Debnath"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Floating particles - Reduced number for mobile */}
-      {[...Array(8)].map((_, i) => (
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8 }}
+      >
         <motion.div
-          key={i}
-          className="absolute rounded-full bg-primary/10"
-          style={{
-            width: Math.random() * 6 + 3 + 'px',
-            height: Math.random() * 6 + 3 + 'px',
-            left: Math.random() * 100 + '%',
-            top: Math.random() * 100 + '%'
-          }}
-          animate={{
-            y: [0, (Math.random() - 0.5) * 50],
-            x: [0, (Math.random() - 0.5) * 30],
-            opacity: [0.3, 0.8, 0.3]
-          }}
-          transition={{
-            duration: Math.random() * 10 + 10,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-      ))}
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={24} className="text-muted-2" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

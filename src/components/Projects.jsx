@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Code, ExternalLink, Github, X } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 // Import your project images
 import SerenityImage from '../assets/serenity.png';
@@ -11,6 +11,15 @@ import FinMateImage from '../assets/FinMate.jpeg';
 import InceptIQImage from '../assets/inceptIQ.png';
 import MimicImage from '../assets/mimic.png';
 
+// Unique gradient pairs for projects without images
+const gradients = [
+  "from-violet-600/30 to-indigo-800/30",
+  "from-blue-600/30 to-cyan-800/30",
+  "from-emerald-600/30 to-teal-800/30",
+  "from-amber-600/30 to-orange-800/30",
+  "from-rose-600/30 to-pink-800/30",
+  "from-fuchsia-600/30 to-purple-800/30",
+];
 
 const projects = [
   {
@@ -62,164 +71,279 @@ const projects = [
     demo: "https://mimic-eta.vercel.app/",
     image: MimicImage,
     alt: "Mimic Chatbot Preview"
+  },
+  {
+    id: 6,
+    title: "Clip",
+    description: "A high performance URL shortner.",
+    tags: ["Rust"],
+    github: "https://github.com/13507-IN/Clip",
+    demo: "#",
+    image: null,
+    alt: "Clip Preview"
+  },
+  {
+    id: 7,
+    title: "Barcelona",
+    description: "A Python project.",
+    tags: ["Python"],
+    github: "https://github.com/13507-IN/Barcelona",
+    demo: "https://barcalona.vercel.app",
+    image: null,
+    alt: "Barcelona Preview"
+  },
+  {
+    id: 8,
+    title: "AutoClass-AI",
+    description: "An AI tool built with JavaScript.",
+    tags: ["JavaScript", "AI"],
+    github: "https://github.com/13507-IN/AutoClass-AI",
+    demo: "#",
+    image: null,
+    alt: "AutoClass-AI Preview"
+  },
+  {
+    id: 9,
+    title: "MediOps",
+    description: "A project called MediOps.",
+    tags: ["Project"],
+    github: "https://github.com/13507-IN/MediOps",
+    demo: "#",
+    image: null,
+    alt: "MediOps Preview"
   }
 ];
 
-export default function Projects() {
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
+// ===================== DESKTOP: Horizontal Scroll =====================
+function HorizontalGallery() {
+  const containerRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const cardWidth = 80; // vw
+  const gap = 3; // vw
+  const totalScrollWidth = projects.length * (cardWidth + gap);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
   });
 
-  const [selectedImage, setSelectedImage] = useState(null);
+  const x = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0vw", `-${totalScrollWidth - 100 + gap}vw`]
+  );
 
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
-
-  const handleImageClick = (image, alt) => {
-    setSelectedImage({ image, alt });
-  };
-
-  const closeModal = () => {
-    setSelectedImage(null);
-  };
+  // Track current index for counter
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (v) => {
+      const idx = Math.round(v * (projects.length - 1));
+      setCurrentIndex(idx);
+    });
+    return unsubscribe;
+  }, [scrollYProgress]);
 
   return (
-    <section 
-      id="projects" 
-      ref={ref}
-      className="py-12 md:py-20 bg-background"
+    <div
+      ref={containerRef}
+      className="horizontal-scroll-section"
+      style={{ "--section-height": `${projects.length * 100}vh` }}
     >
-      <div className="container mx-auto px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 relative text-foreground">
-          My Projects
-          <span className="absolute bottom-0 left-0 w-8 sm:w-12 h-1 bg-primary rounded-full"></span>
-        </h2>
-        
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-          variants={container}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-        >
-          {projects.map((project) => (
-            <motion.article
-              key={project.id}
-              className="bg-surface rounded-lg sm:rounded-xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300"
-              variants={item}
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              {/* Project Image */}
-              <div 
-                className="h-48 sm:h-60 bg-surface-3 overflow-hidden relative cursor-pointer"
-                onClick={() => handleImageClick(project.image, project.alt)}
-              >
-                {project.image ? (
-                  <img 
-                    src={project.image} 
-                    alt={project.alt}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center">
-                  <div className="text-muted text-sm sm:text-lg font-bold">Project Preview</div>
-                </div>
-              )}
-            </div>
+      <div className="horizontal-scroll-sticky flex flex-col justify-center">
+        {/* Header row */}
+        <div className="container mx-auto px-6 mb-6 flex justify-between items-end">
+          <div>
+            <h2 className="section-heading text-foreground">My Projects</h2>
+            <div className="w-12 h-1 bg-primary rounded-full mt-4" />
+          </div>
+          <span className="text-muted-2 font-mono text-sm tabular-nums">
+            {String(currentIndex + 1).padStart(2, "0")} /{" "}
+            {String(projects.length).padStart(2, "0")}
+          </span>
+        </div>
 
-            <div className="p-4 sm:p-6">
-              <div className="flex justify-between items-start mb-3">
-                <h3 className="text-lg sm:text-xl font-semibold text-foreground">{project.title}</h3>
-                <a href={project.github} className="text-muted hover:text-primary transition-colors">
-                  <Github size={20} className="sm:size-6" />
-                </a>
-              </div>
-              <p className="text-muted text-sm sm:text-base mb-3 sm:mb-4">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
-                  {project.tags.map((tag) => (
-                    <span 
-                      key={tag} 
-                      className="px-2 py-1 text-xs sm:text-sm bg-primary/10 text-primary rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex gap-3 sm:gap-4">
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted hover:text-primary transition-colors"
-                    aria-label="View code"
-                  >
-                    <Code size={18} className="sm:size-5" />
-                  </a>
-                  <a
-                    href={project.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted hover:text-primary transition-colors"
-                    aria-label="View demo"
-                  >
-                    <ExternalLink size={18} className="sm:size-5" />
-                  </a>
-                </div>
-              </div>
-            </motion.article>
+        {/* Scrolling track */}
+        <motion.div className="flex gap-[3vw] pl-6" style={{ x }}>
+          {projects.map((project, i) => (
+            <ProjectCard key={project.id} project={project} index={i} />
           ))}
         </motion.div>
-      </div>
 
-      {/* Full-screen Image Modal */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeModal}
-          >
+        {/* Progress dots */}
+        <div className="container mx-auto px-6 mt-8 flex gap-2">
+          {projects.map((_, i) => (
+            <div
+              key={i}
+              className={`h-1 rounded-full transition-all duration-500 ${
+                i === currentIndex
+                  ? "w-8 bg-primary"
+                  : "w-3 bg-border"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ===================== MOBILE: Vertical Cards =====================
+function MobileGallery() {
+  const [ref, inView] = useInView({ threshold: 0.05, triggerOnce: true });
+
+  return (
+    <section id="projects-mobile" ref={ref} className="py-16 bg-background">
+      <div className="container mx-auto px-4">
+        <motion.div
+          className="mb-10"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="section-heading text-foreground">My Projects</h2>
+          <div className="w-12 h-1 bg-primary rounded-full mt-4" />
+        </motion.div>
+
+        <div className="space-y-6">
+          {projects.map((project, i) => (
             <motion.div
-              className="relative max-w-4xl w-full max-h-[90vh]"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              onClick={(e) => e.stopPropagation()}
+              key={project.id}
+              initial={{ opacity: 0, y: 40 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
             >
-              <button
-                className="absolute -top-8 sm:-top-10 right-0 text-white hover:text-primary transition-colors"
-                onClick={closeModal}
-                aria-label="Close modal"
-              >
-                <X size={24} className="sm:size-8" />
-              </button>
-              <img
-                src={selectedImage.image}
-                alt={selectedImage.alt}
-                className="w-full h-full object-contain max-h-[70vh] sm:max-h-[80vh] mx-auto rounded-lg"
-              />
-              <p className="text-white text-sm sm:text-base text-center mt-2">{selectedImage.alt}</p>
+              <ProjectCard project={project} index={i} mobile />
             </motion.div>
-          </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===================== Card Component =====================
+function ProjectCard({ project, index, mobile = false }) {
+  const gradientClass = gradients[index % gradients.length];
+  const cardRef = useRef(null);
+  const [spotlight, setSpotlight] = useState({ x: 0, y: 0, visible: false });
+
+  const handleMouseMove = useCallback((e) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    setSpotlight({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+      visible: true,
+    });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setSpotlight((prev) => ({ ...prev, visible: false }));
+  }, []);
+
+  return (
+    <article
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`group relative rounded-2xl overflow-hidden border border-border bg-surface flex-shrink-0 transition-all duration-500 hover:border-primary/30 ${
+        mobile ? "w-full" : "w-[80vw] h-[65vh]"
+      }`}
+    >
+      {/* Cursor spotlight glow */}
+      <div
+        className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-300"
+        style={{
+          opacity: spotlight.visible ? 1 : 0,
+          background: `radial-gradient(400px circle at ${spotlight.x}px ${spotlight.y}px, rgba(139, 92, 246, 0.15), transparent 60%)`,
+        }}
+      />
+
+      {/* Image or gradient placeholder */}
+      <div className={`relative overflow-hidden ${mobile ? "h-52" : "h-full"} bg-surface-3`}>
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={project.alt}
+            className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
+          />
+        ) : (
+          <div
+            className={`w-full h-full bg-gradient-to-br ${gradientClass} flex items-center justify-center`}
+          >
+            <span className="text-foreground/10 font-bold text-5xl sm:text-7xl lg:text-8xl tracking-tighter select-none">
+              {project.title}
+            </span>
+          </div>
         )}
-      </AnimatePresence>
+
+        {/* Bottom gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+        {/* Content overlaid at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8 z-20">
+          <div className="flex justify-between items-start mb-3">
+            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
+              {project.title}
+            </h3>
+            <div className="flex gap-3">
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-white transition-colors"
+                aria-label="View code"
+              >
+                <Github size={20} />
+              </a>
+              {project.demo && project.demo !== "#" && (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/70 hover:text-white transition-colors"
+                  aria-label="View demo"
+                >
+                  <ExternalLink size={20} />
+                </a>
+              )}
+            </div>
+          </div>
+
+          <p className="text-white/70 text-sm sm:text-base mb-4 max-w-xl leading-relaxed">
+            {project.description}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-3 py-1 text-xs sm:text-sm bg-white/10 backdrop-blur-sm text-white/90 rounded-full border border-white/10"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+// ===================== Main Export =====================
+export default function Projects() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return (
+    <section id="projects">
+      {isMobile ? <MobileGallery /> : <HorizontalGallery />}
     </section>
   );
 }

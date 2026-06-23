@@ -4,82 +4,91 @@ import { useInView } from 'react-intersection-observer';
 const skills = [
   { name: "HTML", level: 85 },
   { name: "CSS", level: 75 },
-  { name: "Java Script", level: 70 },
+  { name: "JavaScript", level: 70 },
   { name: "C Programming", level: 65 },
   { name: "Python", level: 60 },
   { name: "PHP", level: 45 },
 ];
 
+// Card sizes based on skill level
+function getCardSize(level) {
+  if (level >= 80) return "col-span-2 row-span-2";
+  if (level >= 65) return "col-span-2 row-span-1";
+  return "col-span-1 row-span-1";
+}
+
 export default function Skills() {
   const [ref, inView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   });
 
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 },
-  };
-
   return (
-    <section 
-      id="skills" 
+    <section
+      id="skills"
       ref={ref}
-      className="py-20 bg-surface-2"
+      className="py-20 md:py-32 bg-surface-2 relative overflow-hidden"
     >
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-12 relative text-foreground">
-          My Skills
-          <span className="absolute bottom-0 left-0 w-12 h-1 bg-primary rounded-full"></span>
-        </h2>
-        
+      {/* Giant background text */}
+      <div className="absolute top-8 md:top-12 left-0 right-0 pointer-events-none select-none overflow-hidden">
+        <span className="bg-text bg-text--light block text-center">SKILLS</span>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <motion.div
-          className="space-y-8 max-w-3xl mx-auto"
-          variants={container}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          className="mb-12 md:mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          {skills.map((skill) => (
+          <h2 className="section-heading text-foreground">My Skills</h2>
+          <div className="w-12 h-1 bg-primary rounded-full mt-4" />
+        </motion.div>
+
+        {/* Mosaic grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto auto-rows-[minmax(100px,auto)]">
+          {skills.map((skill, i) => (
             <motion.div
               key={skill.name}
-              className="group"
-              variants={item}
+              className={`relative bg-surface rounded-xl border border-border hover:border-primary/40 p-5 sm:p-6 flex flex-col justify-between group transition-all duration-500 overflow-hidden ${getCardSize(skill.level)}`}
+              initial={{ opacity: 0, y: 30, rotate: -2 }}
+              animate={
+                inView
+                  ? { opacity: 1, y: 0, rotate: 0 }
+                  : {}
+              }
+              transition={{
+                duration: 0.5,
+                delay: 0.1 + i * 0.08,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              whileHover={{ y: -4 }}
             >
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-muted font-medium group-hover:text-primary transition-colors duration-300">
-                  {skill.name}
-                </span>
-                <span className="text-primary font-medium">
-                  {skill.level}%
-                </span>
-              </div>
-              <div className="w-full h-3 rounded-full overflow-hidden bg-transparent">
-                {/* Only the filled portion will be visible */}
+              {/* Gradient left border — height based on skill level */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-border rounded-l-xl overflow-hidden">
                 <motion.div
-                  className="h-full bg-primary/70 rounded-full"
-                  initial={{ width: 0 }}
-                  animate={inView ? { width: `${skill.level}%` } : { width: 0 }}
-                  transition={{ duration: 1, delay: 0.2 }}
-                >
-                  {/* Percentage text inside the dark bar */}
-                  <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs font-bold text-primary-foreground">
-                    {inView && skill.level > 15 ? `${skill.level}%` : ''}
-                  </span>
-                </motion.div>
+                  className="w-full bg-gradient-to-b from-primary to-primary-light rounded-full"
+                  initial={{ height: 0 }}
+                  animate={inView ? { height: `${skill.level}%` } : {}}
+                  transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
+                />
+              </div>
+
+              <div>
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
+                  {skill.name}
+                </h3>
+              </div>
+
+              {/* Subtle level indicator in bottom-right */}
+              <div className="self-end">
+                <span className="text-2xl sm:text-3xl font-bold text-primary/20 group-hover:text-primary/40 transition-colors duration-300 tabular-nums">
+                  {skill.level}
+                </span>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

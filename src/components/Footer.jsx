@@ -1,26 +1,26 @@
 import { motion } from 'framer-motion';
-import { Github, Instagram, Linkedin, Mail, Twitter } from 'lucide-react';
+import { Github, Instagram, Linkedin, Mail } from 'lucide-react';
 
 const socialLinks = [
   {
     name: "GitHub",
     url: "https://github.com/13507-IN",
-    icon: <Github size={20} />,
+    icon: Github,
   },
   {
     name: "LinkedIn",
     url: "https://linkedin.com/in/rishiraj-debnath-890322313",
-    icon: <Linkedin size={20} />,
+    icon: Linkedin,
   },
   {
     name: "Email",
     url: "mailto:rishirajnatj@gmail.com",
-    icon: <Mail size={20} />,
+    icon: Mail,
   },
   {
     name: "Instagram",
     url: "https://www.instagram.com/_rishiraj_debnath_",
-    icon: <Instagram size={20} />,
+    icon: Instagram,
   },
 ];
 
@@ -32,56 +32,65 @@ const footerLinks = [
 ];
 
 export default function Footer() {
+  const marqueeText = "RISHIRAJ DEBNATH • DEVELOPER • ENGINEER • CREATOR • ";
+
   return (
-    <motion.footer 
-      className="bg-surface-2 border-t border-border"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
-      <div className="container mx-auto px-6 py-12">
-        {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-          {/* Brand Info */}
-          <motion.div 
-            className="space-y-4"
-            whileHover={{ scale: 1.02 }}
-          >
-            <h3 className="text-2xl font-bold font-heading text-foreground">
+    <footer className="bg-surface-2 relative overflow-hidden">
+      {/* Marquee band */}
+      <div className="border-t border-b border-border py-4 overflow-hidden">
+        <div className="marquee-track flex whitespace-nowrap">
+          {/* Repeat the text enough times to fill the width */}
+          {[...Array(4)].map((_, i) => (
+            <span
+              key={i}
+              className="text-foreground/5 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter select-none mx-4"
+            >
+              {marqueeText}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 py-12">
+        {/* Main footer content */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+          {/* Brand */}
+          <div className="space-y-3">
+            <a href="#hero" className="text-xl font-bold text-foreground hover:text-primary transition-colors duration-300">
               Rishiraj<span className="text-primary">.dev</span>
-            </h3>
-            <p className="text-muted">
+            </a>
+            <p className="text-muted-2 text-sm leading-relaxed">
               Electronics Engineer & Tech Enthusiast
             </p>
-          </motion.div>
+          </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-foreground">Quick Links</h4>
+          <div className="space-y-3">
+            <h4 className="text-xs uppercase tracking-wider font-medium text-muted-2">
+              Navigation
+            </h4>
             <ul className="space-y-2">
               {footerLinks.map((link) => (
-                <motion.li 
-                  key={link.name}
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <a 
-                    href={link.href} 
-                    className="text-muted hover:text-primary transition-colors duration-300"
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    className="text-muted text-sm hover:text-primary transition-colors duration-300"
                   >
                     {link.name}
                   </a>
-                </motion.li>
+                </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-foreground">Get In Touch</h4>
-            <a 
-              href="mailto:rishirajnatj@gmail.com" 
-              className="text-muted hover:text-primary transition-colors duration-300"
+          {/* Contact */}
+          <div className="space-y-3">
+            <h4 className="text-xs uppercase tracking-wider font-medium text-muted-2">
+              Get In Touch
+            </h4>
+            <a
+              href="mailto:rishirajnatj@gmail.com"
+              className="text-muted text-sm hover:text-primary transition-colors duration-300 block"
             >
               rishirajnatj@gmail.com
             </a>
@@ -89,35 +98,31 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-border my-8"></div>
+        <div className="border-t border-border" />
 
-        {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-2 text-sm">
-            (c) {new Date().getFullYear()} Rishiraj Debnath. All rights reserved.
+        {/* Bottom row */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8">
+          <p className="text-muted-2 text-xs">
+            © {new Date().getFullYear()} Rishiraj Debnath. All rights reserved.
           </p>
 
           <div className="flex gap-4">
-            {socialLinks.map((social) => (
+            {socialLinks.map(({ name, url, icon: Icon }) => (
               <motion.a
-                key={social.name}
-                href={social.url}
+                key={name}
+                href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={social.name}
+                aria-label={name}
                 className="text-muted hover:text-primary transition-colors duration-300"
-                whileHover={{ y: -3 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={{ y: -2 }}
               >
-                {social.icon}
+                <Icon size={18} />
               </motion.a>
             ))}
           </div>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 }
-
-
-
