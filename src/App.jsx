@@ -1,5 +1,5 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -8,6 +8,9 @@ import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import Loader from './components/Loader';
+import CustomCursor from './components/CustomCursor';
+import CommandPalette from './components/CommandPalette';
 import './index.css';
 
 function ScrollProgress() {
@@ -19,6 +22,7 @@ function ScrollProgress() {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(docHeight > 0 ? scrollTop / docHeight : 0);
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -32,7 +36,42 @@ function ScrollProgress() {
 }
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') {
+      return 'dark';
+    }
+
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light' || stored === 'dark') {
+      return stored;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
   const lenisRef = useRef(null);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+    root.style.colorScheme = theme;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  // Global Cmd+K keyboard shortcut handling
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -47,22 +86,57 @@ export default function App() {
 
     lenisRef.current = lenis;
 
+    let frameId;
+
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      frameId = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
+
+    frameId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(frameId);
       lenis.destroy();
     };
   }, []);
 
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setIsLoading(false);
+    }, 2400);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isLoading ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isLoading]);
+
   return (
     <Router>
-      <div className="app">
+      <Loader isLoading={isLoading} />
+      <CustomCursor />
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        onToggleTheme={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
+        theme={theme}
+      />
+      <div
+        className={`app transition-opacity duration-700 ${
+          isLoading ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
         <ScrollProgress />
-        <Header />
+        <Header
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          theme={theme}
+          setTheme={setTheme}
+        />
         <main>
           <Hero />
           <About />
@@ -70,7 +144,7 @@ export default function App() {
           <Skills />
           <Contact />
         </main>
-        <Footer />
+        <Footer onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
       </div>
     </Router>
   );
