@@ -1,142 +1,164 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion as Motion } from 'framer-motion';
+import { Menu, Moon, Search, Sun, X } from 'lucide-react';
 
 const navLinks = [
-  { name: "Home", href: "#hero" },
-  { name: "About", href: "#about" },
-  { name: "Projects", href: "#projects" },
-  { name: "Skills", href: "#skills" },
-  { name: "Contact", href: "#contact" },
+  { name: 'Home', href: '#hero' },
+  { name: 'About', href: '#about' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Contact', href: '#contact' },
 ];
 
-export default function Header() {
+export default function Header({ onOpenCommandPalette, theme, setTheme }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'dark';
-    const stored = localStorage.getItem('theme');
-    if (stored === 'light' || stored === 'dark') return stored;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 18);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    root.classList.toggle('dark', theme === 'dark');
-    root.style.colorScheme = theme;
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
   return (
-    <motion.header 
-      className={`fixed top-0 left-0 right-0 z-50 py-6 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-surface/90 backdrop-blur-md py-4 border-b border-border' 
-          : 'bg-transparent'
-      }`}
-      initial={{ y: -100 }}
+    <Motion.header
+      className="fixed inset-x-0 top-0 z-40 pt-4 sm:pt-5"
+      initial={{ y: -80 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5, type: 'spring' }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        {/* Logo */}
-        <motion.a 
-          href="#hero" 
-          className="text-2xl font-bold font-heading text-foreground hover:text-primary transition-colors duration-200"
-          whileHover={{ scale: 1.05 }}
+      <div className="page-width">
+        <div
+          className={`relative flex items-center justify-between rounded-full border px-4 py-3 shadow-lg transition-all duration-300 sm:px-5 ${
+            isScrolled || mobileMenuOpen
+              ? 'border-border/80 bg-surface/88 backdrop-blur-xl'
+              : 'border-border/55 bg-surface/72 backdrop-blur-md'
+          }`}
         >
-          Rishiraj<span className="text-primary">.dev</span>
-        </motion.a>
+          <Motion.a
+            href="#hero"
+            className="text-lg font-bold tracking-tight text-foreground transition-colors duration-200 hover:text-primary sm:text-xl"
+            whileHover={{ scale: 1.03 }}
+          >
+            Rishiraj<span className="text-primary">.dev</span>
+          </Motion.a>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:block">
-          <ul className="flex gap-8">
+          <nav className="hidden md:flex items-center gap-1 rounded-full border border-border/80 bg-background/65 p-1">
             {navLinks.map((link) => (
-              <motion.li 
+              <Motion.a
                 key={link.name}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.95 }}
+                href={link.href}
+                className="rounded-full px-4 py-2 text-sm font-medium text-muted transition-colors duration-200 hover:bg-surface-2 hover:text-primary"
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.97 }}
               >
-                <a 
-                  href={link.href}
-                  className="group text-muted hover:text-primary text-sm font-medium relative transition-colors duration-200"
-                >
-                  {link.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-              </motion.li>
+                {link.name}
+              </Motion.a>
             ))}
-          </ul>
-        </nav>
+          </nav>
 
-        <div className="flex items-center gap-3">
-          <motion.button
-            className="p-2 rounded-lg border border-border bg-surface-2 hover:bg-surface-3 text-foreground transition-colors duration-200"
-            onClick={toggleTheme}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </motion.button>
-
-          {/* Mobile Menu Button */}
-          <motion.button
-            className="md:hidden text-foreground z-50"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.button>
-        </div>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              className="fixed inset-0 bg-surface z-40 pt-24 px-6"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Motion.button
+              onClick={onOpenCommandPalette}
+              className="hidden sm:flex items-center gap-2 rounded-full border border-border bg-surface-2/80 px-3.5 py-2 text-xs font-medium text-muted hover:border-primary/40 hover:text-foreground transition-all duration-200"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.96 }}
+              aria-label="Open command palette"
+              title="Open Command Palette (Cmd + K)"
             >
-              <ul className="flex flex-col gap-5">
-                {navLinks.map((link) => (
-                  <motion.li
-                    key={link.name}
-                    initial={{ x: 20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <a 
-                      href={link.href}
-                      className="text-foreground hover:text-primary text-xl font-medium transition-colors duration-200"
-                    >
-                      {link.name}
-                    </a>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <Search size={14} className="text-primary" />
+              <span>Search...</span>
+              <kbd className="hidden lg:inline-block rounded border border-border bg-surface px-1.5 py-0.5 text-[10px] font-mono text-muted-2">
+                ⌘K
+              </kbd>
+            </Motion.button>
+
+            <div className="hidden xl:flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary">
+              <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+              Open to build cool things
+            </div>
+
+            <Motion.button
+              className="rounded-full border border-border bg-surface-2 p-2.5 text-foreground transition-colors duration-200 hover:bg-surface-3"
+              onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+            </Motion.button>
+
+            <Motion.button
+              className="rounded-full border border-border bg-surface-2 p-2.5 text-foreground transition-colors duration-200 hover:bg-surface-3 md:hidden"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </Motion.button>
+          </div>
+        </div>
       </div>
-    </motion.header>
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <Motion.div
+            className="page-width md:hidden"
+            initial={{ opacity: 0, y: -18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -18 }}
+            transition={{ duration: 0.28 }}
+          >
+            <div className="mt-3 rounded-[1.75rem] border border-border bg-surface/94 p-5 shadow-2xl backdrop-blur-xl space-y-4">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenCommandPalette();
+                }}
+                className="w-full flex items-center justify-between rounded-2xl border border-primary/20 bg-primary/10 px-4 py-3 text-sm font-medium text-primary"
+              >
+                <span className="flex items-center gap-2">
+                  <Search size={16} /> Search & Commands
+                </span>
+                <span className="text-xs font-mono bg-primary/20 px-2 py-0.5 rounded">⌘K</span>
+              </button>
+
+              <div className="flex flex-col gap-2">
+                {navLinks.map((link, index) => (
+                  <Motion.a
+                    key={link.name}
+                    href={link.href}
+                    className="rounded-2xl px-4 py-3 text-base font-medium text-foreground transition-colors duration-200 hover:bg-surface-2 hover:text-primary"
+                    onClick={() => setMobileMenuOpen(false)}
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.24, delay: index * 0.05 }}
+                  >
+                    {link.name}
+                  </Motion.a>
+                ))}
+              </div>
+            </div>
+          </Motion.div>
+        )}
+      </AnimatePresence>
+    </Motion.header>
   );
 }
