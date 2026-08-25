@@ -10,6 +10,7 @@ import InceptIQImage from '../assets/inceptIQ.png';
 import MimicImage from '../assets/mimic.png';
 import MediOpsImage from '../assets/mediops.png';
 import ScholarCatalystImage from '../assets/scholarcatalyst.png';
+import FunfyImage from '../assets/funfy.png';
 import ProjectModal from './ProjectModal';
 
 const categories = ['All', 'AI & ML', 'Full Stack / Web', 'Systems & Backend'];
@@ -203,6 +204,24 @@ const projects = [
     demo: 'https://scholar-catalyst.vercel.app/',
     image: ScholarCatalystImage,
     alt: 'ScholarCatalyst preview',
+  },
+  {
+    id: 11,
+    title: 'Funfy',
+    category: 'Full Stack / Web',
+    description: 'An interactive custom sticker design and merchandise creation platform.',
+    longDescription:
+      'Funfy is a feature-packed web application for designing, customizing, and ordering stickers and merchandise. Includes canvas toolbars, layer management, image/sticker dissecting, and export functionality.',
+    highlights: [
+      'Interactive canvas editing & layer controls',
+      'Media dissection, stickers, and custom text options',
+      'Seamless preview, export, and cart ordering workflow',
+    ],
+    tags: ['Full Stack', 'Web Studio', 'Vercel'],
+    github: 'https://github.com/13507-IN/Funfy',
+    demo: 'https://funfy.vercel.app/',
+    image: FunfyImage,
+    alt: 'Funfy preview',
   },
 ];
 
