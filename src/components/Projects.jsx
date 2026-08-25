@@ -9,6 +9,7 @@ import FinMateImage from '../assets/FinMate.jpeg';
 import InceptIQImage from '../assets/inceptIQ.png';
 import MimicImage from '../assets/mimic.png';
 import MediOpsImage from '../assets/mediops.png';
+import ScholarCatalystImage from '../assets/scholarcatalyst.png';
 import ProjectModal from './ProjectModal';
 
 const categories = ['All', 'AI & ML', 'Full Stack / Web', 'Systems & Backend'];
@@ -184,6 +185,24 @@ const projects = [
     demo: 'https://medi-ops-ten.vercel.app/',
     image: MediOpsImage,
     alt: 'MediOps preview',
+  },
+  {
+    id: 10,
+    title: 'ScholarCatalyst',
+    category: 'AI & ML',
+    description: 'An AI-powered scholarship platform connecting students with tailored opportunities.',
+    longDescription:
+      'ScholarCatalyst leverages an AI recommendation engine to help students find, apply for, and secure scholarship opportunities tailored to their profiles.',
+    highlights: [
+      'AI-powered scholarship matching engine',
+      'Personalized profile recommendation workflow',
+      'Interactive student community & application hub',
+    ],
+    tags: ['AI', 'Full Stack', 'Vercel'],
+    github: 'https://github.com/13507-IN/ScholarCatalyst',
+    demo: 'https://scholar-catalyst.vercel.app/',
+    image: ScholarCatalystImage,
+    alt: 'ScholarCatalyst preview',
   },
 ];
 
