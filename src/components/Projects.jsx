@@ -8,6 +8,7 @@ import ToDoImage from '../assets/taskmaster.png';
 import FinMateImage from '../assets/FinMate.jpeg';
 import InceptIQImage from '../assets/inceptIQ.png';
 import MimicImage from '../assets/mimic.png';
+import MediOpsImage from '../assets/mediops.png';
 import ProjectModal from './ProjectModal';
 
 const categories = ['All', 'AI & ML', 'Full Stack / Web', 'Systems & Backend'];
@@ -180,8 +181,8 @@ const projects = [
     ],
     tags: ['Project', 'Operations', 'Backend'],
     github: 'https://github.com/13507-IN/MediOps',
-    demo: '#',
-    image: null,
+    demo: 'https://medi-ops-ten.vercel.app/',
+    image: MediOpsImage,
     alt: 'MediOps preview',
   },
 ];
