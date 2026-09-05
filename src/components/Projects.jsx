@@ -24,7 +24,25 @@ const gradients = [
   'from-fuchsia-600/30 to-purple-800/30',
 ];
 
-const projects = [
+export const projects = [
+  {
+    id: 12,
+    title: 'Rishi Auth',
+    category: 'Systems & Backend',
+    description: 'A custom, secure backend authentication and identity management service.',
+    longDescription:
+      'Rishi Auth is a robust authentication and authorization service providing JWT token management, password hashing with bcrypt, session validation, role-based access control (RBAC), and security rate-limiting.',
+    highlights: [
+      'Secure JWT issuance, token rotation & session store',
+      'Bcrypt password hashing & security header enforcement',
+      'Role-based access control (RBAC) middleware API',
+    ],
+    tags: ['Node.js', 'Express', 'JWT', 'Security', 'Backend'],
+    github: 'https://github.com/13507-IN/Rishi-Auth',
+    demo: '#',
+    image: null,
+    alt: 'Rishi Auth preview',
+  },
   {
     id: 1,
     title: 'Serenity',

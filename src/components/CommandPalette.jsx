@@ -15,6 +15,7 @@ import {
   Check,
   X,
   Sparkles,
+  Server,
 } from 'lucide-react';
 
 export default function CommandPalette({ isOpen, onClose, onToggleTheme, theme }) {
@@ -31,6 +32,16 @@ export default function CommandPalette({ isOpen, onClose, onToggleTheme, theme }
       icon: Home,
       action: () => {
         window.location.hash = '#hero';
+        onClose();
+      },
+    },
+    {
+      id: 'nav-backend',
+      category: 'Navigation',
+      label: 'Backend Developer Showcase (/backend)',
+      icon: Server,
+      action: () => {
+        window.location.href = '/backend';
         onClose();
       },
     },

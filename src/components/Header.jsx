@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { Menu, Moon, Search, Sun, X } from 'lucide-react';
 
@@ -88,10 +89,14 @@ export default function Header({ onOpenCommandPalette, theme, setTheme }) {
               </kbd>
             </Motion.button>
 
-            <div className="hidden xl:flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary">
-              <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-              Open to build cool things
-            </div>
+            <Link
+              to="/backend"
+              className="hidden xl:flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 hover:scale-105 transition-all"
+              title="View Backend Developer Showcase"
+            >
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              Backend Roles & Opportunities
+            </Link>
 
             <Motion.button
               className="rounded-full border border-border bg-surface-2 p-2.5 text-foreground transition-colors duration-200 hover:bg-surface-3"

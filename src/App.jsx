@@ -1,4 +1,4 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import Header from './components/Header';
@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import Loader from './components/Loader';
 import CustomCursor from './components/CustomCursor';
 import CommandPalette from './components/CommandPalette';
+import BackendShowcase from './components/BackendShowcase';
 import './index.css';
 
 function ScrollProgress() {
@@ -32,6 +33,27 @@ function ScrollProgress() {
       className="scroll-progress"
       style={{ transform: `scaleX(${progress})` }}
     />
+  );
+}
+
+function MainLayout({ onOpenCommandPalette, theme, setTheme }) {
+  return (
+    <>
+      <ScrollProgress />
+      <Header
+        onOpenCommandPalette={onOpenCommandPalette}
+        theme={theme}
+        setTheme={setTheme}
+      />
+      <main>
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
+        <Contact />
+      </main>
+      <Footer onOpenCommandPalette={onOpenCommandPalette} />
+    </>
   );
 }
 
@@ -131,20 +153,20 @@ export default function App() {
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
       >
-        <ScrollProgress />
-        <Header
-          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-          theme={theme}
-          setTheme={setTheme}
-        />
-        <main>
-          <Hero />
-          <About />
-          <Projects />
-          <Skills />
-          <Contact />
-        </main>
-        <Footer onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <MainLayout
+                onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+                theme={theme}
+                setTheme={setTheme}
+              />
+            }
+          />
+          <Route path="/backend" element={<BackendShowcase />} />
+          <Route path="/opportunities" element={<Navigate to="/backend" replace />} />
+        </Routes>
       </div>
     </Router>
   );
