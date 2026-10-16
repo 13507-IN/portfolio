@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/backend", "destination": "/" },
+    { "source": "/opportunities", "destination": "/" }
+  ]
+}

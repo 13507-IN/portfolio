@@ -5,80 +5,71 @@ import {
   Code2,
   FileCode,
   Terminal,
-  Cpu,
   Boxes,
   Database,
-  Flame,
   Globe,
-  Sparkles,
+  Server,
+  GitBranch,
 } from 'lucide-react';
 
-const categories = ['All', 'Web Development', 'Languages & AI', 'Hardware & Systems'];
+const categories = ['All', 'Frontend', 'Backend', 'Workflow'];
 
 const skills = [
   {
-    name: 'HTML & CSS',
-    category: 'Web Development',
-    level: 88,
-    status: 'Advanced',
-    note: 'Responsive layouts & Tailwind CSS styling',
+    name: 'HTML, CSS & Tailwind',
+    category: 'Frontend',
+    note: 'Responsive layouts and reusable design patterns.',
+    usedIn: 'Portfolio, InceptIQ, Funfy',
     icon: Globe,
   },
   {
-    name: 'JavaScript',
-    category: 'Web Development',
-    level: 78,
-    status: 'Advanced',
-    note: 'Modern ES6+, DOM manipulation & React',
+    name: 'JavaScript & TypeScript',
+    category: 'Frontend',
+    note: 'Interactive interfaces and typed application code.',
+    usedIn: 'TaskMaster, Funfy',
     icon: FileCode,
   },
   {
     name: 'React & Next.js',
-    category: 'Web Development',
-    level: 75,
-    status: 'Intermediate',
-    note: 'Component architecture, state & SSR',
+    category: 'Frontend',
+    note: 'Component-driven apps and browser-based product flows.',
+    usedIn: 'InceptIQ, Funfy, ScholarCatalyst',
     icon: Boxes,
   },
   {
-    name: 'Python',
-    category: 'Languages & AI',
-    level: 72,
-    status: 'Intermediate',
-    note: 'Flask web backends, automation & Gemini AI',
-    icon: Terminal,
+    name: 'Node.js & Express',
+    category: 'Backend',
+    note: 'REST APIs, authentication, and application logic.',
+    usedIn: 'InceptIQ, Rishiraj Auth',
+    icon: Server,
   },
   {
-    name: 'C Programming',
-    category: 'Languages & AI',
-    level: 70,
-    status: 'Intermediate',
-    note: 'Core algorithms, memory & logic',
-    icon: Code2,
-  },
-  {
-    name: 'Electronics & IoT',
-    category: 'Hardware & Systems',
-    level: 68,
-    status: 'Intermediate',
-    note: 'ECE fundamentals, Arduino & circuits',
-    icon: Cpu,
-  },
-  {
-    name: 'PHP & MySQL',
-    category: 'Web Development',
-    level: 60,
-    status: 'Exploring',
-    note: 'Relational databases & server-side scripts',
+    name: 'Databases',
+    category: 'Backend',
+    note: 'PostgreSQL, MongoDB, and MySQL in project work.',
+    usedIn: 'Rishiraj Auth, ScholarCatalyst, FinMate',
     icon: Database,
   },
   {
-    name: 'Git & Linux CLI',
-    category: 'Hardware & Systems',
-    level: 80,
-    status: 'Advanced',
-    note: 'Version control, shell scripting & workflow',
-    icon: Flame,
+    name: 'Python & PHP',
+    category: 'Backend',
+    note: 'Server-side features and data-oriented applications.',
+    usedIn: 'Barcelona, FinMate',
+    icon: Terminal,
+  },
+  {
+    name: 'Authentication & APIs',
+    category: 'Backend',
+    note: 'JWT flows, role-based access, and API integration.',
+    usedIn: 'Rishiraj Auth, InceptIQ',
+    icon: Code2,
+  },
+  {
+    name: 'Git & GitHub',
+    category: 'Workflow',
+    note: 'Versioned projects with public source and documentation.',
+    usedIn: 'Explore my repositories',
+    icon: GitBranch,
   },
 ];
 
@@ -153,16 +144,8 @@ export default function Skills() {
                       <div className="rounded-2xl border border-primary/20 bg-primary/10 p-3 text-primary">
                         <IconComponent size={22} />
                       </div>
-                      <span
-                        className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${
-                          skill.status === 'Advanced'
-                            ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
-                            : skill.status === 'Intermediate'
-                            ? 'bg-primary/15 text-primary border border-primary/30'
-                            : 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30'
-                        }`}
-                      >
-                        {skill.status}
+                      <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-primary">
+                        {skill.category}
                       </span>
                     </div>
 
@@ -170,19 +153,8 @@ export default function Skills() {
                     <p className="mt-1 text-xs leading-relaxed text-muted-2">{skill.note}</p>
                   </div>
 
-                  <div className="mt-6">
-                    <div className="flex items-center justify-between text-xs font-semibold text-muted mb-2">
-                      <span>Proficiency</span>
-                      <span className="text-primary font-mono">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-surface-3">
-                      <Motion.div
-                        className="h-full rounded-full bg-gradient-to-r from-primary to-primary-light"
-                        initial={{ width: 0 }}
-                        animate={inView ? { width: `${skill.level}%` } : {}}
-                        transition={{ duration: 0.9, delay: 0.15 + index * 0.08 }}
-                      />
-                    </div>
+                  <div className="mt-6 border-t border-border/60 pt-3 text-xs text-muted-2">
+                    <span className="font-semibold text-primary">Used in:</span> {skill.usedIn}
                   </div>
                 </Motion.div>
               );

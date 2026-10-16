@@ -8,7 +8,6 @@ import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import Loader from './components/Loader';
 import CustomCursor from './components/CustomCursor';
 import CommandPalette from './components/CommandPalette';
 import BackendShowcase from './components/BackendShowcase';
@@ -58,7 +57,6 @@ function MainLayout({ onOpenCommandPalette, theme, setTheme }) {
 }
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') {
@@ -123,24 +121,8 @@ export default function App() {
     };
   }, []);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setIsLoading(false);
-    }, 2400);
-
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = isLoading ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isLoading]);
-
   return (
     <Router>
-      <Loader isLoading={isLoading} />
       <CustomCursor />
       <CommandPalette
         isOpen={isCommandPaletteOpen}
@@ -148,11 +130,7 @@ export default function App() {
         onToggleTheme={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
         theme={theme}
       />
-      <div
-        className={`app transition-opacity duration-700 ${
-          isLoading ? 'opacity-0' : 'opacity-100'
-        }`}
-      >
+      <div className="app">
         <Routes>
           <Route
             path="/"

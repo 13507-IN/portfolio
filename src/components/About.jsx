@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion as Motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Code2, Cpu, GraduationCap, Check, Copy, Terminal, Sparkles, BookOpen } from 'lucide-react';
+import { Code2, Rocket, GraduationCap, Check, Copy, Terminal, Sparkles, BookOpen } from 'lucide-react';
 
 const highlights = [
   {
@@ -9,33 +9,33 @@ const highlights = [
     title: 'Education',
     line1: 'B.Tech in ECE (2024 - 2028)',
     line2: 'Techno Main Salt Lake, Kolkata',
-    line3: 'Deep dive into Circuits, Signals & Embedded Logic',
+    line3: 'Engineering foundation with hands-on software projects',
   },
   {
     icon: Code2,
-    title: 'Development',
-    line1: 'Full-Stack & Interactive UI',
-    line2: 'JavaScript, React, Python, Flask, Next.js',
-    line3: '9+ projects built & deployed',
+    title: 'Web development',
+    line1: 'Frontend interfaces & backend APIs',
+    line2: 'React, Next.js, Node.js, Express, PHP',
+    line3: 'Public code and live products in selected work',
   },
   {
-    icon: Cpu,
-    title: 'Hardware & Systems',
-    line1: 'IoT + Embedded Systems Curiosity',
-    line2: 'Arduino microcontrollers & hardware logic',
-    line3: 'Engineering-first problem solver',
+    icon: Rocket,
+    title: 'Product work',
+    line1: 'Founder of CampusKart',
+    line2: 'Student marketplace for campus communities',
+    line3: 'Building from an idea through a live experience',
   },
 ];
 
 const devSnippets = {
   'rishiraj.config.json': `{
   "name": "Rishiraj Debnath",
-  "role": "ECE Student & Web/AI Builder",
+  "role": "Full-stack web developer",
   "location": "Kolkata, West Bengal, India",
   "university": "Techno Main Salt Lake",
-  "status": "Available for hackathons & projects",
-  "interests": ["Clean UI", "AI Systems", "IoT", "Guitar"],
-  "currentlyLearning": ["Advanced Next.js", "LLM Fine-tuning", "Rust"]
+  "status": "Open to web developer opportunities",
+  "work": ["CampusKart", "Funfy", "InceptIQ"],
+  "contact": "rishirajnatj@gmail.com"
 }`,
   'stack.ts': `interface Developer {
   coreLanguages: string[];
@@ -43,10 +43,10 @@ const devSnippets = {
   tools: string[];
 }
 
-export font Rishiraj: Developer = {
-  coreLanguages: ["JavaScript", "Python", "C", "PHP"],
-  frameworks: ["React", "Flask", "Tailwind CSS", "Next.js"],
-  tools: ["Git", "Vite", "VS Code", "Arduino IDE"]
+export const Rishiraj: Developer = {
+  coreLanguages: ["JavaScript", "TypeScript", "Python", "PHP"],
+  frameworks: ["React", "Next.js", "Express", "Tailwind CSS"],
+  tools: ["Git", "Vite", "PostgreSQL", "MySQL"]
 };`,
 };
 
@@ -88,12 +88,11 @@ export default function About() {
         >
           <div>
             <p className="section-kicker">About me</p>
-            <h2 className="section-heading text-foreground">Engineering logic, creative execution.</h2>
+            <h2 className="section-heading text-foreground">I turn ideas into working web products.</h2>
           </div>
           <p className="section-copy">
-            I like building products that feel clear, useful, and grounded in
-            real problems. My background in electronics shapes the way I think
-            about systems, while web development lets me bring ideas to life quickly.
+            I work across the interface and the API, with a focus on clear user
+            flows, responsive design, and features people can actually use.
           </p>
         </Motion.div>
 
@@ -116,21 +115,24 @@ export default function About() {
                   <span className="font-semibold text-primary">
                     Techno Main Salt Lake
                   </span>
-                  , passionate about merging software design with intelligent systems.
+                  , and a web developer building products with React, JavaScript,
+                  and server-side tools.
                 </p>
                 <p className="text-muted-2">
-                  My journey picked up speed through hackathons and hands-on projects.
-                  Since then, I&apos;ve been chasing the sweet spot between thoughtful design,
-                  reliable functionality, and practical tools.
+                  I founded CampusKart, a live student marketplace, and built
+                  projects such as Funfy&apos;s browser design studio and InceptIQ&apos;s
+                  React and Express analysis workflow. Each one has taught me
+                  to connect product decisions with implementation details.
                 </p>
                 <p className="text-muted-2">
-                  When I&apos;m not coding or experimenting with circuits, I usually spend time
-                  exploring new tools, refining ideas, playing guitar, or learning from other builders.
+                  I&apos;m looking for a web development role where I can contribute
+                  to frontend features, backend APIs, and the details that make
+                  the whole experience work well.
                 </p>
               </div>
 
               <div className="pt-2 flex flex-wrap gap-2.5">
-                {['Hackathons', 'Open Source', 'UI Craft', 'Problem Solving', 'IoT Systems'].map((item) => (
+                {['Responsive UI', 'API Development', 'Product Thinking', 'Problem Solving'].map((item) => (
                   <span
                     key={item}
                     className="rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary"

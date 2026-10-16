@@ -1,7 +1,28 @@
+import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { ExternalLink, Github, X, Sparkles, Code, CheckCircle2, Layers } from 'lucide-react';
 
 export default function ProjectModal({ project, onClose }) {
+  const closeButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!project) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [project, onClose]);
+
   if (!project) return null;
 
   return (
@@ -17,6 +38,9 @@ export default function ProjectModal({ project, onClose }) {
 
         <Motion.div
           className="relative w-full max-w-3xl overflow-hidden rounded-[2.25rem] border border-border/80 bg-surface/96 text-foreground shadow-2xl backdrop-blur-2xl my-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="project-dialog-title"
           initial={{ opacity: 0, scale: 0.92, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 20 }}
@@ -45,6 +69,7 @@ export default function ProjectModal({ project, onClose }) {
             <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/30 to-transparent" />
 
             <button
+              ref={closeButtonRef}
               onClick={onClose}
               className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-slate-950/40 text-white backdrop-blur-md transition-colors hover:bg-slate-950/70"
               aria-label="Close dialog"
@@ -57,7 +82,7 @@ export default function ProjectModal({ project, onClose }) {
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary backdrop-blur-md mb-2">
                   <Sparkles size={12} /> Detailed Overview
                 </span>
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
+                <h2 id="project-dialog-title" className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
                   {project.title}
                 </h2>
               </div>

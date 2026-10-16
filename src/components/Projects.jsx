@@ -1,19 +1,15 @@
-import { motion as Motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github, Sparkles, Layers, ArrowUpRight, Filter } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
-import SerenityImage from '../assets/serenity.png';
 import ToDoImage from '../assets/taskmaster.png';
 import FinMateImage from '../assets/FinMate.jpeg';
 import InceptIQImage from '../assets/inceptIQ.png';
-import MimicImage from '../assets/mimic.png';
-import MediOpsImage from '../assets/mediops.png';
 import ScholarCatalystImage from '../assets/scholarcatalyst.png';
 import FunfyImage from '../assets/funfy.png';
 import ProjectModal from './ProjectModal';
 
-const categories = ['All', 'AI & ML', 'Full Stack / Web', 'Systems & Backend'];
+const categories = ['All', 'Full Stack', 'Frontend', 'Backend'];
 
 const gradients = [
   'from-violet-600/30 to-indigo-800/30',
@@ -24,222 +20,170 @@ const gradients = [
   'from-fuchsia-600/30 to-purple-800/30',
 ];
 
+// Shared with the backend showcase route.
+// eslint-disable-next-line react-refresh/only-export-components
 export const projects = [
   {
-    id: 12,
-    title: 'Rishi Auth',
-    category: 'Systems & Backend',
-    description: 'A custom, secure backend authentication and identity management service.',
+    id: 'campuskart',
+    title: 'CampusKart',
+    category: 'Full Stack',
+    description: 'A student marketplace for campus buying, selling, messaging, and events.',
     longDescription:
-      'Rishi Auth is a robust authentication and authorization service providing JWT token management, password hashing with bcrypt, session validation, role-based access control (RBAC), and security rate-limiting.',
+      'I founded CampusKart to make student-to-student trading easier within a campus community. The live product brings listings, direct messaging, and an events hub into one place.',
     highlights: [
-      'Secure JWT issuance, token rotation & session store',
-      'Bcrypt password hashing & security header enforcement',
-      'Role-based access control (RBAC) middleware API',
+      'Built around campus-specific listings and student profiles',
+      'Messaging and events are part of the live experience',
+      'Founder-led product, available to explore online',
     ],
-    tags: ['Node.js', 'Express', 'JWT', 'Security', 'Backend'],
-    github: 'https://github.com/13507-IN/Rishi-Auth',
-    demo: '#',
+    tags: ['Marketplace', 'Web App', 'Product'],
+    github: null,
+    demo: 'https://www.campuskart.space/',
     image: null,
-    alt: 'Rishi Auth preview',
+    alt: 'CampusKart student marketplace',
   },
   {
-    id: 1,
-    title: 'Serenity',
-    category: 'AI & ML',
-    description: 'An AI-powered personal assistant focused on supportive mental-health experiences.',
-    longDescription:
-      'Serenity leverages Google Gemini API and Python Flask to deliver compassionate, real-time conversational support. Features dynamic mood tracking, empathetic prompt engineering, and structured log persistence.',
-    highlights: [
-      'Empathetic AI conversation design using Gemini API',
-      'Flask backend with SQLAlchemy ORM state persistence',
-      'Calming, modern responsive UI design system',
-    ],
-    tags: ['Python Flask', 'Gemini API', 'SQLAlchemy'],
-    github: 'https://github.com/13507-IN/Serenity',
-    demo: '#',
-    image: SerenityImage,
-    alt: 'Serenity AI Assistant Preview',
-  },
-  {
-    id: 4,
-    title: 'InceptIQ',
-    category: 'AI & ML',
-    description: 'An AI startup-idea validator comparing concepts with existing market signals.',
-    longDescription:
-      'InceptIQ evaluates startup proposals against market data, existing competitors, and search signals. Built with Next.js and AI APIs to generate structured feasibility scores.',
-    highlights: [
-      'Real-time market comparison engine',
-      'Structured PDF analysis report generation',
-      'Next.js 14 App Router & Framer Motion UI',
-    ],
-    tags: ['AI', 'Next.js', 'Full Stack'],
-    github: 'https://github.com/13507-IN/InceptIQ',
-    demo: 'https://incept-iq.vercel.app/',
-    image: InceptIQImage,
-    alt: 'InceptIQ idea validator preview',
-  },
-  {
-    id: 5,
-    title: 'Mimic',
-    category: 'AI & ML',
-    description: 'An AI chatbot experiment built around behavior-aware interactions and responses.',
-    longDescription:
-      'Mimic explores adaptive persona modeling and dynamic tone adjustments based on user input sentiment. Deployed on Vercel with streaming response support.',
-    highlights: [
-      'Behavior-aware tone customization',
-      'Fast streaming API response delivery',
-      'Sleek dark-mode glassmorphic interface',
-    ],
-    tags: ['AI', 'Next.js', 'Chatbot'],
-    github: 'https://github.com/13507-IN/Mimic',
-    demo: 'https://mimic-eta.vercel.app/',
-    image: MimicImage,
-    alt: 'Mimic chatbot preview',
-  },
-  {
-    id: 2,
-    title: 'TaskMaster',
-    category: 'Full Stack / Web',
-    description: 'A sleek to-do app with a cleaner workflow and practical productivity features.',
-    longDescription:
-      'TaskMaster prioritizes minimal friction, keyboard shortcuts, task categorization, and local state persistence for rapid daily task management.',
-    highlights: [
-      'Fast local-first state synchronization',
-      'Custom drag-and-drop category organizing',
-      'Clean typography and fluid micro-animations',
-    ],
-    tags: ['JavaScript', 'Productivity', 'UI'],
-    github: 'https://github.com/13507-IN/TaskMaster',
-    demo: '#',
-    image: ToDoImage,
-    alt: 'TaskMaster app preview',
-  },
-  {
-    id: 3,
-    title: 'FinMate',
-    category: 'Full Stack / Web',
-    description: 'A personal finance app for tracking expenses and savings with visual insights.',
-    longDescription:
-      'FinMate offers full-stack personal budget tracking with relational MySQL database storage, expense categorization, and spending analytics.',
-    highlights: [
-      'Relational MySQL schema for transactions',
-      'Monthly budget & category analytics',
-      'PHP server-side session authentication',
-    ],
-    tags: ['PHP', 'MySQL', 'Full Stack'],
-    github: 'https://github.com/13507-IN/FinMate',
-    demo: '#',
-    image: FinMateImage,
-    alt: 'FinMate finance management app preview',
-  },
-  {
-    id: 6,
-    title: 'Clip',
-    category: 'Systems & Backend',
-    description: 'A high-performance URL shortener built in Rust focused on speed and minimalism.',
-    longDescription:
-      'Clip is a blazingly fast backend URL shortening service written in Rust. Features low latency route resolution, memory efficiency, and clean key hashing.',
-    highlights: [
-      'Ultra-fast key encoding algorithm in Rust',
-      'Minimal memory overhead and high throughput',
-      'RESTful backend API endpoint structure',
-    ],
-    tags: ['Rust', 'Backend', 'Systems'],
-    github: 'https://github.com/13507-IN/Clip',
-    demo: '#',
-    image: null,
-    alt: 'Clip preview',
-  },
-  {
-    id: 7,
-    title: 'Barcelona',
-    category: 'Full Stack / Web',
-    description: 'A dedicated web application around football match analytics and club stats.',
-    longDescription:
-      'Barcelona web app brings together match fixtures, squad stats, and interactive team visualizations with a modern responsive frontend.',
-    highlights: [
-      'Live stats display & fixture schedules',
-      'Custom football pitch tactical view',
-      'Deployed on Vercel with responsive layout',
-    ],
-    tags: ['Python', 'Web', 'Vercel'],
-    github: 'https://github.com/13507-IN/Barcelona',
-    demo: 'https://barcalona.vercel.app',
-    image: null,
-    alt: 'Barcelona preview',
-  },
-  {
-    id: 8,
-    title: 'AutoClass-AI',
-    category: 'AI & ML',
-    description: 'An AI-assisted classification tool built with a JavaScript-driven workflow.',
-    longDescription:
-      'AutoClass-AI automatically categorizes data records using lightweight classification patterns and interactive preview tables.',
-    highlights: [
-      'Automated text & category labeling',
-      'Interactive preview & manual override',
-      'Modular JS helper architecture',
-    ],
-    tags: ['JavaScript', 'AI', 'Automation'],
-    github: 'https://github.com/13507-IN/AutoClass-AI',
-    demo: '#',
-    image: null,
-    alt: 'AutoClass AI preview',
-  },
-  {
-    id: 9,
-    title: 'MediOps',
-    category: 'Systems & Backend',
-    description: 'A healthcare-focused project centered on practical operational workflow support.',
-    longDescription:
-      'MediOps structures hospital operation queues, patient intake tracking, and inventory status updates for operational efficiency.',
-    highlights: [
-      'Role-based workflow tracking',
-      'Resource & inventory status overview',
-      'Clean tabular management UI',
-    ],
-    tags: ['Project', 'Operations', 'Backend'],
-    github: 'https://github.com/13507-IN/MediOps',
-    demo: 'https://medi-ops-ten.vercel.app/',
-    image: MediOpsImage,
-    alt: 'MediOps preview',
-  },
-  {
-    id: 10,
-    title: 'ScholarCatalyst',
-    category: 'AI & ML',
-    description: 'An AI-powered scholarship platform connecting students with tailored opportunities.',
-    longDescription:
-      'ScholarCatalyst leverages an AI recommendation engine to help students find, apply for, and secure scholarship opportunities tailored to their profiles.',
-    highlights: [
-      'AI-powered scholarship matching engine',
-      'Personalized profile recommendation workflow',
-      'Interactive student community & application hub',
-    ],
-    tags: ['AI', 'Full Stack', 'Vercel'],
-    github: 'https://github.com/13507-IN/ScholarCatalyst',
-    demo: 'https://scholar-catalyst.vercel.app/',
-    image: ScholarCatalystImage,
-    alt: 'ScholarCatalyst preview',
-  },
-  {
-    id: 11,
+    id: 'funfy',
     title: 'Funfy',
-    category: 'Full Stack / Web',
-    description: 'An interactive custom sticker design and merchandise creation platform.',
+    category: 'Frontend',
+    description: 'A sticker storefront with an in-browser design studio and PNG export.',
     longDescription:
-      'Funfy is a feature-packed web application for designing, customizing, and ordering stickers and merchandise. Includes canvas toolbars, layer management, image/sticker dissecting, and export functionality.',
+      'Funfy combines a responsive storefront with a browser-based sticker editor. Visitors can upload artwork, add text and shapes, manage layers, preview a design, and export a transparent PNG. The cart is a local prototype, not a live checkout.',
     highlights: [
-      'Interactive canvas editing & layer controls',
-      'Media dissection, stickers, and custom text options',
-      'Seamless preview, export, and cart ordering workflow',
+      'Fabric.js editor with image, text, shape, and layer tools',
+      'Searchable storefront and quick-add sticker packs',
+      'Cart persistence with IndexedDB and localStorage fallback',
     ],
-    tags: ['Full Stack', 'Web Studio', 'Vercel'],
+    tags: ['Next.js', 'TypeScript', 'Fabric.js'],
     github: 'https://github.com/13507-IN/Funfy',
     demo: 'https://funfy.vercel.app/',
     image: FunfyImage,
-    alt: 'Funfy preview',
+    alt: 'Funfy sticker design studio preview',
+  },
+  {
+    id: 'inceptiq',
+    title: 'InceptIQ',
+    category: 'Full Stack',
+    description: 'An AI-assisted startup idea validator with visual analysis and downloadable reports.',
+    longDescription:
+      'InceptIQ lets users submit a startup idea and receive a structured analysis of originality, competition, market viability, risks, and next steps. A React interface presents the results; a Node and Express API handles AI analysis and PDF reports.',
+    highlights: [
+      'React dashboard with Recharts visualizations',
+      'Express API connected to Google Gemini',
+      'Downloadable PDF analysis reports',
+    ],
+    tags: ['React', 'Node.js', 'Express', 'Gemini'],
+    github: 'https://github.com/13507-IN/InceptIQ',
+    demo: 'https://incept-iq.vercel.app/',
+    image: InceptIQImage,
+    alt: 'InceptIQ startup analysis preview',
+  },
+  {
+    id: 'rishiraj-auth',
+    title: 'Rishiraj Auth',
+    category: 'Backend',
+    description: 'An authentication API with roles, refresh tokens, OAuth, and tenant support.',
+    longDescription:
+      'A Node and Express authentication service with registration, login, email verification, password reset, Google OAuth, role-based access, and tenant-aware API keys. The repository includes setup and endpoint documentation.',
+    highlights: [
+      'JWT access and refresh token flows',
+      'Prisma and PostgreSQL data model with Redis support',
+      'Role-based access and tenant-aware API keys',
+    ],
+    tags: ['Node.js', 'Express', 'Prisma', 'PostgreSQL'],
+    github: 'https://github.com/13507-IN/Rishiraj-Auth',
+    demo: null,
+    image: null,
+    alt: 'Rishiraj Auth API project',
+  },
+  {
+    id: 'scholarcatalyst',
+    title: 'ScholarCatalyst',
+    category: 'Full Stack',
+    description: 'A scholarship discovery platform with student tools and an admin dashboard.',
+    longDescription:
+      'ScholarCatalyst brings scholarship search together with student profiles, application tracking, document management, and community pages. The repository contains a React frontend and an Express backend using MongoDB.',
+    highlights: [
+      'Scholarship search and application tracking pages',
+      'Student profile, document vault, and deadline calendar',
+      'React frontend with Express and MongoDB backend',
+    ],
+    tags: ['React', 'Express', 'MongoDB'],
+    github: 'https://github.com/13507-IN/ScholarCatalyst',
+    demo: 'https://scholar-catalyst.vercel.app/',
+    image: ScholarCatalystImage,
+    alt: 'ScholarCatalyst scholarship platform preview',
+  },
+  {
+    id: 'finmate',
+    title: 'FinMate',
+    category: 'Full Stack',
+    description: 'A personal finance app for transactions, budgets, savings goals, and reports.',
+    longDescription:
+      'FinMate is a PHP and MySQL finance application. Users can track income and expenses, set category budgets and savings goals, filter by date, and explore charts and exportable reports.',
+    highlights: [
+      'Account login and transaction management',
+      'Category budgets, savings goals, and charts',
+      'Responsive interface with exportable reports',
+    ],
+    tags: ['PHP', 'MySQL', 'Bootstrap', 'Chart.js'],
+    github: 'https://github.com/13507-IN/FinMate',
+    demo: null,
+    image: FinMateImage,
+    alt: 'FinMate finance dashboard preview',
+  },
+  {
+    id: 'taskmaster',
+    title: 'TaskMaster',
+    category: 'Frontend',
+    description: 'A small, responsive task manager built with plain JavaScript.',
+    longDescription:
+      'TaskMaster is a focused task manager built with HTML, CSS, and JavaScript. It demonstrates practical DOM work and a clean interface without a framework.',
+    highlights: [
+      'Framework-free JavaScript interface',
+      'Responsive layout for everyday task management',
+      'Live demo and public source',
+    ],
+    tags: ['JavaScript', 'HTML', 'CSS'],
+    github: 'https://github.com/13507-IN/TaskMaster',
+    demo: 'https://task-master-six-tau.vercel.app/',
+    image: ToDoImage,
+    alt: 'TaskMaster to-do app preview',
+  },
+  {
+    id: 'clip',
+    title: 'Clip',
+    category: 'Backend',
+    description: 'A Rust URL shortener API with PostgreSQL storage and redirect tracking.',
+    longDescription:
+      'Clip is a URL shortener written in Rust with Axum. It exposes routes to create short links, resolve redirects, and read link statistics, with PostgreSQL storage and a small in-memory cache.',
+    highlights: [
+      'Axum routes for shortening, redirects, and stats',
+      'PostgreSQL persistence through SQLx',
+      'In-memory cache for link lookups',
+    ],
+    tags: ['Rust', 'Axum', 'PostgreSQL'],
+    github: 'https://github.com/13507-IN/Clip',
+    demo: null,
+    image: null,
+    alt: 'Clip URL shortener API',
+  },
+  {
+    id: 'barcelona',
+    title: 'Barcelona',
+    category: 'Full Stack',
+    description: 'A football site bringing match information and squad data into one interface.',
+    longDescription:
+      'A club-focused web application that presents match and squad information through a responsive interface, backed by Python data gathering.',
+    highlights: [
+      'Match and squad information in one place',
+      'Responsive frontend',
+      'Public repository and live deployment',
+    ],
+    tags: ['Python', 'JavaScript', 'Web'],
+    github: 'https://github.com/13507-IN/Barcelona',
+    demo: 'https://barcalona.vercel.app',
+    image: null,
+    alt: 'Barcelona football site',
   },
 ];
 
@@ -258,7 +202,7 @@ export default function Projects() {
         <div>
           <p className="section-kicker">Selected work</p>
           <h2 className="section-heading text-foreground">
-            Projects that turn ideas into reality.
+            Web products, from interface to API.
           </h2>
         </div>
 
@@ -338,8 +282,7 @@ function ProjectCard({ project, index, onInspect }) {
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={onInspect}
-      className="glass-glow-card group cursor-pointer relative overflow-hidden rounded-[2rem] border border-border/80 bg-surface/90 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur-md flex flex-col h-full"
+      className="glass-glow-card group relative overflow-hidden rounded-[2rem] border border-border/80 bg-surface/90 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur-md flex flex-col h-full"
     >
       <div
         className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
@@ -375,12 +318,6 @@ function ProjectCard({ project, index, onInspect }) {
           </span>
         </div>
 
-        <div className="absolute right-4 top-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className="flex items-center gap-1 rounded-full border border-white/30 bg-primary/80 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md">
-            Details <ArrowUpRight size={13} />
-          </span>
-        </div>
-
         <div className="absolute left-5 bottom-4 z-20">
           <h3 className="text-2xl font-bold tracking-tight text-white group-hover:text-primary-light transition-colors">
             {project.title}
@@ -393,6 +330,14 @@ function ProjectCard({ project, index, onInspect }) {
         <p className="text-sm leading-relaxed text-muted line-clamp-2">
           {project.description}
         </p>
+        <button
+          type="button"
+          onClick={onInspect}
+          className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-primary transition-colors hover:text-primary-light"
+          aria-label={`View details for ${project.title}`}
+        >
+          View details <ArrowUpRight size={15} />
+        </button>
 
         <div className="pt-2 flex items-center justify-between border-t border-border/60">
           <div className="flex flex-wrap gap-1.5">
@@ -406,14 +351,14 @@ function ProjectCard({ project, index, onInspect }) {
             ))}
           </div>
 
-          <div className="flex gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
+          <div className="flex gap-2 shrink-0">
             {project.github && (
               <a
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface-2 text-muted transition-colors hover:border-primary hover:text-primary"
-                aria-label="View code"
+                aria-label={`View ${project.title} source code`}
               >
                 <Github size={16} />
               </a>
@@ -424,7 +369,7 @@ function ProjectCard({ project, index, onInspect }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface-2 text-muted transition-colors hover:border-primary hover:text-primary"
-                aria-label="View live demo"
+                aria-label={`View ${project.title} live site`}
               >
                 <ExternalLink size={16} />
               </a>

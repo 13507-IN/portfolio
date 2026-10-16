@@ -193,12 +193,19 @@
 }
 
 .hero-grid {
-  width: 100%;
+  width: min(100% - 1.5rem, 72rem);
 }
 
 .hero-title {
   font-size: clamp(3.2rem, 8vw, 4.6rem);
   line-height: 0.94;
+}
+
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: clamp(2.45rem, 10vw, 3.2rem);
+    line-height: 1;
+  }
 }
 
 .hero-summary {
@@ -482,4 +489,3 @@
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
   background: var(--color-muted-2);
 }
-

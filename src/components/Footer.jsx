@@ -60,8 +60,8 @@ export default function Footer({ onOpenCommandPalette }) {
               Rishiraj<span className="text-primary">.dev</span>
             </a>
             <p className="max-w-xs text-sm leading-relaxed text-muted-2">
-              Electronics engineer, curious builder, and someone who enjoys
-              making ideas feel polished and functional.
+              Full-stack web developer in Kolkata, building responsive
+              interfaces and useful products.
             </p>
 
             {onOpenCommandPalette && (
@@ -102,6 +102,14 @@ export default function Footer({ onOpenCommandPalette }) {
               className="block text-sm font-medium text-muted transition-colors duration-300 hover:text-primary"
             >
               rishirajnatj@gmail.com
+            </a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-sm font-medium text-muted transition-colors duration-300 hover:text-primary"
+            >
+              View résumé PDF
             </a>
             <p className="text-sm text-muted-2">Kolkata, West Bengal, India</p>
           </div>

@@ -21,7 +21,7 @@ import {
 import { projects } from './Projects';
 import ProjectModal from './ProjectModal';
 
-const BACKEND_TITLES = ['Rishi Auth', 'Clip', 'MediOps'];
+const BACKEND_TITLES = ['Rishiraj Auth', 'Clip', 'FinMate'];
 
 const cardGradients = [
   'from-indigo-600/30 via-violet-600/20 to-purple-800/30',
@@ -34,25 +34,25 @@ const capabilities = [
     icon: Shield,
     title: 'Authentication & Security',
     description:
-      'Designing robust JWT/OAuth2 flows, RBAC middleware, password hashing with bcrypt, and session security.',
+      'Building JWT and OAuth flows, role-based access, password hashing, and session controls.',
   },
   {
     icon: Zap,
-    title: 'High-Performance APIs',
+    title: 'API Development',
     description:
-      'Building ultra-fast backend endpoints using Rust and Node.js with low memory overhead and low latency.',
+      'Building REST endpoints with Node.js, Express, Rust, and Axum.',
   },
   {
     icon: Database,
-    title: 'Database Architecture',
+    title: 'Data Persistence',
     description:
-      'Designing structured MySQL relational schemas, indexing, and ORM abstractions (SQLAlchemy, Prisma).',
+      'Using PostgreSQL, MySQL, and Prisma in application backends.',
   },
   {
     icon: Server,
-    title: 'Microservices & Queues',
+    title: 'Full-Stack Integration',
     description:
-      'Structuring modular RESTful API services, async task queues, and hospital/operational workflows.',
+      'Connecting user-facing workflows to backend services and data.',
   },
 ];
 
@@ -105,8 +105,8 @@ export default function BackendShowcase() {
             </h1>
 
             <p className="mt-4 text-lg text-muted sm:text-xl leading-relaxed">
-              Specialized in crafting secure authentication protocols, resilient API endpoints, and
-              high-throughput backend services. Explore 3 featured backend projects below.
+              I build backend APIs and connect them to useful web products.
+              Explore three projects with authentication, data, and server-side logic.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4 justify-center sm:justify-start">
@@ -115,7 +115,7 @@ export default function BackendShowcase() {
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105"
               >
                 <Server size={16} />
-                View 3 Backend Projects
+                View 3 Projects
               </a>
               <a
                 href="mailto:rishirajnatj@gmail.com"
@@ -144,9 +144,9 @@ export default function BackendShowcase() {
             className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4"
           >
             {[
-              { label: 'Core Focus', value: 'Backend & Systems', icon: Server },
-              { label: 'Primary Languages', value: 'Node.js, Rust, Python', icon: Code2 },
-              { label: 'Databases', value: 'MySQL & Relational', icon: Database },
+              { label: 'Core Focus', value: 'Web APIs', icon: Server },
+              { label: 'Languages', value: 'JavaScript, Rust, PHP', icon: Code2 },
+              { label: 'Databases', value: 'PostgreSQL & MySQL', icon: Database },
               { label: 'Status', value: 'Open for Roles', icon: Lock },
             ].map((stat, i) => {
               const Icon = stat.icon;
@@ -177,11 +177,11 @@ export default function BackendShowcase() {
                 Hand-Picked Showcase
               </div>
               <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                3 Key Backend Projects
+                3 Backend & Full-Stack Projects
               </h2>
             </div>
             <p className="text-sm text-muted max-w-md">
-              Highlighting Rishi Auth (Security), Clip (Rust Systems), and MediOps (Operational Backend).
+              Rishiraj Auth, Clip, and FinMate show three approaches to backend work.
             </p>
           </div>
 
@@ -207,7 +207,7 @@ export default function BackendShowcase() {
                     ) : (
                       <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
                         <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-3 text-primary backdrop-blur-md">
-                          {project.title === 'Rishi Auth' ? (
+                          {project.title === 'Rishiraj Auth' ? (
                             <Shield size={32} />
                           ) : project.title === 'Clip' ? (
                             <Zap size={32} />
@@ -343,7 +343,7 @@ export default function BackendShowcase() {
             Interested in backend collaboration or hiring?
           </h2>
           <p className="mt-3 text-muted max-w-xl mx-auto text-sm sm:text-base">
-            I am open to full-time backend positions, internships, and contract opportunities. Let’s talk!
+            I am open to web developer roles, internships, and project work. Let&apos;s talk!
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">

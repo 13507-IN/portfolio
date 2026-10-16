@@ -1,12 +1,12 @@
 import { motion as Motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
-import { ChevronDown, Github, Linkedin, Mail, Sparkles, Code2, Cpu, Rocket } from 'lucide-react';
+import { ChevronDown, Github, Linkedin, Mail, Sparkles, Code2, Server, Rocket, Download } from 'lucide-react';
 import { useRef } from 'react';
 import myimage from '../assets/myimage.jpeg';
 
 const quickStats = [
-  { value: '09+', label: 'Projects built', icon: Rocket },
-  { value: 'AI + Web', label: 'Favorite stack', icon: Code2 },
-  { value: '24/7', label: 'Curiosity mode', icon: Cpu },
+  { value: '9', label: 'Selected projects', icon: Rocket },
+  { value: 'React', label: 'Frontend', icon: Code2 },
+  { value: 'Node.js', label: 'Backend', icon: Server },
 ];
 
 const socialLinks = [
@@ -20,9 +20,9 @@ const socialLinks = [
 ];
 
 const floatingBadges = [
-  { name: 'React 19', pos: '-top-4 -left-4 sm:-left-8' },
-  { name: 'Python & AI', pos: 'top-1/3 -right-4 sm:-right-8' },
-  { name: 'Electronics (ECE)', pos: '-bottom-4 -left-2 sm:-left-6' },
+  { name: 'React interfaces', pos: '-top-4 -left-4 sm:-left-8' },
+  { name: 'Full-stack apps', pos: 'top-1/3 -right-4 sm:-right-8' },
+  { name: 'Open to web roles', pos: '-bottom-4 -left-2 sm:-left-6' },
 ];
 
 export default function Hero() {
@@ -89,22 +89,22 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-primary backdrop-blur-md sm:text-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-primary backdrop-blur-md sm:text-sm sm:tracking-[0.28em]">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            Web + AI Builder
+            Open to web developer opportunities
           </div>
 
           <h1 className="hero-title mt-5 max-w-3xl font-bold tracking-tight text-foreground">
-            Building <span className="text-gradient">thoughtful digital</span> experiences with code.
+            Web developer building <span className="text-gradient">useful products</span> from UI to API.
           </h1>
 
           <p className="hero-summary mt-5 max-w-2xl text-muted">
-            I&apos;m Rishiraj Debnath, an Electronics & Communication Engineering
-            student who enjoys turning ambitious ideas into smooth, modern
-            interfaces and practical products.
+            I&apos;m Rishiraj Debnath. I build responsive React interfaces and
+            practical backends, with projects ranging from the CampusKart
+            marketplace to an in-browser sticker design studio.
           </p>
 
           <div className="hero-actions mt-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
@@ -112,13 +112,15 @@ export default function Hero() {
               href="#projects"
               className="btn-slide-fill inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-primary/40 sm:text-base"
             >
-              <Sparkles size={16} /> Explore Projects
+              <Sparkles size={16} /> View Projects
             </a>
             <a
-              href="#contact"
-              className="inline-flex items-center justify-center rounded-full border border-border bg-surface/85 px-7 py-3.5 text-sm font-semibold text-foreground transition-colors duration-300 hover:border-primary/40 hover:text-primary sm:text-base"
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface/85 px-7 py-3.5 text-sm font-semibold text-foreground transition-colors duration-300 hover:border-primary/40 hover:text-primary sm:text-base"
             >
-              Let&apos;s Connect
+              <Download size={16} /> View Résumé
             </a>
           </div>
 
@@ -141,7 +143,7 @@ export default function Hero() {
             })}
           </div>
 
-          <div className="hero-stats mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="hero-stats mt-6 hidden gap-3 sm:grid sm:grid-cols-3">
             {quickStats.map((stat, index) => {
               const StatIcon = stat.icon;
               return (
@@ -196,7 +198,7 @@ export default function Hero() {
                     Based in Kolkata, India
                   </p>
                   <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-                    Crafting useful things with code
+                    Building for the web
                   </h2>
                 </div>
               </div>

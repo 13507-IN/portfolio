@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { Menu, Moon, Search, Sun, X } from 'lucide-react';
 
@@ -89,14 +88,16 @@ export default function Header({ onOpenCommandPalette, theme, setTheme }) {
               </kbd>
             </Motion.button>
 
-            <Link
-              to="/backend"
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hidden xl:flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 hover:scale-105 transition-all"
-              title="View Backend Developer Showcase"
+              title="View résumé PDF"
             >
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              Backend Roles & Opportunities
-            </Link>
+              View Résumé
+            </a>
 
             <Motion.button
               className="rounded-full border border-border bg-surface-2 p-2.5 text-foreground transition-colors duration-200 hover:bg-surface-3"
@@ -159,6 +160,15 @@ export default function Header({ onOpenCommandPalette, theme, setTheme }) {
                     {link.name}
                   </Motion.a>
                 ))}
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl px-4 py-3 text-base font-medium text-foreground transition-colors duration-200 hover:bg-surface-2 hover:text-primary"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  View Résumé
+                </a>
               </div>
             </div>
           </Motion.div>

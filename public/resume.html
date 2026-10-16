@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rishiraj Debnath — Résumé</title>
+  <style>
+    @page { size: A4; margin: 15mm 17mm; }
+    * { box-sizing: border-box; }
+    body { max-width: 800px; margin: 0 auto; padding: 32px; color: #162033; font: 13px/1.42 Arial, Helvetica, sans-serif; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 28px; letter-spacing: -.02em; }
+    .role { margin-top: 3px; color: #4f46e5; font-size: 16px; font-weight: 700; }
+    .contact { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 9px; font-size: 11px; }
+    a { color: #3746a6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    section { margin-top: 20px; }
+    h2 { border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; color: #293783; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+    .summary { margin-top: 8px; }
+    .entry { margin-top: 12px; break-inside: avoid; }
+    .entry-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+    h3 { font-size: 14px; }
+    .stack { color: #475569; font-size: 11px; }
+    ul { margin: 5px 0 0; padding-left: 18px; }
+    li { margin: 2px 0; }
+    .skills { margin-top: 8px; }
+    .skills p + p { margin-top: 3px; }
+    @media print { body { max-width: none; padding: 0; } a { color: #162033; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Rishiraj Debnath</h1>
+    <p class="role">Full-Stack Web Developer</p>
+    <div class="contact">
+      <span>Kolkata, West Bengal, India</span>
+      <a href="mailto:rishirajnatj@gmail.com">rishirajnatj@gmail.com</a>
+      <a href="tel:+918240992946">+91 8240992946</a>
+      <a href="https://github.com/13507-IN">github.com/13507-IN</a>
+      <a href="https://www.linkedin.com/in/rishiraj-debnath-890322313/">LinkedIn</a>
+      <a href="https://rishiportfolio-sable.vercel.app/">Portfolio</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>Profile</h2>
+    <p class="summary">Web developer building responsive React interfaces and practical backend services. Founded CampusKart, a live student marketplace, and created web projects spanning browser-based design tools, AI-assisted workflows, and authentication APIs. Currently pursuing a B.Tech in Electronics &amp; Communication Engineering.</p>
+  </section>
+
+  <section>
+    <h2>Selected Work</h2>
+    <div class="entry">
+      <div class="entry-head"><h3>CampusKart — Founder &amp; Developer</h3><a href="https://www.campuskart.space/">campuskart.space</a></div>
+      <ul>
+        <li>Built a campus marketplace experience for student listings, direct messaging, and events.</li>
+        <li>Developed a product centered on student profiles and campus community interactions.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-head"><h3>Funfy — Sticker Design Studio</h3><a href="https://github.com/13507-IN/Funfy">Source code</a></div>
+      <p class="stack">Next.js · TypeScript · Fabric.js</p>
+      <ul>
+        <li>Built a responsive storefront and browser editor for uploaded artwork, text, shapes, layers, and PNG export.</li>
+        <li>Added a local cart persisted with IndexedDB and a localStorage fallback.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-head"><h3>InceptIQ — Startup Idea Validator</h3><a href="https://github.com/13507-IN/InceptIQ">Source code</a></div>
+      <p class="stack">React · Node.js · Express · Gemini API</p>
+      <ul>
+        <li>Built an idea-analysis workflow covering originality, competition, market viability, risks, and next steps.</li>
+        <li>Presented results with charts and downloadable PDF reports.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-head"><h3>Rishiraj Auth — Authentication API</h3><a href="https://github.com/13507-IN/Rishiraj-Auth">Source code</a></div>
+      <p class="stack">Node.js · Express · Prisma · PostgreSQL · Redis</p>
+      <ul>
+        <li>Implemented registration, login, JWT refresh, email verification, password reset, and Google OAuth endpoints.</li>
+        <li>Added role-based access, tenant-aware API keys, and documented setup and routes.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Technical Skills</h2>
+    <div class="skills">
+      <p><strong>Frontend:</strong> HTML, CSS, JavaScript, TypeScript, React, Next.js, Tailwind CSS</p>
+      <p><strong>Backend:</strong> Node.js, Express, Python, PHP, REST APIs, authentication</p>
+      <p><strong>Data &amp; tools:</strong> PostgreSQL, MongoDB, MySQL, Prisma, Git, GitHub</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="entry-head" style="margin-top:8px"><h3>B.Tech, Electronics &amp; Communication Engineering</h3><span>2024–2028</span></div>
+    <p>Techno Main Salt Lake, Kolkata</p>
+  </section>
+</body>
+</html>

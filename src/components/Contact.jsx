@@ -103,11 +103,11 @@ export default function Contact() {
         >
           <div>
             <p className="section-kicker">Get in touch</p>
-            <h2 className="section-heading text-foreground">Let&apos;s build something meaningful.</h2>
+            <h2 className="section-heading text-foreground">Let&apos;s talk about your web team.</h2>
           </div>
           <p className="section-copy">
-            Whether you have a project idea, collaboration, or just want to say
-            hello, I&apos;m always open to connect.
+            I&apos;m open to web developer roles, internships, and product
+            collaborations. Email me directly or send a note here.
           </p>
         </Motion.div>
 
@@ -121,14 +121,14 @@ export default function Contact() {
           >
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-white backdrop-blur-md">
-                <Sparkles size={12} /> Open to Collaborate
+                <Sparkles size={12} /> Open to Web Roles
               </span>
               <h3 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-                Freelance, project ideas, and engineering roles.
+                Frontend, full-stack, and product teams.
               </h3>
               <p className="mt-4 text-sm leading-relaxed text-white/80 sm:text-base">
-                If you value clean code, functional UX, and high attention to detail,
-                let&apos;s build something together.
+                I can contribute to responsive interfaces, practical APIs,
+                and the product details that connect them.
               </p>
             </div>
 
@@ -284,6 +284,7 @@ export default function Contact() {
 
               {submitStatus === 'success' && (
                 <Motion.div
+                  role="status"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-600 dark:text-emerald-400 font-medium"
@@ -294,11 +295,15 @@ export default function Contact() {
 
               {submitStatus === 'error' && (
                 <Motion.div
+                  role="alert"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-600 dark:text-rose-400 font-medium"
                 >
-                  Failed to send message. Please try again or email me directly at rishirajnatj@gmail.com.
+                  The form could not send your message. Please{' '}
+                  <a className="underline" href="mailto:rishirajnatj@gmail.com">
+                    email me directly
+                  </a>.
                 </Motion.div>
               )}
             </form>

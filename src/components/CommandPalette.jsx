@@ -16,6 +16,7 @@ import {
   X,
   Sparkles,
   Server,
+  FileText,
 } from 'lucide-react';
 
 export default function CommandPalette({ isOpen, onClose, onToggleTheme, theme }) {
@@ -116,6 +117,16 @@ export default function CommandPalette({ isOpen, onClose, onToggleTheme, theme }
       icon: Github,
       action: () => {
         window.open('https://github.com/13507-IN', '_blank');
+        onClose();
+      },
+    },
+    {
+      id: 'action-resume',
+      category: 'External Links',
+      label: 'View Résumé PDF',
+      icon: FileText,
+      action: () => {
+        window.open('/resume.pdf', '_blank', 'noopener,noreferrer');
         onClose();
       },
     },
