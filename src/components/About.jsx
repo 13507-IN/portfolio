@@ -8,7 +8,7 @@ const highlights = [
     icon: GraduationCap,
     title: 'Education',
     line1: 'B.Tech in ECE (2024 - 2028)',
-    line2: 'Techno Main Salt Lake, Kolkata',
+    line2: 'Techno India Salt Lake, Kolkata',
     line3: 'Engineering foundation with hands-on software projects',
   },
   {
@@ -32,7 +32,7 @@ const devSnippets = {
   "name": "Rishiraj Debnath",
   "role": "Full-stack web developer",
   "location": "Kolkata, West Bengal, India",
-  "university": "Techno Main Salt Lake",
+  "focus": "Backend & Full-Stack Systems",
   "status": "Open to web developer opportunities",
   "work": ["CampusKart", "Funfy", "InceptIQ"],
   "contact": "rishirajnatj@gmail.com"
@@ -111,12 +111,8 @@ export default function About() {
                   <span className="font-semibold text-primary">
                     Electronics & Communication Engineering
                   </span>{' '}
-                  student at{' '}
-                  <span className="font-semibold text-primary">
-                    Techno Main Salt Lake
-                  </span>
-                  , and a web developer building products with React, JavaScript,
-                  and server-side tools.
+                  student and developer focused on building resilient APIs,
+                  intuitive user interfaces, and systems that solve real problems.
                 </p>
                 <p className="text-muted-2">
                   I founded CampusKart, a live student marketplace, and built
