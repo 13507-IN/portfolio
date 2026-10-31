@@ -153,22 +153,22 @@
 }
 
 .bg-text-spotlight-mask {
-  --spotlight-radius: clamp(180px, 22vw, 260px);
+  --spotlight-radius: clamp(115px, 13vw, 165px);
   opacity: var(--spotlight-opacity, 0);
   transition: opacity 0.35s ease-out;
   will-change: mask-image, -webkit-mask-image;
   -webkit-mask-image: radial-gradient(
     circle var(--spotlight-radius) at var(--spotlight-x, -1000px) var(--spotlight-y, -1000px),
     #000 0%,
-    #000 35%,
-    rgba(0, 0, 0, 0.25) 70%,
+    #000 30%,
+    rgba(0, 0, 0, 0.2) 65%,
     transparent 100%
   );
   mask-image: radial-gradient(
     circle var(--spotlight-radius) at var(--spotlight-x, -1000px) var(--spotlight-y, -1000px),
     #000 0%,
-    #000 35%,
-    rgba(0, 0, 0, 0.25) 70%,
+    #000 30%,
+    rgba(0, 0, 0, 0.2) 65%,
     transparent 100%
   );
   -webkit-mask-repeat: no-repeat;
