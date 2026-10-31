@@ -17,6 +17,7 @@ import {
   Sparkles,
   Server,
   FileText,
+  GitPullRequest,
 } from 'lucide-react';
 
 export default function CommandPalette({ isOpen, onClose, onToggleTheme, theme }) {
@@ -63,6 +64,16 @@ export default function CommandPalette({ isOpen, onClose, onToggleTheme, theme }
       icon: FolderGit2,
       action: () => {
         window.location.hash = '#projects';
+        onClose();
+      },
+    },
+    {
+      id: 'nav-opensource',
+      category: 'Navigation',
+      label: 'Open Source Contributions',
+      icon: GitPullRequest,
+      action: () => {
+        window.location.hash = '#opensource';
         onClose();
       },
     },

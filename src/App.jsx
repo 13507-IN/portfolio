@@ -5,12 +5,14 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
+import OpenSource from './components/OpenSource';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import CommandPalette from './components/CommandPalette';
 import BackendShowcase from './components/BackendShowcase';
+import Loader from './components/Loader';
 import './index.css';
 
 function ScrollProgress() {
@@ -48,6 +50,7 @@ function MainLayout({ onOpenCommandPalette, theme, setTheme }) {
         <Hero />
         <About />
         <Projects />
+        <OpenSource />
         <Skills />
         <Contact />
       </main>
@@ -57,6 +60,7 @@ function MainLayout({ onOpenCommandPalette, theme, setTheme }) {
 }
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') {
@@ -125,6 +129,7 @@ export default function App() {
 
   return (
     <Router>
+      <Loader isLoading={isLoading} onComplete={() => setIsLoading(false)} />
       <CustomCursor />
       <CommandPalette
         isOpen={isCommandPaletteOpen}
