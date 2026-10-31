@@ -105,6 +105,7 @@ export default function App() {
     });
 
     lenisRef.current = lenis;
+    window.__lenis = lenis;
 
     let frameId;
 
@@ -118,6 +119,7 @@ export default function App() {
     return () => {
       cancelAnimationFrame(frameId);
       lenis.destroy();
+      delete window.__lenis;
     };
   }, []);
 

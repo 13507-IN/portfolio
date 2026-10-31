@@ -21,7 +21,7 @@ const highlights = [
   {
     icon: Rocket,
     title: 'Product work',
-    line1: 'Founder of CampusKart',
+    line1: 'Founder of CampusSpace',
     line2: 'Student marketplace for campus communities',
     line3: 'Building from an idea through a live experience',
   },
@@ -34,7 +34,7 @@ const devSnippets = {
   "location": "Kolkata, West Bengal, India",
   "focus": "Backend & Full-Stack Systems",
   "status": "Open to web developer opportunities",
-  "work": ["CampusKart", "Funfy", "InceptIQ"],
+  "work": ["CampusSpace", "Funfy", "InceptIQ"],
   "contact": "rishirajnatj@gmail.com"
 }`,
   'stack.ts': `interface Developer {
@@ -115,7 +115,7 @@ export default function About() {
                   intuitive user interfaces, and systems that solve real problems.
                 </p>
                 <p className="text-muted-2">
-                  I founded CampusKart, a live student marketplace, and built
+                  I founded CampusSpace, a live student marketplace, and built
                   projects such as Funfy&apos;s browser design studio and InceptIQ&apos;s
                   React and Express analysis workflow. Each one has taught me
                   to connect product decisions with implementation details.

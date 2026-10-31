@@ -25,11 +25,11 @@ const gradients = [
 export const projects = [
   {
     id: 'campuskart',
-    title: 'CampusKart',
+    title: 'CampusSpace',
     category: 'Full Stack',
     description: 'A student marketplace for campus buying, selling, messaging, and events.',
     longDescription:
-      'I founded CampusKart to make student-to-student trading easier within a campus community. The live product brings listings, direct messaging, and an events hub into one place.',
+      'I founded CampusSpace to make student-to-student trading easier within a campus community. The live product brings listings, direct messaging, and an events hub into one place.',
     highlights: [
       'Built around campus-specific listings and student profiles',
       'Messaging and events are part of the live experience',
@@ -37,15 +37,15 @@ export const projects = [
     ],
     story: {
       why: "At the start of every college semester, student group chats would get flooded with chaotic messages: people trying to sell second-hand engineering books, drafters, calculators, and hostel essentials. Listings got buried within minutes, prices were arbitrary, and finding what you needed was frustrating. I realized campus communities needed their own dedicated micro-economy—a trusted space where students could discover, chat, and trade without the noise.",
-      thoughtProcess: "When architecting CampusKart, the priority was zero-friction mobile usability. Students list items between classes, so the flow had to take under 30 seconds: take a photo, set a price, select a category, and post. I designed direct messaging into the platform so buyers and sellers could coordinate without broadcasting their personal phone numbers, and added a campus events feed so the platform stayed valuable even outside semester transitions.",
-      learnings: "Building CampusKart transformed how I approach engineering. In course assignments, code runs in sterile, ideal conditions. In a live product, you face edge cases, patchy mobile network connections, and the psychology of community adoption. It taught me to connect every backend database schema and UI component directly to real human behavior.",
+      thoughtProcess: "When architecting CampusSpace, the priority was zero-friction mobile usability. Students list items between classes, so the flow had to take under 30 seconds: take a photo, set a price, select a category, and post. I designed direct messaging into the platform so buyers and sellers could coordinate without broadcasting their personal phone numbers, and added a campus events feed so the platform stayed valuable even outside semester transitions.",
+      learnings: "Building CampusSpace transformed how I approach engineering. In course assignments, code runs in sterile, ideal conditions. In a live product, you face edge cases, patchy mobile network connections, and the psychology of community adoption. It taught me to connect every backend database schema and UI component directly to real human behavior.",
       videoUrl: null,
     },
     tags: ['Marketplace', 'Web App', 'Product'],
     github: null,
-    demo: 'https://www.campuskart.space/',
+    demo: 'https://campusspacee.com/',
     image: null,
-    alt: 'CampusKart student marketplace',
+    alt: 'CampusSpace student marketplace',
   },
   {
     id: 'funfy',
@@ -76,15 +76,22 @@ export const projects = [
     id: 'inceptiq',
     title: 'InceptIQ',
     category: 'Full Stack',
-    description: 'An AI-assisted startup idea validator with visual analysis and downloadable reports.',
+    description: 'An AI-powered startup idea validator and live Hackathon War Room built with Google Gemini and Express.',
     longDescription:
-      'InceptIQ lets users submit a startup idea and receive a structured analysis of originality, competition, market viability, risks, and next steps. A React interface presents the results; a Node and Express API handles AI analysis and PDF reports.',
+      'InceptIQ is a SaaS-grade platform combining AI-driven startup feasibility analysis with a high-stakes Hackathon War Room. Powered by Google Gemini and an Express backend, it generates structured competitor benchmarks, risk scores, PDF reports, and real-time sprint milestones for hackathon teams.',
     highlights: [
-      'React dashboard with Recharts visualizations',
-      'Express API connected to Google Gemini',
-      'Downloadable PDF analysis reports',
+      'Google Gemini AI pipeline delivering structured feasibility scores & competitor analysis',
+      'Live Hackathon War Room with real-time countdown timer & milestone sprint tracker',
+      'Interactive data visualizations via Recharts and downloadable PDF executive reports',
+      'SaaS-ready architecture with tiered feature gating and monetization roadmap',
     ],
-    tags: ['React', 'Node.js', 'Express', 'Gemini'],
+    story: {
+      why: "InceptIQ was a project I built straight from the heart. I didn't want to build just another student portfolio project—I set out to create a genuine, production-grade SaaS product that could stand on its own in the commercial market. I wanted to build something so valuable that founders and hackers would actually consider paying for it. The original vision was an AI-powered startup feasibility engine: entrepreneurs submit their concept and receive structured market signals, competitor maps, risk matrices, and validation scores powered by Google Gemini. But as I tested it, I realized validation isn't just a slow, months-long corporate process—hackathon teams need that exact same rapid clarity in intense 24- to 48-hour pressure cookers. That sparked the evolution of InceptIQ into a dual-engine platform featuring the Hackathon War Room.",
+      thoughtProcess: "When developing InceptIQ, I focused on building the mechanics of a real SaaS platform:\n\n• Structured AI Inference with Gemini: Rather than relying on generic chat replies, I engineered the Express backend to force Google Gemini into structured JSON payloads. This fed directly into Recharts dashboard visualizations, feasibility scorecards, and automated PDF executive reports.\n\n• The Hackathon War Room: Hackathons are chaotic races against time. I built a real-time 'War Room' dashboard equipped with a live countdown timer, milestone checkpoints, and sprint task boards. It keeps teams synchronized, helps them track remaining hours, and accelerates pitch preparation so they can deliver polished demos before the final deadline.\n\n• SaaS Architecture & Monetization Readiness: Designed the application around a multi-tier subscription model with planned payment gateway integration (Razorpay), structured route gating, and scalable user data handling.",
+      learnings: "InceptIQ taught me the difference between writing code and building a viable SaaS product. It humbled me: building something 'good enough' is easy, but engineering a product with enough polish, reliability, and value that users will pull out their credit cards is an entirely different level of mastery. While InceptIQ hasn't fully reached my highest commercial ideals yet, treating it as a live, evolving laboratory has taught me more about product architecture, AI integration, and developer urgency than anything else I've built.",
+      videoUrl: null,
+    },
+    tags: ['React', 'Node.js', 'Express', 'Google Gemini', 'SaaS', 'Recharts'],
     github: 'https://github.com/13507-IN/InceptIQ',
     demo: 'https://incept-iq.vercel.app/',
     image: InceptIQImage,

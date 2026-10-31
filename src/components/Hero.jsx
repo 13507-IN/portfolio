@@ -1,6 +1,6 @@
 import { motion as Motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
 import { ChevronDown, Github, Linkedin, Mail, Sparkles, Code2, Server, Rocket, Download } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import myimage from '../assets/myimage.jpeg';
 
 const quickStats = [
@@ -65,20 +65,84 @@ export default function Hero() {
     mouseY.set(0);
   };
 
+  const spotlightRef = useRef(null);
+  const lastMousePos = useRef({ x: null, y: null });
+
+  const updateSpotlight = (clientX, clientY) => {
+    if (!spotlightRef.current) return;
+    const rect = spotlightRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    spotlightRef.current.style.setProperty('--spotlight-x', `${x}px`);
+    spotlightRef.current.style.setProperty('--spotlight-y', `${y}px`);
+    spotlightRef.current.style.setProperty('--spotlight-opacity', '1');
+  };
+
+  const handleHeroMouseMove = (e) => {
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
+    updateSpotlight(e.clientX, e.clientY);
+  };
+
+  const handleHeroMouseLeave = () => {
+    lastMousePos.current = { x: null, y: null };
+    if (spotlightRef.current) {
+      spotlightRef.current.style.setProperty('--spotlight-opacity', '0');
+    }
+  };
+
+  const handleHeroTouchMove = (e) => {
+    if (!e.touches[0]) return;
+    const touch = e.touches[0];
+    lastMousePos.current = { x: touch.clientX, y: touch.clientY };
+    updateSpotlight(touch.clientX, touch.clientY);
+  };
+
+  const handleHeroTouchEnd = () => {
+    lastMousePos.current = { x: null, y: null };
+    if (spotlightRef.current) {
+      spotlightRef.current.style.setProperty('--spotlight-opacity', '0');
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (lastMousePos.current.x !== null && lastMousePos.current.y !== null) {
+        updateSpotlight(lastMousePos.current.x, lastMousePos.current.y);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <section
       id="hero"
       ref={sectionRef}
+      onMouseMove={handleHeroMouseMove}
+      onMouseLeave={handleHeroMouseLeave}
+      onTouchMove={handleHeroTouchMove}
+      onTouchEnd={handleHeroTouchEnd}
       className="hero-shell relative flex min-h-screen items-center overflow-hidden"
     >
       <div className="hero-orb hero-orb-left" />
       <div className="hero-orb hero-orb-right" />
 
       <Motion.div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0"
         style={{ y: bgTextY, opacity: bgTextOpacity }}
+        aria-hidden="true"
       >
+        {/* Base stroke outline */}
         <span className="bg-text bg-text--light whitespace-nowrap">RISHIRAJ</span>
+
+        {/* Revealed full text on hover */}
+        <div
+          ref={spotlightRef}
+          className="bg-text-spotlight-mask absolute inset-0 flex items-center justify-center"
+        >
+          <span className="bg-text bg-text--full whitespace-nowrap">RISHIRAJ</span>
+        </div>
       </Motion.div>
 
       <div className="hero-grid page-width relative z-10 grid items-center gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10 xl:gap-14">
@@ -103,7 +167,7 @@ export default function Hero() {
 
           <p className="hero-summary mt-5 max-w-2xl text-muted">
             I&apos;m Rishiraj Debnath. I build responsive React interfaces and
-            practical backends, with projects ranging from the CampusKart
+            practical backends, with projects ranging from the CampusSpace
             marketplace to an in-browser sticker design studio.
           </p>
 
