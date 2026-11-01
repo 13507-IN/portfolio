@@ -1,6 +1,7 @@
 import { motion as Motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, Sparkles, Layers, ArrowUpRight, Filter } from 'lucide-react';
-import { useCallback, useRef, useState } from 'react';
+import { ExternalLink, Github, Sparkles, Layers, ArrowUpRight, Filter, Star, RefreshCw } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { fetchGitHubProjects } from '../services/githubService';
 
 import ToDoImage from '../assets/taskmaster.png';
 import FinMateImage from '../assets/FinMate.jpeg';
@@ -222,19 +223,49 @@ export const projects = [
 ];
 
 export default function Projects() {
+  const [projectList, setProjectList] = useState(projects);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
 
+  useEffect(() => {
+    let isMounted = true;
+    setIsSyncing(true);
+
+    fetchGitHubProjects(projects)
+      .then((merged) => {
+        if (isMounted && Array.isArray(merged) && merged.length > 0) {
+          setProjectList(merged);
+        }
+      })
+      .catch((err) => {
+        console.warn('GitHub auto-sync error:', err);
+      })
+      .finally(() => {
+        if (isMounted) setIsSyncing(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const filteredProjects =
     activeCategory === 'All'
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+      ? projectList
+      : projectList.filter((p) => p.category === activeCategory);
 
   return (
     <section id="projects" className="section-shell relative overflow-hidden bg-background">
       <div className="page-width mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <p className="section-kicker">Selected work</p>
+          <div className="flex items-center gap-2 mb-2">
+            <p className="section-kicker m-0">Selected work</p>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
+              <span className={`h-1.5 w-1.5 rounded-full bg-emerald-400 ${isSyncing ? 'animate-ping' : 'animate-pulse'}`} />
+              {isSyncing ? 'Syncing with GitHub...' : 'Auto-synced with GitHub'}
+            </span>
+          </div>
           <h2 className="section-heading text-foreground">
             Web products, from interface to API.
           </h2>
@@ -346,10 +377,21 @@ function ProjectCard({ project, index, onInspect }) {
 
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
 
-        <div className="absolute left-4 top-4 z-20 flex items-center gap-2">
+        <div className="absolute left-4 top-4 z-20 flex flex-wrap items-center gap-1.5">
           <span className="rounded-full border border-white/20 bg-black/40 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
             {project.category}
           </span>
+          {project.stars !== undefined && project.stars > 0 && (
+            <span className="flex items-center gap-1 rounded-full border border-amber-500/30 bg-black/50 px-2.5 py-1 text-xs font-semibold text-amber-300 backdrop-blur-md">
+              <Star size={11} className="fill-amber-300" />
+              {project.stars}
+            </span>
+          )}
+          {project.isAutoSynced && (
+            <span className="rounded-full border border-emerald-500/30 bg-black/50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-400 backdrop-blur-md">
+              GitHub Live
+            </span>
+          )}
         </div>
 
         <div className="absolute left-5 bottom-4 z-20">
