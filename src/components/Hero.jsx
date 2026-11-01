@@ -47,30 +47,61 @@ export default function Hero() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), {
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), {
     stiffness: 200,
     damping: 20,
   });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-10, 10]), {
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), {
     stiffness: 200,
     damping: 20,
   });
 
+  const photoColorRef = useRef(null);
+
+  const updatePhotoSpotlight = (clientX, clientY, currentTarget) => {
+    if (!photoColorRef.current || !currentTarget) return;
+    const rect = currentTarget.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    photoColorRef.current.style.setProperty('--photo-spotlight-x', `${x}px`);
+    photoColorRef.current.style.setProperty('--photo-spotlight-y', `${y}px`);
+    photoColorRef.current.style.setProperty('--photo-spotlight-opacity', '1');
+  };
+
   const handleMouseMovePhoto = (e) => {
     // Only apply tilt on non-touch devices
-    if (window.innerWidth < 768) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const xPct = (e.clientX - rect.left) / width - 0.5;
-    const yPct = (e.clientY - rect.top) / height - 0.5;
-    mouseX.set(xPct);
-    mouseY.set(yPct);
+    if (window.innerWidth >= 768) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      const xPct = (e.clientX - rect.left) / width - 0.5;
+      const yPct = (e.clientY - rect.top) / height - 0.5;
+      mouseX.set(xPct);
+      mouseY.set(yPct);
+    }
+
+    // Interactive color reveal spotlight
+    updatePhotoSpotlight(e.clientX, e.clientY, e.currentTarget);
   };
 
   const handleMouseLeavePhoto = () => {
     mouseX.set(0);
     mouseY.set(0);
+    if (photoColorRef.current) {
+      photoColorRef.current.style.setProperty('--photo-spotlight-opacity', '0');
+    }
+  };
+
+  const handleTouchMovePhoto = (e) => {
+    if (!e.touches[0]) return;
+    const touch = e.touches[0];
+    updatePhotoSpotlight(touch.clientX, touch.clientY, e.currentTarget);
+  };
+
+  const handleTouchEndPhoto = () => {
+    if (photoColorRef.current) {
+      photoColorRef.current.style.setProperty('--photo-spotlight-opacity', '0');
+    }
   };
 
   const spotlightRef = useRef(null);
@@ -245,7 +276,7 @@ export default function Hero() {
           </div>
         </Motion.div>
 
-        {/* Hero Visual Container: Modern Multi-Layered Editorial Silhouette */}
+        {/* Hero Visual Container: Blended into Hero Panel with Interactive B&W to Color Reveal */}
         <Motion.div
           className="hero-visual relative mx-auto flex w-full max-w-[24rem] sm:max-w-[26rem] justify-center lg:justify-end mt-4 lg:mt-0"
           style={{ y: photoY, perspective: 1000 }}
@@ -256,38 +287,53 @@ export default function Hero() {
           <Motion.div
             onMouseMove={handleMouseMovePhoto}
             onMouseLeave={handleMouseLeavePhoto}
+            onTouchStart={handleTouchMovePhoto}
+            onTouchMove={handleTouchMovePhoto}
+            onTouchEnd={handleTouchEndPhoto}
             style={{ rotateX, rotateY }}
             className="group relative w-full transition-transform duration-200 ease-out"
           >
-            {/* Ambient Radial Backlight Glow */}
-            <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-primary/30 via-indigo-500/20 to-violet-600/25 blur-3xl opacity-75 animate-pulse-halo pointer-events-none" />
+            {/* Ambient Radial Backlight Glow - softly bleeds into hero canvas */}
+            <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-primary/30 via-indigo-500/20 to-violet-600/20 blur-3xl opacity-70 animate-pulse-halo pointer-events-none" />
 
-            {/* Layer 1: Angled Architectural Depth Card Behind Portrait */}
-            <div className="absolute inset-1 rounded-[2.75rem] rounded-tr-[5.5rem] rounded-bl-[1.5rem] border border-primary/30 bg-gradient-to-br from-primary/15 via-purple-500/10 to-transparent backdrop-blur-sm -rotate-2 group-hover:rotate-0 transition-transform duration-500 -z-10" />
+            {/* Main Portrait Frame: Black & White with Interactive Color Spotlight & Seamless Bottom Blend */}
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] sm:rounded-[3rem] border border-border/50 bg-surface/30 backdrop-blur-md shadow-[0_24px_80px_rgba(79,70,229,0.18)] cursor-crosshair">
+              {/* Base Layer: Black & White Portrait */}
+              <img
+                src={myimage}
+                alt="Rishiraj Debnath"
+                className="h-full w-full object-cover object-center filter grayscale contrast-[1.15] brightness-[0.96] transition-transform duration-700 ease-out group-hover:scale-105"
+              />
 
-            {/* Layer 2: Main Image Frame with Asymmetric Silhouette */}
-            <div className="relative overflow-hidden rounded-[2.75rem] rounded-tr-[5.5rem] rounded-bl-[1.5rem] border border-border/80 bg-surface/90 p-2.5 sm:p-3 shadow-[0_24px_80px_rgba(15,23,42,0.16)] backdrop-blur-xl">
-              <div className="relative overflow-hidden rounded-[2.25rem] rounded-tr-[5rem] rounded-bl-[1.2rem] bg-surface-2 aspect-[4/5]">
+              {/* Top Layer: Interactive Full Color Spotlight Reveal on Hover/Touch */}
+              <div
+                ref={photoColorRef}
+                className="photo-spotlight-color absolute inset-0 pointer-events-none"
+              >
                 <img
                   src={myimage}
-                  alt="Rishiraj Debnath"
-                  className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  alt=""
+                  aria-hidden="true"
+                  className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-
-                {/* Subtle soft gradient fade at extreme bottom for contrast */}
-                <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent pointer-events-none" />
               </div>
+
+              {/* Hero Panel Blend: Seamless Multi-Stop Dissolve at the Bottom */}
+              <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background via-background/70 to-transparent pointer-events-none" />
+
+              {/* Edge Ring Polish */}
+              <div className="absolute inset-0 rounded-[2.5rem] sm:rounded-[3rem] ring-1 ring-inset ring-white/10 dark:ring-white/10 pointer-events-none" />
             </div>
 
             {/* Floating Live Location Chip: Top Corner */}
-            <div className="absolute -top-3 right-4 sm:right-6 rounded-full border border-border/80 bg-surface/95 px-3.5 py-1.5 shadow-lg backdrop-blur-md flex items-center gap-1.5 text-xs font-semibold text-foreground">
+            <div className="absolute -top-3 right-4 sm:right-6 rounded-full border border-border/80 bg-surface/92 px-3.5 py-1.5 shadow-lg backdrop-blur-md flex items-center gap-1.5 text-xs font-semibold text-foreground">
               <MapPin size={13} className="text-primary" />
               <span>Kolkata, IN</span>
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
             </div>
 
-            {/* Floating Developer Identity Dock: Bottom Edge */}
-            <div className="absolute -bottom-3 inset-x-4 sm:inset-x-6 rounded-2xl border border-border/80 bg-surface/95 p-3 shadow-xl backdrop-blur-xl flex items-center justify-between">
+            {/* Floating Developer Identity Dock: Anchors the Blended Bottom Edge */}
+            <div className="absolute -bottom-3 inset-x-4 sm:inset-x-6 rounded-2xl border border-border/80 bg-surface/92 p-3 shadow-xl backdrop-blur-xl flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold text-xs shadow-md shadow-primary/25">
                   RD
@@ -305,13 +351,13 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Desktop-only subtle orbital chips that don't crowd mobile */}
-            <div className="hidden sm:flex absolute top-12 -left-5 items-center gap-1.5 rounded-2xl border border-border/80 bg-surface/95 px-3 py-1.5 shadow-xl backdrop-blur-md">
+            {/* Desktop-only subtle orbital chips */}
+            <div className="hidden sm:flex absolute top-12 -left-5 items-center gap-1.5 rounded-2xl border border-border/80 bg-surface/92 px-3 py-1.5 shadow-xl backdrop-blur-md">
               <Code2 size={13} className="text-primary" />
               <span className="text-xs font-semibold text-foreground">UI Systems</span>
             </div>
 
-            <div className="hidden sm:flex absolute bottom-16 -right-5 items-center gap-1.5 rounded-2xl border border-border/80 bg-surface/95 px-3 py-1.5 shadow-xl backdrop-blur-md">
+            <div className="hidden sm:flex absolute bottom-16 -right-5 items-center gap-1.5 rounded-2xl border border-border/80 bg-surface/92 px-3 py-1.5 shadow-xl backdrop-blur-md">
               <Server size={13} className="text-violet-400" />
               <span className="text-xs font-semibold text-foreground">APIs</span>
             </div>

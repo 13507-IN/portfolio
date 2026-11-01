@@ -105,7 +105,7 @@ export function parseReadme(rawMarkdown, repoName, defaultBranch = 'main') {
   let introText = null;
 
   // 1. Extract images (all markdown: ![alt](url) and HTML: <img src="url">)
-  const mdImgMatches = [...rawMarkdown.matchAll(/!\[.*?\]\(([^\s\)]+)\)/gi)];
+  const mdImgMatches = [...rawMarkdown.matchAll(/!\[.*?\]\(([^\s)]+)\)/gi)];
   for (const match of mdImgMatches) {
     const candidate = match[1];
     if (candidate && !isBadgeUrl(candidate)) {
@@ -164,7 +164,7 @@ export function parseReadme(rawMarkdown, repoName, defaultBranch = 'main') {
     introText = paragraphLines
       .join(' ')
       .replace(/\*\*([^*]+)\*\*/g, '$1') // strip bold
-      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1'); // strip md links
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1'); // strip md links
   }
 
   return { imageUrl, extractedLiveLink, introText };

@@ -208,9 +208,42 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-text-spotlight-mask {
+  .bg-text-spotlight-mask,
+  .photo-spotlight-color {
     transition: none;
   }
+}
+
+/* Profile Photo Interactive Color Spotlight */
+.photo-spotlight-color {
+  --photo-spotlight-radius: clamp(120px, 16vw, 160px);
+  opacity: var(--photo-spotlight-opacity, 0);
+  transition: opacity 0.35s ease-out;
+  will-change: mask-image, -webkit-mask-image;
+  -webkit-mask-image: radial-gradient(
+    circle var(--photo-spotlight-radius) at var(--photo-spotlight-x, -500px) var(--photo-spotlight-y, -500px),
+    #000 0%,
+    rgba(0, 0, 0, 0.96) 18%,
+    rgba(0, 0, 0, 0.82) 36%,
+    rgba(0, 0, 0, 0.55) 56%,
+    rgba(0, 0, 0, 0.25) 76%,
+    rgba(0, 0, 0, 0.05) 92%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--photo-spotlight-radius) at var(--photo-spotlight-x, -500px) var(--photo-spotlight-y, -500px),
+    #000 0%,
+    rgba(0, 0, 0, 0.96) 18%,
+    rgba(0, 0, 0, 0.82) 36%,
+    rgba(0, 0, 0, 0.55) 56%,
+    rgba(0, 0, 0, 0.25) 76%,
+    rgba(0, 0, 0, 0.05) 92%,
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .scroll-progress {
