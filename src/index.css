@@ -551,3 +551,45 @@
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
   background: var(--color-muted-2);
 }
+
+/* Featured Projects Aesthetic Polish */
+.featured-hero-card {
+  position: relative;
+  border-radius: 2.25rem;
+  background: radial-gradient(100% 100% at 50% 0%, rgba(99, 102, 241, 0.08) 0%, rgba(15, 23, 42, 0.4) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .featured-hero-card {
+  background: radial-gradient(100% 100% at 50% 0%, rgba(99, 102, 241, 0.12) 0%, rgba(11, 15, 26, 0.75) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.45);
+}
+
+.featured-hero-card:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 30px 80px -15px rgba(99, 102, 241, 0.25);
+}
+
+.featured-bento-card {
+  position: relative;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 18px 50px -10px rgba(15, 23, 42, 0.08);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .featured-bento-card {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 50px -10px rgba(0, 0, 0, 0.4);
+}
+
+.featured-bento-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 0 25px 60px -12px rgba(99, 102, 241, 0.2);
+}

@@ -1,5 +1,19 @@
 import { motion as Motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, Sparkles, Layers, ArrowUpRight, Filter, Star, RefreshCw } from 'lucide-react';
+import {
+  ExternalLink,
+  Github,
+  Sparkles,
+  Layers,
+  ArrowUpRight,
+  Filter,
+  Star,
+  RefreshCw,
+  Search,
+  CheckCircle2,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchGitHubProjects } from '../services/githubService';
 
@@ -11,6 +25,7 @@ import FunfyImage from '../assets/funfy.png';
 import ProjectModal from './ProjectModal';
 
 const categories = ['All', 'Full Stack', 'Frontend', 'Backend'];
+const FEATURED_IDS = ['campuskart', 'rishiraj-auth', 'inceptiq'];
 
 const gradients = [
   'from-violet-600/30 to-indigo-800/30',
@@ -226,6 +241,8 @@ export default function Projects() {
   const [projectList, setProjectList] = useState(projects);
   const [isSyncing, setIsSyncing] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showAllOther, setShowAllOther] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
@@ -250,67 +267,183 @@ export default function Projects() {
     };
   }, []);
 
-  const filteredProjects =
-    activeCategory === 'All'
-      ? projectList
-      : projectList.filter((p) => p.category === activeCategory);
+  // Top 3 Flagship Projects
+  const featuredProjects = FEATURED_IDS.map((id) =>
+    projectList.find(
+      (p) =>
+        p.id === id ||
+        p.title.toLowerCase().replace(/[^a-z0-9]/g, '') === id.replace(/[^a-z0-9]/g, '')
+    )
+  ).filter(Boolean);
+
+  // Fallback to top 3 if any missing
+  while (featuredProjects.length < 3 && projectList.length > featuredProjects.length) {
+    const next = projectList.find((p) => !featuredProjects.some((f) => f.id === p.id));
+    if (next) featuredProjects.push(next);
+    else break;
+  }
+
+  // All Other Projects
+  const allOtherProjects = projectList.filter(
+    (p) => !featuredProjects.some((f) => f.id === p.id)
+  );
+
+  const filteredOtherProjects = allOtherProjects.filter((p) => {
+    const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
+    const matchesSearch =
+      !searchQuery ||
+      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesCategory && matchesSearch;
+  });
+
+  const displayedOtherProjects = showAllOther
+    ? filteredOtherProjects
+    : filteredOtherProjects.slice(0, 6);
 
   return (
     <section id="projects" className="section-shell relative overflow-hidden bg-background">
-      <div className="page-width mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <p className="section-kicker m-0">Selected work</p>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
-              <span className={`h-1.5 w-1.5 rounded-full bg-emerald-400 ${isSyncing ? 'animate-ping' : 'animate-pulse'}`} />
-              {isSyncing ? 'Syncing with GitHub...' : 'Auto-synced with GitHub'}
-            </span>
+      {/* Background Ambient Glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/8 rounded-full blur-[140px] pointer-events-none -z-10" />
+
+      {/* SECTION 1: TOP 3 FLAGSHIP SHOWCASE */}
+      <div className="page-width mb-14 sm:mb-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <div className="flex items-center gap-2 mb-2.5">
+              <span className="section-kicker m-0">Flagship Works // 01 — 03</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
+                <span className={`h-1.5 w-1.5 rounded-full bg-emerald-400 ${isSyncing ? 'animate-ping' : 'animate-pulse'}`} />
+                {isSyncing ? 'Syncing GitHub...' : 'Live Synced'}
+              </span>
+            </div>
+            <h2 className="section-heading text-foreground">
+              Core Works & Case Studies
+            </h2>
           </div>
-          <h2 className="section-heading text-foreground">
-            Web products, from interface to API.
-          </h2>
+
+          <p className="text-muted text-sm sm:text-base max-w-md">
+            Three marquee systems highlighting founder-led product design, security protocols, and SaaS AI workflows.
+          </p>
         </div>
 
-        {/* Category Filter Pills */}
-        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-surface/80 p-1.5 backdrop-blur-md">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-300 ${
-                activeCategory === cat
-                  ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20'
-                  : 'text-muted hover:text-foreground hover:bg-surface-2'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        {/* Top 3 Bento Showcase Grid */}
+        <div className="space-y-6">
+          {/* Card 01: CampusSpace (Full-width Hero Card) */}
+          {featuredProjects[0] && (
+            <FeaturedHeroCard
+              project={featuredProjects[0]}
+              onInspect={() => setSelectedProject(featuredProjects[0])}
+            />
+          )}
+
+          {/* Cards 02 & 03: Dual Column Grid */}
+          <div className="grid gap-6 md:grid-cols-2">
+            {featuredProjects[1] && (
+              <FeaturedDualCard
+                project={featuredProjects[1]}
+                indexLabel="02 // BACKEND & SECURITY"
+                onInspect={() => setSelectedProject(featuredProjects[1])}
+              />
+            )}
+            {featuredProjects[2] && (
+              <FeaturedDualCard
+                project={featuredProjects[2]}
+                indexLabel="03 // AI SAAS & WAR ROOM"
+                onInspect={() => setSelectedProject(featuredProjects[2])}
+              />
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Grid of Projects */}
-      <div className="page-width">
-        <Motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <AnimatePresence>
-            {filteredProjects.map((project, index) => (
-              <Motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-              >
-                <ProjectCard
-                  project={project}
-                  index={index}
-                  onInspect={() => setSelectedProject(project)}
-                />
-              </Motion.div>
-            ))}
-          </AnimatePresence>
-        </Motion.div>
+      {/* SECTION 2: ALL OTHER PROJECTS & GITHUB REPOSITORIES */}
+      <div className="page-width pt-10 border-t border-border/70">
+        <div className="mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div>
+            <span className="section-kicker m-0 text-muted-2">Explore The Archive</span>
+            <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mt-1">
+              All Projects & Repositories
+            </h3>
+            <p className="text-xs sm:text-sm text-muted mt-1">
+              Showing {filteredOtherProjects.length} projects auto-synced directly from GitHub (13507-IN).
+            </p>
+          </div>
+
+          {/* Search & Category Filter Controls */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            {/* Search Input */}
+            <div className="relative">
+              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search projects or stack..."
+                className="w-full sm:w-56 rounded-xl border border-border bg-surface-2/80 pl-9 pr-3.5 py-2 text-xs sm:text-sm text-foreground placeholder:text-muted focus:border-primary focus:outline-none transition-colors"
+              />
+            </div>
+
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap items-center gap-1.5 rounded-xl border border-border bg-surface/80 p-1 backdrop-blur-md">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${
+                    activeCategory === cat
+                      ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/20'
+                      : 'text-muted hover:text-foreground hover:bg-surface-2'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Other Projects Grid */}
+        {displayedOtherProjects.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border p-12 text-center text-muted text-sm">
+            No projects found matching &quot;{searchQuery}&quot; in category &quot;{activeCategory}&quot;.
+          </div>
+        ) : (
+          <Motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <AnimatePresence>
+              {displayedOtherProjects.map((project, index) => (
+                <Motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                  transition={{ duration: 0.35, delay: index * 0.04 }}
+                >
+                  <ProjectCard
+                    project={project}
+                    index={index}
+                    onInspect={() => setSelectedProject(project)}
+                  />
+                </Motion.div>
+              ))}
+            </AnimatePresence>
+          </Motion.div>
+        )}
+
+        {/* Show More / Show Less Toggle Button */}
+        {filteredOtherProjects.length > 6 && (
+          <div className="mt-10 text-center">
+            <button
+              onClick={() => setShowAllOther((prev) => !prev)}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-2/90 px-6 py-2.5 text-xs sm:text-sm font-semibold text-foreground hover:border-primary/50 hover:bg-surface-3 transition-all shadow-sm"
+            >
+              <span>{showAllOther ? 'Show Less' : `View All Projects (${filteredOtherProjects.length})`}</span>
+              {showAllOther ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Detail Modal Dialog */}
@@ -322,6 +455,218 @@ export default function Projects() {
   );
 }
 
+/**
+ * Project 01: Top Hero Showcase Card (CampusSpace)
+ */
+function FeaturedHeroCard({ project, onInspect }) {
+  return (
+    <div className="featured-hero-card group overflow-hidden p-6 sm:p-8 lg:p-10">
+      <div className="grid gap-8 lg:grid-cols-12 items-center">
+        {/* Left Side: Editorial Story Details */}
+        <div className="lg:col-span-7 space-y-5">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="rounded-full border border-primary/40 bg-primary/15 px-3 py-1 text-xs font-bold tracking-wider uppercase text-primary">
+              01 // FOUNDER PROJECT
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              Live at campusspacee.com
+            </span>
+          </div>
+
+          <div>
+            <h3 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground group-hover:text-primary transition-colors">
+              {project.title}
+            </h3>
+            <p className="mt-2 text-base sm:text-lg text-muted font-normal leading-relaxed">
+              {project.description}
+            </p>
+          </div>
+
+          {/* Spark Quote */}
+          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4 sm:p-5">
+            <p className="text-xs sm:text-sm italic text-foreground/90 leading-relaxed font-normal">
+              &ldquo;Student group chats were flooded with chaotic sales. I realized campus communities needed their own dedicated micro-economy—a trusted space where students could discover, chat, and trade without the noise.&rdquo;
+            </p>
+          </div>
+
+          {/* Highlights Checklist */}
+          <div className="grid gap-2 sm:grid-cols-2 text-xs sm:text-sm text-muted">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-primary shrink-0" />
+              <span>Campus-specific student marketplace</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-primary shrink-0" />
+              <span>Built-in private direct messaging</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-primary shrink-0" />
+              <span>Real-time campus events discovery</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-primary shrink-0" />
+              <span>Under 30-second mobile listing flow</span>
+            </div>
+          </div>
+
+          {/* Tags & Action Buttons */}
+          <div className="pt-2 flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-border/80 bg-surface px-3 py-1 text-xs font-medium text-muted"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={onInspect}
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs sm:text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all"
+              >
+                <BookOpen size={15} />
+                <span>Read Story & Thinking</span>
+              </button>
+
+              {project.demo && (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground hover:border-primary hover:text-primary transition-all"
+                >
+                  <span>Visit Live</span>
+                  <ExternalLink size={14} />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side: Visual Graphic Canvas */}
+        <div className="lg:col-span-5 relative">
+          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-border/80 bg-gradient-to-br from-indigo-900/40 via-purple-900/30 to-slate-950 p-6 flex flex-col justify-between shadow-2xl">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.2),transparent_70%)]" />
+
+            <div className="relative z-10 flex items-center justify-between">
+              <span className="text-xs font-mono font-bold tracking-widest uppercase text-primary-light">
+                CAMPUSSPACEE.COM
+              </span>
+              <span className="text-xs font-mono text-muted">LIVE ENGINE</span>
+            </div>
+
+            <div className="relative z-10 text-center py-6">
+              <span className="text-5xl sm:text-6xl font-black tracking-tighter text-foreground/20 select-none block">
+                CAMPUS
+              </span>
+              <span className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-indigo-300 to-purple-400 bg-clip-text text-transparent block -mt-2">
+                SPACE
+              </span>
+            </div>
+
+            <div className="relative z-10 flex items-center justify-between text-[11px] font-mono text-muted-2 border-t border-white/10 pt-3">
+              <span>FOUNDER-LED</span>
+              <span>VERIFIED STUDENTS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Projects 02 & 03: Dual Column Showcase Card
+ */
+function FeaturedDualCard({ project, indexLabel, onInspect }) {
+  return (
+    <div className="featured-bento-card group flex flex-col justify-between p-6 sm:p-8">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between gap-2">
+          <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-bold tracking-wider uppercase text-primary">
+            {indexLabel}
+          </span>
+          <span className="text-xs font-semibold text-muted font-mono">
+            {project.category}
+          </span>
+        </div>
+
+        <div>
+          <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground group-hover:text-primary transition-colors">
+            {project.title}
+          </h3>
+          <p className="mt-2 text-sm sm:text-base text-muted font-normal leading-relaxed">
+            {project.description}
+          </p>
+        </div>
+
+        {/* Highlights */}
+        <div className="space-y-2 pt-2">
+          {project.highlights.slice(0, 3).map((item, i) => (
+            <div key={i} className="flex items-start gap-2 text-xs sm:text-sm text-muted">
+              <CheckCircle2 size={15} className="text-primary shrink-0 mt-0.5" />
+              <span className="line-clamp-1">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6 pt-5 border-t border-border/60 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap gap-1.5">
+          {project.tags.slice(0, 3).map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-border/80 bg-surface-2 px-2.5 py-0.5 text-xs font-medium text-muted"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onInspect}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary-light transition-colors py-1 px-2"
+          >
+            <span>Story & Thinking</span>
+            <ArrowUpRight size={14} />
+          </button>
+
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1.5 rounded-full text-muted hover:text-foreground hover:bg-surface-2 transition-colors"
+              title="View GitHub Repository"
+            >
+              <Github size={16} />
+            </a>
+          )}
+          {project.demo && project.demo !== '#' && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1.5 rounded-full text-muted hover:text-foreground hover:bg-surface-2 transition-colors"
+              title="Live Demo"
+            >
+              <ExternalLink size={16} />
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Compact Project Card for the "Other Projects" Catalog
+ */
 function ProjectCard({ project, index, onInspect }) {
   const gradientClass = gradients[index % gradients.length];
   const cardRef = useRef(null);
@@ -347,7 +692,7 @@ function ProjectCard({ project, index, onInspect }) {
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="glass-glow-card group relative overflow-hidden rounded-[2rem] border border-border/80 bg-surface/90 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur-md flex flex-col h-full"
+      className="glass-glow-card group relative overflow-hidden rounded-[1.75rem] border border-border/80 bg-surface/90 shadow-[0_12px_40px_rgba(15,23,42,0.06)] backdrop-blur-md flex flex-col h-full"
     >
       <div
         className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
@@ -357,19 +702,19 @@ function ProjectCard({ project, index, onInspect }) {
         }}
       />
 
-      {/* Card Header Media / Dynamic Visual */}
-      <div className="relative h-56 w-full overflow-hidden bg-surface-3">
+      {/* Card Header Media */}
+      <div className="relative h-48 w-full overflow-hidden bg-surface-3">
         {project.image ? (
           <img
             src={project.image}
-            alt={project.alt}
+            alt={project.alt || project.title}
             className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
           />
         ) : (
           <div className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${gradientClass} relative overflow-hidden`}>
-            {/* Tech Pattern Grid overlay */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1),transparent_70%)]" />
-            <span className="select-none text-4xl font-extrabold tracking-tighter text-foreground/15 sm:text-5xl group-hover:scale-110 transition-transform duration-500">
+            <span className="select-none text-3xl font-extrabold tracking-tighter text-foreground/15 sm:text-4xl group-hover:scale-110 transition-transform duration-500">
               {project.title}
             </span>
           </div>
@@ -377,77 +722,78 @@ function ProjectCard({ project, index, onInspect }) {
 
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
 
-        <div className="absolute left-4 top-4 z-20 flex flex-wrap items-center gap-1.5">
-          <span className="rounded-full border border-white/20 bg-black/40 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
+        <div className="absolute left-3.5 top-3.5 z-20 flex flex-wrap items-center gap-1.5">
+          <span className="rounded-full border border-white/20 bg-black/50 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-white backdrop-blur-md">
             {project.category}
           </span>
           {project.stars !== undefined && project.stars > 0 && (
-            <span className="flex items-center gap-1 rounded-full border border-amber-500/30 bg-black/50 px-2.5 py-1 text-xs font-semibold text-amber-300 backdrop-blur-md">
+            <span className="flex items-center gap-1 rounded-full border border-amber-500/30 bg-black/50 px-2 py-0.5 text-xs font-semibold text-amber-300 backdrop-blur-md">
               <Star size={11} className="fill-amber-300" />
               {project.stars}
             </span>
           )}
           {project.isAutoSynced && (
             <span className="rounded-full border border-emerald-500/30 bg-black/50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-400 backdrop-blur-md">
-              GitHub Live
+              Live Repo
             </span>
           )}
         </div>
 
-        <div className="absolute left-5 bottom-4 z-20">
-          <h3 className="text-2xl font-bold tracking-tight text-white group-hover:text-primary-light transition-colors">
+        <div className="absolute left-4 bottom-3 z-20">
+          <h3 className="text-xl font-bold tracking-tight text-white group-hover:text-primary-light transition-colors">
             {project.title}
           </h3>
         </div>
       </div>
 
       {/* Card Content Footer */}
-      <div className="p-6 flex flex-col justify-between flex-1 space-y-4">
-        <p className="text-sm leading-relaxed text-muted line-clamp-2">
+      <div className="p-5 flex flex-col justify-between flex-1 space-y-4">
+        <p className="text-xs sm:text-sm leading-relaxed text-muted line-clamp-2">
           {project.description}
         </p>
-        <button
-          type="button"
-          onClick={onInspect}
-          className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-primary transition-colors hover:text-primary-light"
-          aria-label={`View details for ${project.title}`}
-        >
-          View details <ArrowUpRight size={15} />
-        </button>
 
         <div className="pt-2 flex items-center justify-between border-t border-border/60">
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1">
             {project.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-border bg-surface-2 px-2.5 py-0.5 text-xs font-medium text-muted-2"
+                className="rounded-full border border-border/80 bg-surface-2 px-2 py-0.5 text-[11px] font-medium text-muted"
               >
                 {tag}
               </span>
             ))}
           </div>
 
-          <div className="flex gap-2 shrink-0">
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface-2 text-muted transition-colors hover:border-primary hover:text-primary"
-                aria-label={`View ${project.title} source code`}
-              >
-                <Github size={16} />
-              </a>
-            )}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={onInspect}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-light transition-colors"
+              aria-label={`View details for ${project.title}`}
+            >
+              Details <ArrowUpRight size={13} />
+            </button>
+
             {project.demo && project.demo !== '#' && (
               <a
                 href={project.demo}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface-2 text-muted transition-colors hover:border-primary hover:text-primary"
-                aria-label={`View ${project.title} live site`}
+                className="p-1 rounded text-muted hover:text-foreground"
+                title="Live Demo"
               >
-                <ExternalLink size={16} />
+                <ExternalLink size={13} />
+              </a>
+            )}
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1 rounded text-muted hover:text-foreground"
+                title="View Source on GitHub"
+              >
+                <Github size={13} />
               </a>
             )}
           </div>
