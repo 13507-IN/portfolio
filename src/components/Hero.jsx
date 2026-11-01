@@ -1,4 +1,4 @@
-import { motion as Motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
+import { motion as Motion, useTransform, useScroll } from 'framer-motion';
 import {
   ChevronDown,
   Github,
@@ -43,19 +43,6 @@ export default function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 1], [0, 46]);
   const bgTextOpacity = useTransform(scrollYProgress, [0, 0.55], [0.85, 0]);
 
-  // 3D Tilt calculation for hero profile photo
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), {
-    stiffness: 200,
-    damping: 20,
-  });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), {
-    stiffness: 200,
-    damping: 20,
-  });
-
   const photoColorRef = useRef(null);
 
   const updatePhotoSpotlight = (clientX, clientY, currentTarget) => {
@@ -69,24 +56,10 @@ export default function Hero() {
   };
 
   const handleMouseMovePhoto = (e) => {
-    // Only apply tilt on non-touch devices
-    if (window.innerWidth >= 768) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const width = rect.width;
-      const height = rect.height;
-      const xPct = (e.clientX - rect.left) / width - 0.5;
-      const yPct = (e.clientY - rect.top) / height - 0.5;
-      mouseX.set(xPct);
-      mouseY.set(yPct);
-    }
-
-    // Interactive color reveal spotlight
     updatePhotoSpotlight(e.clientX, e.clientY, e.currentTarget);
   };
 
   const handleMouseLeavePhoto = () => {
-    mouseX.set(0);
-    mouseY.set(0);
     if (photoColorRef.current) {
       photoColorRef.current.style.setProperty('--photo-spotlight-opacity', '0');
     }
@@ -279,19 +252,18 @@ export default function Hero() {
         {/* Hero Visual Container: Blended into Hero Panel with Interactive B&W to Color Reveal */}
         <Motion.div
           className="hero-visual relative mx-auto flex w-full max-w-[24rem] sm:max-w-[26rem] justify-center lg:justify-end mt-4 lg:mt-0"
-          style={{ y: photoY, perspective: 1000 }}
+          style={{ y: photoY }}
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Motion.div
+          <div
             onMouseMove={handleMouseMovePhoto}
             onMouseLeave={handleMouseLeavePhoto}
             onTouchStart={handleTouchMovePhoto}
             onTouchMove={handleTouchMovePhoto}
             onTouchEnd={handleTouchEndPhoto}
-            style={{ rotateX, rotateY }}
-            className="group relative w-full transition-transform duration-200 ease-out"
+            className="group relative w-full"
           >
             {/* Ambient Radial Backlight Glow - softly bleeds into hero canvas */}
             <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-primary/30 via-indigo-500/20 to-violet-600/20 blur-3xl opacity-70 animate-pulse-halo pointer-events-none" />
@@ -361,7 +333,7 @@ export default function Hero() {
               <Server size={13} className="text-violet-400" />
               <span className="text-xs font-semibold text-foreground">APIs</span>
             </div>
-          </Motion.div>
+          </div>
         </Motion.div>
       </div>
 
