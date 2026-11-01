@@ -33,10 +33,20 @@ export default function About() {
   });
 
   return (
-    <section id="about" ref={ref} className="section-shell relative overflow-hidden bg-surface-2">
+    <section
+      id="about"
+      ref={ref}
+      className="section-shell relative overflow-hidden bg-gradient-to-b from-background via-surface-2 via-25% to-background"
+    >
+      {/* Top Transition Blend from Hero (Level 1 -> Level 2) */}
+      <div
+        className="absolute inset-x-0 top-0 h-48 sm:h-64 bg-gradient-to-b from-background via-background/70 to-transparent pointer-events-none z-0"
+        aria-hidden="true"
+      />
+
       {/* Background Watermark */}
       <div
-        className="absolute top-6 left-0 right-0 pointer-events-none select-none overflow-hidden text-center"
+        className="absolute top-6 left-0 right-0 pointer-events-none select-none overflow-hidden text-center z-0"
         aria-hidden="true"
       >
         <span
@@ -49,6 +59,12 @@ export default function About() {
           ABOUT
         </span>
       </div>
+
+      {/* Bottom Transition Blend to Projects (Level 2 -> Level 1) */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-48 sm:h-64 bg-gradient-to-t from-background via-background/70 to-transparent pointer-events-none z-0"
+        aria-hidden="true"
+      />
 
       <div className="page-width relative z-10">
         <Motion.div

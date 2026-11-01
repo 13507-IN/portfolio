@@ -250,7 +250,7 @@ export default function Skills() {
       onTouchStart={handleSectionTouchMove}
       onTouchMove={handleSectionTouchMove}
       onTouchEnd={handleSectionTouchEnd}
-      className="section-shell relative overflow-hidden bg-surface-2"
+      className="section-shell relative overflow-hidden bg-gradient-to-b from-surface-2 via-surface-2 via-60% to-background"
     >
       {/* Background Text "SKILLS" with Interactive Cursor Spotlight Reveal */}
       <div
@@ -317,6 +317,12 @@ export default function Skills() {
           </AnimatePresence>
         </Motion.div>
       </div>
+
+      {/* Bottom Transition Blend to Contact */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-44 sm:h-56 bg-gradient-to-t from-background via-background/70 to-transparent pointer-events-none z-0"
+        aria-hidden="true"
+      />
     </section>
   );
 }
