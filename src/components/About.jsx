@@ -67,9 +67,13 @@ export default function About() {
 
   return (
     <section id="about" ref={ref} className="section-shell relative overflow-hidden bg-surface-2">
-      <div className="absolute -top-8 left-0 right-0 pointer-events-none select-none text-center">
+      {/* Background Watermark */}
+      <div
+        className="absolute top-6 left-0 right-0 pointer-events-none select-none overflow-hidden text-center"
+        aria-hidden="true"
+      >
         <span
-          className="bg-text"
+          className="bg-text bg-text--light block"
           style={{
             WebkitTextStrokeColor: 'rgba(99, 102, 241, 0.08)',
             color: 'transparent',
@@ -81,16 +85,19 @@ export default function About() {
 
       <div className="page-width relative z-10">
         <Motion.div
-          className="section-intro"
-          initial={{ opacity: 0, y: 30 }}
+          className="mb-12 sm:mb-16 max-w-3xl"
+          initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div>
-            <p className="section-kicker">About me</p>
-            <h2 className="section-heading text-foreground">I turn ideas into working web products.</h2>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="section-kicker m-0">About Me</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
           </div>
-          <p className="section-copy">
+          <h2 className="section-heading text-foreground mb-4">
+            I turn ideas into working web products.
+          </h2>
+          <p className="text-muted text-base sm:text-lg leading-relaxed max-w-2xl">
             I work across the interface and the API, with a focus on clear user
             flows, responsive design, and features people can actually use.
           </p>
