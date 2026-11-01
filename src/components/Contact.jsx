@@ -1,7 +1,7 @@
 import { motion as Motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Mail, MapPin, Phone, Copy, Check, Send, Sparkles } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Contact() {
   const [ref, inView] = useInView({
@@ -88,10 +88,80 @@ export default function Contact() {
     },
   ];
 
+  const spotlightRef = useRef(null);
+  const lastMousePos = useRef({ x: null, y: null });
+
+  const updateSpotlight = (clientX, clientY) => {
+    if (!spotlightRef.current) return;
+    const rect = spotlightRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    spotlightRef.current.style.setProperty('--spotlight-x', `${x}px`);
+    spotlightRef.current.style.setProperty('--spotlight-y', `${y}px`);
+    spotlightRef.current.style.setProperty('--spotlight-opacity', '1');
+  };
+
+  const handleMouseMove = (e) => {
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
+    updateSpotlight(e.clientX, e.clientY);
+  };
+
+  const handleMouseLeave = () => {
+    lastMousePos.current = { x: null, y: null };
+    if (spotlightRef.current) {
+      spotlightRef.current.style.setProperty('--spotlight-opacity', '0');
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!e.touches[0]) return;
+    const touch = e.touches[0];
+    lastMousePos.current = { x: touch.clientX, y: touch.clientY };
+    updateSpotlight(touch.clientX, touch.clientY);
+  };
+
+  const handleTouchEnd = () => {
+    lastMousePos.current = { x: null, y: null };
+    if (spotlightRef.current) {
+      spotlightRef.current.style.setProperty('--spotlight-opacity', '0');
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (lastMousePos.current.x !== null && lastMousePos.current.y !== null) {
+        updateSpotlight(lastMousePos.current.x, lastMousePos.current.y);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <section id="contact" ref={ref} className="section-shell relative overflow-hidden bg-background">
-      <div className="absolute top-6 left-0 right-0 pointer-events-none select-none overflow-hidden">
+    <section
+      id="contact"
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      className="section-shell relative overflow-hidden bg-background"
+    >
+      <div
+        className="absolute top-6 left-0 right-0 pointer-events-none select-none overflow-hidden"
+        aria-hidden="true"
+      >
+        {/* Base stroke outline */}
         <span className="bg-text bg-text--light block text-center">CONTACT</span>
+
+        {/* Revealed full text on hover */}
+        <div
+          ref={spotlightRef}
+          className="bg-text-spotlight-mask absolute inset-0"
+        >
+          <span className="bg-text bg-text--full block text-center">CONTACT</span>
+        </div>
       </div>
 
       <div className="page-width relative z-10">
