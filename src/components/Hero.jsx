@@ -9,8 +9,6 @@ import {
   Server,
   Rocket,
   Download,
-  MapPin,
-  Terminal,
 } from 'lucide-react';
 import { useRef, useEffect } from 'react';
 import myimage from '../assets/myimage.jpeg';
@@ -158,7 +156,7 @@ export default function Hero() {
         </div>
       </Motion.div>
 
-      <div className="hero-grid page-width relative z-10 grid items-center gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:gap-10 xl:gap-14">
+      <div className="hero-grid page-width relative z-10 grid items-center gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10 xl:gap-16">
         {/* Hero Narrative Column */}
         <Motion.div
           className="relative"
@@ -249,9 +247,9 @@ export default function Hero() {
           </div>
         </Motion.div>
 
-        {/* Hero Visual Container: Blended into Hero Panel with Interactive B&W to Color Reveal */}
+        {/* Hero Visual Container: Shifted rightwards, cleanly blended into Hero Panel with B&W to Color Spotlight */}
         <Motion.div
-          className="hero-visual relative mx-auto flex w-full max-w-[24rem] sm:max-w-[26rem] justify-center lg:justify-end mt-4 lg:mt-0"
+          className="hero-visual relative mx-auto flex w-full max-w-[24rem] sm:max-w-[26rem] lg:max-w-[28rem] xl:max-w-[30rem] justify-center lg:justify-end lg:ml-auto lg:mr-0 xl:-mr-4 2xl:-mr-10 mt-6 lg:mt-0"
           style={{ y: photoY }}
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -295,43 +293,6 @@ export default function Hero() {
 
               {/* Edge Ring Polish */}
               <div className="absolute inset-0 rounded-[2.5rem] sm:rounded-[3rem] ring-1 ring-inset ring-white/10 dark:ring-white/10 pointer-events-none" />
-            </div>
-
-            {/* Floating Live Location Chip: Top Corner */}
-            <div className="absolute -top-3 right-4 sm:right-6 rounded-full border border-border/80 bg-surface/92 px-3.5 py-1.5 shadow-lg backdrop-blur-md flex items-center gap-1.5 text-xs font-semibold text-foreground">
-              <MapPin size={13} className="text-primary" />
-              <span>Kolkata, IN</span>
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
-            </div>
-
-            {/* Floating Developer Identity Dock: Anchors the Blended Bottom Edge */}
-            <div className="absolute -bottom-3 inset-x-4 sm:inset-x-6 rounded-2xl border border-border/80 bg-surface/92 p-3 shadow-xl backdrop-blur-xl flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold text-xs shadow-md shadow-primary/25">
-                  RD
-                </div>
-                <div>
-                  <p className="text-xs sm:text-sm font-bold text-foreground leading-tight">
-                    Rishiraj Debnath
-                  </p>
-                  <p className="text-[11px] text-muted-2 font-medium">Full-Stack Engineer</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-1 rounded-lg border border-border/70 bg-surface-2/80 px-2.5 py-1 text-[11px] font-mono text-primary font-semibold">
-                <Terminal size={12} />
-                <span>React / Node</span>
-              </div>
-            </div>
-
-            {/* Desktop-only subtle orbital chips */}
-            <div className="hidden sm:flex absolute top-12 -left-5 items-center gap-1.5 rounded-2xl border border-border/80 bg-surface/92 px-3 py-1.5 shadow-xl backdrop-blur-md">
-              <Code2 size={13} className="text-primary" />
-              <span className="text-xs font-semibold text-foreground">UI Systems</span>
-            </div>
-
-            <div className="hidden sm:flex absolute bottom-16 -right-5 items-center gap-1.5 rounded-2xl border border-border/80 bg-surface/92 px-3 py-1.5 shadow-xl backdrop-blur-md">
-              <Server size={13} className="text-violet-400" />
-              <span className="text-xs font-semibold text-foreground">APIs</span>
             </div>
           </div>
         </Motion.div>
