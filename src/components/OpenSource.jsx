@@ -230,9 +230,9 @@ export default function OpenSource() {
         </Motion.div>
 
         {/* GitHub Callout Footer */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl border border-border/80 bg-surface/70 p-6 backdrop-blur-md">
+        <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 rounded-3xl border border-border/80 bg-surface/70 p-5 sm:p-6 backdrop-blur-md">
           <div className="flex items-center gap-3.5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-surface-2 text-foreground">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-surface-2 text-foreground shrink-0">
               <Github size={22} />
             </div>
             <div>
@@ -249,7 +249,7 @@ export default function OpenSource() {
             href="https://github.com/13507-IN"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-slide-fill inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-xs sm:text-sm font-semibold text-primary-foreground shadow-md shadow-primary/25 hover:shadow-primary/40 transition-all hover:-translate-y-0.5 shrink-0"
+            className="btn-slide-fill inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-xs sm:text-sm font-semibold text-primary-foreground shadow-md shadow-primary/25 hover:shadow-primary/40 transition-all hover:-translate-y-0.5 shrink-0 w-full sm:w-auto"
           >
             <Github size={15} /> Visit GitHub Profile
           </a>

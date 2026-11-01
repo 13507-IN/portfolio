@@ -144,6 +144,7 @@ export default function Contact() {
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchMove}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       className="section-shell relative overflow-hidden bg-background"
@@ -181,10 +182,10 @@ export default function Contact() {
           </p>
         </Motion.div>
 
-        <div className="grid max-w-6xl overflow-hidden rounded-[2.25rem] border border-border/80 bg-surface/85 shadow-[0_20px_80px_rgba(15,23,42,0.12)] backdrop-blur-md lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="grid max-w-6xl overflow-hidden rounded-[2rem] sm:rounded-[2.25rem] border border-border/80 bg-surface/85 shadow-[0_20px_80px_rgba(15,23,42,0.12)] backdrop-blur-md lg:grid-cols-[0.92fr_1.08fr]">
           {/* Left Info Panel */}
           <Motion.div
-            className="bg-[linear-gradient(160deg,rgba(79,70,229,0.98),rgba(37,99,235,0.88))] p-8 text-primary-foreground sm:p-10 lg:p-12 flex flex-col justify-between"
+            className="bg-[linear-gradient(160deg,rgba(79,70,229,0.98),rgba(37,99,235,0.88))] p-6 sm:p-10 lg:p-12 text-primary-foreground flex flex-col justify-between"
             initial={{ opacity: 0, x: -40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
@@ -193,7 +194,7 @@ export default function Contact() {
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-white backdrop-blur-md">
                 <Sparkles size={12} /> Open to Web Roles
               </span>
-              <h3 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              <h3 className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
                 Frontend, full-stack, and product teams.
               </h3>
               <p className="mt-4 text-sm leading-relaxed text-white/80 sm:text-base">
@@ -202,32 +203,32 @@ export default function Contact() {
               </p>
             </div>
 
-            <div className="mt-8 space-y-4">
+            <div className="mt-8 space-y-3.5 sm:space-y-4">
               {contactInfo.map((item) => {
                 const Icon = item.icon;
 
                 return (
                   <div
                     key={item.title}
-                    className="flex items-center justify-between gap-4 rounded-[1.25rem] border border-white/15 bg-white/10 p-4 backdrop-blur-md transition-all duration-300 hover:bg-white/15"
+                    className="flex items-center justify-between gap-3 sm:gap-4 rounded-xl sm:rounded-[1.25rem] border border-white/15 bg-white/10 p-3.5 sm:p-4 backdrop-blur-md transition-all duration-300 hover:bg-white/15"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="rounded-2xl bg-white/15 p-3">
-                        <Icon size={19} className="text-white" />
+                    <div className="flex items-center gap-3 sm:gap-4 truncate">
+                      <div className="rounded-xl sm:rounded-2xl bg-white/15 p-2.5 sm:p-3 shrink-0">
+                        <Icon size={18} className="text-white" />
                       </div>
-                      <div>
+                      <div className="truncate">
                         <p className="text-[10px] uppercase tracking-[0.24em] text-white/60 font-semibold">
                           {item.title}
                         </p>
                         {item.href ? (
                           <a
                             href={item.href}
-                            className="mt-0.5 block text-sm font-semibold text-white hover:underline sm:text-base"
+                            className="mt-0.5 block text-xs sm:text-sm md:text-base font-semibold text-white hover:underline truncate"
                           >
                             {item.value}
                           </a>
                         ) : (
-                          <p className="mt-0.5 text-sm font-semibold text-white sm:text-base">
+                          <p className="mt-0.5 text-xs sm:text-sm md:text-base font-semibold text-white truncate">
                             {item.value}
                           </p>
                         )}
@@ -237,7 +238,7 @@ export default function Contact() {
                     {item.actionable && (
                       <button
                         onClick={handleCopyEmail}
-                        className="rounded-xl border border-white/20 bg-white/15 p-2 text-white hover:bg-white/25 transition-colors"
+                        className="rounded-xl border border-white/20 bg-white/15 p-2 text-white hover:bg-white/25 transition-colors shrink-0 active:scale-95"
                         title="Copy email to clipboard"
                         aria-label="Copy email"
                       >
@@ -252,7 +253,7 @@ export default function Contact() {
 
           {/* Right Form Panel */}
           <Motion.div
-            className="bg-surface/95 p-8 sm:p-10 lg:p-12"
+            className="bg-surface/95 p-6 sm:p-10 lg:p-12"
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}

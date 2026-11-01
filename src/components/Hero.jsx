@@ -1,10 +1,22 @@
 import { motion as Motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
-import { ChevronDown, Github, Linkedin, Mail, Sparkles, Code2, Server, Rocket, Download } from 'lucide-react';
+import {
+  ChevronDown,
+  Github,
+  Linkedin,
+  Mail,
+  Sparkles,
+  Code2,
+  Server,
+  Rocket,
+  Download,
+  MapPin,
+  Terminal,
+} from 'lucide-react';
 import { useRef, useEffect } from 'react';
 import myimage from '../assets/myimage.jpeg';
 
 const quickStats = [
-  { value: '9', label: 'Selected projects', icon: Rocket },
+  { value: '9', label: 'Projects', icon: Rocket },
   { value: 'React', label: 'Frontend', icon: Code2 },
   { value: 'Node.js', label: 'Backend', icon: Server },
 ];
@@ -17,12 +29,6 @@ const socialLinks = [
     label: 'LinkedIn',
   },
   { icon: Mail, href: 'mailto:rishirajnatj@gmail.com', label: 'Email' },
-];
-
-const floatingBadges = [
-  { name: 'React interfaces', pos: '-top-4 -left-4 sm:-left-8' },
-  { name: 'Full-stack apps', pos: 'top-1/3 -right-4 sm:-right-8' },
-  { name: 'Open to web roles', pos: '-bottom-4 -left-2 sm:-left-6' },
 ];
 
 export default function Hero() {
@@ -41,16 +47,18 @@ export default function Hero() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [12, -12]), {
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), {
     stiffness: 200,
     damping: 20,
   });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), {
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-10, 10]), {
     stiffness: 200,
     damping: 20,
   });
 
   const handleMouseMovePhoto = (e) => {
+    // Only apply tilt on non-touch devices
+    if (window.innerWidth < 768) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -121,6 +129,7 @@ export default function Hero() {
       ref={sectionRef}
       onMouseMove={handleHeroMouseMove}
       onMouseLeave={handleHeroMouseLeave}
+      onTouchStart={handleHeroTouchMove}
       onTouchMove={handleHeroTouchMove}
       onTouchEnd={handleHeroTouchEnd}
       className="hero-shell relative flex min-h-screen items-center overflow-hidden"
@@ -145,36 +154,40 @@ export default function Hero() {
         </div>
       </Motion.div>
 
-      <div className="hero-grid page-width relative z-10 grid items-center gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10 xl:gap-14">
+      <div className="hero-grid page-width relative z-10 grid items-center gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:gap-10 xl:gap-14">
+        {/* Hero Narrative Column */}
         <Motion.div
           className="relative"
           style={{ y: contentY }}
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 35 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-primary backdrop-blur-md sm:text-sm sm:tracking-[0.28em]">
+          {/* Availability Status Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 text-xs font-semibold text-primary backdrop-blur-md">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            Open to web developer opportunities
+            Available for new opportunities
           </div>
 
-          <h1 className="hero-title mt-5 max-w-3xl font-bold tracking-tight text-foreground">
-            Web developer building <span className="text-gradient">useful products</span> from UI to API.
+          {/* Punchy Hero Heading */}
+          <h1 className="hero-title mt-4 sm:mt-5 max-w-2xl font-bold tracking-tight text-foreground">
+            Building modern web products from <span className="text-gradient">UI to API</span>.
           </h1>
 
-          <p className="hero-summary mt-5 max-w-2xl text-muted">
-            I&apos;m Rishiraj Debnath. I build responsive React interfaces and
-            practical backends, with projects ranging from the CampusSpace
-            marketplace to an in-browser sticker design studio.
+          {/* Clean, Concise Summary */}
+          <p className="hero-summary mt-3 sm:mt-4 max-w-xl text-muted leading-relaxed">
+            Full-stack developer building high-performance React frontends,
+            resilient Node.js APIs, and thoughtful digital products.
           </p>
 
-          <div className="hero-actions mt-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+          {/* Action Buttons */}
+          <div className="hero-actions mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <a
               href="#projects"
-              className="btn-slide-fill inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-primary/40 sm:text-base"
+              className="btn-slide-fill inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-primary/40"
             >
               <Sparkles size={16} /> View Projects
             </a>
@@ -182,58 +195,59 @@ export default function Hero() {
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface/85 px-7 py-3.5 text-sm font-semibold text-foreground transition-colors duration-300 hover:border-primary/40 hover:text-primary sm:text-base"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface/85 px-6 py-3.5 text-sm font-semibold text-foreground transition-colors duration-300 hover:border-primary/40 hover:text-primary"
             >
               <Download size={16} /> View Résumé
             </a>
+
+            {/* Social Icons Inline */}
+            <div className="flex items-center justify-center sm:justify-start gap-2 pt-1 sm:pt-0 sm:pl-2">
+              {socialLinks.map((link) => {
+                const IconComponent = link.icon;
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface/80 text-muted transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary hover:shadow-sm"
+                    aria-label={link.label}
+                  >
+                    <IconComponent size={17} />
+                  </a>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            {socialLinks.map((link) => {
-              const IconComponent = link.icon;
-
-              return (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target={link.href.startsWith('http') ? '_blank' : undefined}
-                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface/75 text-muted transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:text-primary hover:shadow-md"
-                  aria-label={link.label}
-                >
-                  <IconComponent size={19} />
-                </a>
-              );
-            })}
-          </div>
-
-          <div className="hero-stats mt-6 hidden gap-3 sm:grid sm:grid-cols-3">
+          {/* Quick Stats Grid: Enabled and Responsive for All Devices */}
+          <div className="hero-stats mt-6 grid grid-cols-3 gap-2.5 sm:gap-3 max-w-lg">
             {quickStats.map((stat, index) => {
               const StatIcon = stat.icon;
               return (
                 <Motion.div
                   key={stat.label}
-                  className="glass-glow-card rounded-[1.5rem] border border-border bg-surface/80 p-4 backdrop-blur-sm group"
-                  initial={{ opacity: 0, y: 24 }}
+                  className="glass-glow-card rounded-2xl border border-border bg-surface/80 p-3 sm:p-4 backdrop-blur-sm group"
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.45 + index * 0.1, duration: 0.55 }}
+                  transition={{ delay: 0.35 + index * 0.08, duration: 0.5 }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+                    <span className="text-lg sm:text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
                       {stat.value}
                     </span>
-                    <StatIcon size={18} className="text-primary/70 group-hover:text-primary transition-colors" />
+                    <StatIcon size={16} className="text-primary/70 group-hover:text-primary transition-colors shrink-0" />
                   </div>
-                  <p className="mt-1 text-sm text-muted-2">{stat.label}</p>
+                  <p className="mt-1 text-xs sm:text-sm text-muted-2 truncate font-medium">{stat.label}</p>
                 </Motion.div>
               );
             })}
           </div>
         </Motion.div>
 
-        {/* Hero Visual Container with 3D Tilt */}
+        {/* Hero Visual Container: Modern Multi-Layered Editorial Silhouette */}
         <Motion.div
-          className="hero-visual relative mx-auto flex w-full max-w-[28rem] justify-center lg:justify-end"
+          className="hero-visual relative mx-auto flex w-full max-w-[24rem] sm:max-w-[26rem] justify-center lg:justify-end mt-4 lg:mt-0"
           style={{ y: photoY, perspective: 1000 }}
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -243,47 +257,64 @@ export default function Hero() {
             onMouseMove={handleMouseMovePhoto}
             onMouseLeave={handleMouseLeavePhoto}
             style={{ rotateX, rotateY }}
-            className="relative w-full max-w-[26rem] transition-transform duration-200 ease-out"
+            className="group relative w-full transition-transform duration-200 ease-out"
           >
-            <div className="absolute inset-3 rounded-[2.5rem] bg-primary/20 blur-3xl animate-pulse-halo" />
+            {/* Ambient Radial Backlight Glow */}
+            <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-primary/30 via-indigo-500/20 to-violet-600/25 blur-3xl opacity-75 animate-pulse-halo pointer-events-none" />
 
-            <div className="relative overflow-hidden rounded-[2rem] border border-border/80 bg-surface/90 p-4 shadow-[0_24px_90px_rgba(15,23,42,0.18)] backdrop-blur-xl">
-              <div className="relative overflow-hidden rounded-[1.5rem] bg-surface-2 group">
-                <div className="aspect-[4/5] overflow-hidden">
-                  <img
-                    src={myimage}
-                    alt="Rishiraj Debnath"
-                    className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
+            {/* Layer 1: Angled Architectural Depth Card Behind Portrait */}
+            <div className="absolute inset-1 rounded-[2.75rem] rounded-tr-[5.5rem] rounded-bl-[1.5rem] border border-primary/30 bg-gradient-to-br from-primary/15 via-purple-500/10 to-transparent backdrop-blur-sm -rotate-2 group-hover:rotate-0 transition-transform duration-500 -z-10" />
 
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-6 text-white">
-                  <p className="text-xs uppercase tracking-[0.32em] text-white/70 font-semibold">
-                    Based in Kolkata, India
-                  </p>
-                  <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-                    Building for the web
-                  </h2>
-                </div>
+            {/* Layer 2: Main Image Frame with Asymmetric Silhouette */}
+            <div className="relative overflow-hidden rounded-[2.75rem] rounded-tr-[5.5rem] rounded-bl-[1.5rem] border border-border/80 bg-surface/90 p-2.5 sm:p-3 shadow-[0_24px_80px_rgba(15,23,42,0.16)] backdrop-blur-xl">
+              <div className="relative overflow-hidden rounded-[2.25rem] rounded-tr-[5rem] rounded-bl-[1.2rem] bg-surface-2 aspect-[4/5]">
+                <img
+                  src={myimage}
+                  alt="Rishiraj Debnath"
+                  className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                />
+
+                {/* Subtle soft gradient fade at extreme bottom for contrast */}
+                <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent pointer-events-none" />
               </div>
             </div>
 
-            {/* Floating Info Pills */}
-            {floatingBadges.map((badge, idx) => (
-              <Motion.div
-                key={badge.name}
-                className={`absolute ${badge.pos} rounded-2xl border border-border/80 bg-surface/95 px-4 py-2.5 shadow-xl backdrop-blur-md`}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.7 + idx * 0.15 }}
-              >
-                <p className="text-[10px] uppercase tracking-[0.24em] text-muted-2">Focus</p>
-                <p className="text-xs font-semibold text-foreground flex items-center gap-1.5 mt-0.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                  {badge.name}
-                </p>
-              </Motion.div>
-            ))}
+            {/* Floating Live Location Chip: Top Corner */}
+            <div className="absolute -top-3 right-4 sm:right-6 rounded-full border border-border/80 bg-surface/95 px-3.5 py-1.5 shadow-lg backdrop-blur-md flex items-center gap-1.5 text-xs font-semibold text-foreground">
+              <MapPin size={13} className="text-primary" />
+              <span>Kolkata, IN</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
+            </div>
+
+            {/* Floating Developer Identity Dock: Bottom Edge */}
+            <div className="absolute -bottom-3 inset-x-4 sm:inset-x-6 rounded-2xl border border-border/80 bg-surface/95 p-3 shadow-xl backdrop-blur-xl flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold text-xs shadow-md shadow-primary/25">
+                  RD
+                </div>
+                <div>
+                  <p className="text-xs sm:text-sm font-bold text-foreground leading-tight">
+                    Rishiraj Debnath
+                  </p>
+                  <p className="text-[11px] text-muted-2 font-medium">Full-Stack Engineer</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1 rounded-lg border border-border/70 bg-surface-2/80 px-2.5 py-1 text-[11px] font-mono text-primary font-semibold">
+                <Terminal size={12} />
+                <span>React / Node</span>
+              </div>
+            </div>
+
+            {/* Desktop-only subtle orbital chips that don't crowd mobile */}
+            <div className="hidden sm:flex absolute top-12 -left-5 items-center gap-1.5 rounded-2xl border border-border/80 bg-surface/95 px-3 py-1.5 shadow-xl backdrop-blur-md">
+              <Code2 size={13} className="text-primary" />
+              <span className="text-xs font-semibold text-foreground">UI Systems</span>
+            </div>
+
+            <div className="hidden sm:flex absolute bottom-16 -right-5 items-center gap-1.5 rounded-2xl border border-border/80 bg-surface/95 px-3 py-1.5 shadow-xl backdrop-blur-md">
+              <Server size={13} className="text-violet-400" />
+              <span className="text-xs font-semibold text-foreground">APIs</span>
+            </div>
           </Motion.div>
         </Motion.div>
       </div>
@@ -292,7 +323,7 @@ export default function Hero() {
         className="absolute bottom-6 left-1/2 -translate-x-1/2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.35 }}
+        transition={{ delay: 1.2 }}
       >
         <Motion.a
           href="#about"

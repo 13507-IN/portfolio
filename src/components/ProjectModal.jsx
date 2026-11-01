@@ -137,10 +137,10 @@ export default function ProjectModal({ project, onClose }) {
           onClick={onClose}
         />
 
-        {/* Modal Window Container */}
+        {/* Modal Window Container: Single unified scroll on mobile (< lg), two-column layout on desktop (lg:) */}
         <Motion.div
           data-lenis-prevent="true"
-          className="relative w-full max-w-5xl h-[92vh] max-h-[860px] flex flex-col lg:flex-row rounded-[2rem] border border-border/80 bg-surface text-foreground shadow-2xl backdrop-blur-2xl overflow-hidden my-auto z-10"
+          className="relative w-full max-w-5xl h-[92vh] max-h-[880px] flex flex-col lg:flex-row rounded-[2rem] border border-border/80 bg-surface text-foreground shadow-2xl backdrop-blur-2xl overflow-y-auto lg:overflow-hidden my-auto z-10 scrollbar-thin overscroll-contain"
           role="dialog"
           aria-modal="true"
           aria-labelledby="project-dialog-title"
@@ -153,16 +153,16 @@ export default function ProjectModal({ project, onClose }) {
           <button
             ref={closeButtonRef}
             onClick={onClose}
-            className="lg:hidden absolute right-3.5 top-3.5 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-border/80 bg-surface/90 text-foreground shadow-md backdrop-blur-md transition-all hover:bg-surface"
+            className="lg:hidden absolute right-3.5 top-3.5 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-border/80 bg-surface/90 text-foreground shadow-md backdrop-blur-md transition-all hover:bg-surface active:scale-95"
             aria-label="Close dialog"
           >
             <X size={17} />
           </button>
 
           {/* LEFT SIDEBAR PANEL: Project Identity, Visual Preview, & Quick Actions */}
-          <div className="lg:w-[380px] xl:w-[410px] shrink-0 border-b lg:border-b-0 lg:border-r border-border/70 bg-surface-2/30 flex flex-col overflow-y-auto scrollbar-thin">
+          <div className="lg:w-[380px] xl:w-[410px] shrink-0 border-b lg:border-b-0 lg:border-r border-border/70 bg-surface-2/30 flex flex-col lg:h-full lg:overflow-y-auto scrollbar-thin">
             {/* Visual Cover / Mockup */}
-            <div className="p-5 pb-3">
+            <div className="p-4 sm:p-5 pb-3">
               {project.image ? (
                 <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/80 bg-surface shadow-sm group">
                   <img
@@ -202,7 +202,7 @@ export default function ProjectModal({ project, onClose }) {
             </div>
 
             {/* Title, Badge & Subtitle */}
-            <div className="px-5 pb-4">
+            <div className="px-4 sm:px-5 pb-4">
               <div className="flex flex-wrap items-center gap-1.5 mb-2">
                 <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-primary">
                   <Sparkles size={11} /> {project.category || 'Project'}
@@ -213,8 +213,8 @@ export default function ProjectModal({ project, onClose }) {
                   </span>
                 )}
                 {domain && (
-                  <span className="inline-flex items-center gap-1 text-[11px] text-muted-2">
-                    <Globe size={11} /> {domain}
+                  <span className="inline-flex items-center gap-1 text-[11px] text-muted-2 truncate max-w-[180px]">
+                    <Globe size={11} className="shrink-0" /> {domain}
                   </span>
                 )}
               </div>
@@ -228,13 +228,13 @@ export default function ProjectModal({ project, onClose }) {
             </div>
 
             {/* Primary Action Buttons (Pinned to Left Sidebar) */}
-            <div className="px-5 pb-5 flex flex-wrap gap-2">
+            <div className="px-4 sm:px-5 pb-5 flex flex-wrap gap-2">
               {project.demo && project.demo !== '#' && (
                 <a
                   href={project.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-slide-fill flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-4 py-2.5 text-xs sm:text-sm font-semibold text-primary-foreground shadow-md shadow-primary/25 hover:shadow-primary/40 transition-all hover:bg-primary-light"
+                  className="btn-slide-fill flex-1 min-w-[120px] inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-4 py-2.5 text-xs sm:text-sm font-semibold text-primary-foreground shadow-md shadow-primary/25 hover:shadow-primary/40 transition-all hover:bg-primary-light active:scale-95"
                 >
                   <ExternalLink size={14} /> Live Demo
                 </a>
@@ -244,14 +244,14 @@ export default function ProjectModal({ project, onClose }) {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl border border-border bg-surface px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:text-primary"
+                  className="flex-1 min-w-[120px] inline-flex items-center justify-center gap-1.5 rounded-xl border border-border bg-surface px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:text-primary active:scale-95"
                 >
                   <Github size={14} /> Source Code
                 </a>
               )}
             </div>
 
-            {/* Sidebar Details: Tech Stack */}
+            {/* Sidebar Details: Tech Stack (desktop only) */}
             <div className="hidden lg:block px-5 py-4 border-t border-border/60">
               <p className="text-[10px] font-bold uppercase tracking-widest text-muted-2 mb-2.5 flex items-center gap-1.5">
                 <Code2 size={12} className="text-primary" /> Technologies
@@ -268,7 +268,7 @@ export default function ProjectModal({ project, onClose }) {
               </div>
             </div>
 
-            {/* Sidebar Details: Key Highlights */}
+            {/* Sidebar Details: Key Highlights (desktop only) */}
             {project.highlights && project.highlights.length > 0 && (
               <div className="hidden lg:block px-5 py-4 border-t border-border/60">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted-2 mb-2.5 flex items-center gap-1.5">
@@ -286,49 +286,55 @@ export default function ProjectModal({ project, onClose }) {
             )}
           </div>
 
-          {/* RIGHT MAIN PANEL: Dedicated Full-Height Reading Pane */}
-          <div className="flex-1 flex flex-col overflow-hidden bg-surface">
-            {/* Top Navigation Bar with Tabs & Desktop Close Button */}
-            <div className="sticky top-0 z-20 flex items-center justify-between border-b border-border/70 bg-surface/95 px-5 py-3 backdrop-blur-xl sm:px-8 shrink-0">
-              {/* Segmented Tab Switcher */}
-              <div className="inline-flex items-center gap-1 rounded-2xl border border-border/70 bg-surface-2/70 p-1">
+          {/* RIGHT MAIN PANEL: Full-Height Reading Pane on Desktop, Natural Flow on Mobile */}
+          <div className="flex-1 flex flex-col lg:h-full lg:overflow-hidden bg-surface">
+            {/* Top Navigation Bar with Tabs & Desktop Close Button (Sticky) */}
+            <div className="sticky top-0 z-20 flex items-center justify-between border-b border-border/70 bg-surface/95 px-4 py-2.5 sm:px-6 sm:py-3 backdrop-blur-xl shrink-0">
+              {/* Segmented Tab Switcher with Responsive Compact Mobile Labels */}
+              <div className="inline-flex items-center gap-1 rounded-2xl border border-border/70 bg-surface-2/70 p-1 max-w-full overflow-x-auto scrollbar-none">
                 {hasStory && (
                   <button
                     onClick={() => setActiveTab('story')}
-                    className={`relative flex items-center gap-2 rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-200 ${
+                    className={`relative flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold transition-all duration-200 shrink-0 ${
                       activeTab === 'story'
                         ? 'bg-surface text-foreground shadow-sm border border-border/60'
                         : 'text-muted hover:text-foreground'
                     }`}
                   >
                     <BookOpen size={14} className={activeTab === 'story' ? 'text-primary' : ''} />
-                    <span>The Story & Decisions</span>
+                    <span>
+                      <span className="hidden sm:inline">The </span>Story<span className="hidden sm:inline"> & Decisions</span>
+                    </span>
                   </button>
                 )}
 
                 <button
                   onClick={() => setActiveTab('specs')}
-                  className={`relative flex items-center gap-2 rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-200 ${
+                  className={`relative flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold transition-all duration-200 shrink-0 ${
                     activeTab === 'specs'
                       ? 'bg-surface text-foreground shadow-sm border border-border/60'
                       : 'text-muted hover:text-foreground'
                   }`}
                 >
                   <Layers size={14} className={activeTab === 'specs' ? 'text-primary' : ''} />
-                  <span>Specs & Details</span>
+                  <span>
+                    Specs<span className="hidden sm:inline"> & Details</span>
+                  </span>
                 </button>
 
                 {videoUrl && (
                   <button
                     onClick={() => setActiveTab('video')}
-                    className={`relative flex items-center gap-2 rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-200 ${
+                    className={`relative flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold transition-all duration-200 shrink-0 ${
                       activeTab === 'video'
                         ? 'bg-surface text-foreground shadow-sm border border-border/60'
                         : 'text-muted hover:text-foreground'
                     }`}
                   >
                     <Video size={14} className={activeTab === 'video' ? 'text-primary' : ''} />
-                    <span>Demo Video</span>
+                    <span>
+                      <span className="hidden sm:inline">Demo </span>Video
+                    </span>
                   </button>
                 )}
               </div>
@@ -343,11 +349,11 @@ export default function ProjectModal({ project, onClose }) {
               </button>
             </div>
 
-            {/* Scrollable Reading Content Body */}
+            {/* Reading Content Body: Flows naturally on mobile, scrolls inside pane on desktop */}
             <div
               data-lenis-prevent="true"
               onWheel={(e) => e.stopPropagation()}
-              className="flex-1 overflow-y-auto px-6 py-6 sm:px-8 sm:py-8 space-y-8 scrollbar-thin overscroll-contain"
+              className="p-5 sm:p-7 md:p-8 space-y-7 lg:flex-1 lg:overflow-y-auto scrollbar-thin overscroll-contain"
             >
               {/* TAB 1: THE STORY & ARCHITECTURAL DECISIONS */}
               {activeTab === 'story' && hasStory && (

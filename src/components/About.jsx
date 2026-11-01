@@ -146,20 +146,20 @@ export default function About() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.3 }}
             >
-              {/* Terminal Titlebar */}
-              <div className="flex items-center justify-between border-b border-slate-800 bg-slate-900/90 px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1.5">
+              {/* Terminal Titlebar with Mobile Overflow Safety */}
+              <div className="flex items-center justify-between gap-2 border-b border-slate-800 bg-slate-900/90 px-3.5 sm:px-4 py-3">
+                <div className="flex items-center gap-2 min-w-0 overflow-x-auto scrollbar-none">
+                  <div className="flex gap-1.5 shrink-0">
                     <span className="h-3 w-3 rounded-full bg-red-500/80" />
                     <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
                     <span className="h-3 w-3 rounded-full bg-green-500/80" />
                   </div>
-                  <div className="ml-3 flex gap-2">
+                  <div className="ml-2 sm:ml-3 flex gap-1.5 shrink-0">
                     {Object.keys(devSnippets).map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`rounded-lg px-2.5 py-1 text-xs font-mono transition-colors ${
+                        className={`rounded-lg px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-mono transition-colors shrink-0 ${
                           activeTab === tab
                             ? 'bg-slate-800 text-indigo-400 font-semibold border border-indigo-500/30'
                             : 'text-slate-400 hover:text-slate-200'
@@ -173,16 +173,17 @@ export default function About() {
 
                 <button
                   onClick={handleCopyConfig}
-                  className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs text-slate-300 transition-colors hover:border-slate-500 hover:text-white"
+                  className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs text-slate-300 transition-colors hover:border-slate-500 hover:text-white shrink-0 active:scale-95"
                   title="Copy code snippet"
+                  aria-label="Copy snippet"
                 >
                   {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                  <span>{copied ? 'Copied' : 'Copy'}</span>
+                  <span className="hidden xs:inline">{copied ? 'Copied' : 'Copy'}</span>
                 </button>
               </div>
 
               {/* Code Snippet Content */}
-              <div className="p-4 sm:p-5 overflow-x-auto font-mono text-xs sm:text-sm leading-relaxed text-indigo-200/90">
+              <div className="p-4 sm:p-5 overflow-x-auto font-mono text-xs sm:text-sm leading-relaxed text-indigo-200/90 scrollbar-thin">
                 <pre>{devSnippets[activeTab]}</pre>
               </div>
             </Motion.div>
