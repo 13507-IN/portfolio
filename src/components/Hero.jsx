@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useRef, useEffect } from 'react';
 import myimage from '../assets/myimage.jpeg';
+import TwitterXIcon from './TwitterXIcon';
 
 const quickStats = [
   { value: '9', label: 'Projects', icon: Rocket },
@@ -25,6 +26,11 @@ const socialLinks = [
     icon: Linkedin,
     href: 'https://linkedin.com/in/rishiraj-debnath-890322313',
     label: 'LinkedIn',
+  },
+  {
+    icon: TwitterXIcon,
+    href: 'https://x.com/RishirajDekcda',
+    label: 'X (Twitter)',
   },
   { icon: Mail, href: 'mailto:rishirajnatj@gmail.com', label: 'Email' },
 ];

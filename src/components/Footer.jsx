@@ -1,5 +1,6 @@
 import { motion as Motion } from 'framer-motion';
 import { Github, Instagram, Linkedin, Mail, Search, Sparkles } from 'lucide-react';
+import TwitterXIcon from './TwitterXIcon';
 
 const socialLinks = [
   {
@@ -13,14 +14,19 @@ const socialLinks = [
     icon: Linkedin,
   },
   {
-    name: 'Email',
-    url: 'mailto:rishirajnatj@gmail.com',
-    icon: Mail,
+    name: 'X (Twitter)',
+    url: 'https://x.com/RishirajDekcda',
+    icon: TwitterXIcon,
   },
   {
     name: 'Instagram',
     url: 'https://www.instagram.com/_rishiraj_debnath_',
     icon: Instagram,
+  },
+  {
+    name: 'Email',
+    url: 'mailto:rishirajnatj@gmail.com',
+    icon: Mail,
   },
 ];
 

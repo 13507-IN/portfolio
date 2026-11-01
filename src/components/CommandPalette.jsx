@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
+import TwitterXIcon from './TwitterXIcon';
 import {
   Search,
   User,
@@ -128,6 +129,16 @@ export default function CommandPalette({ isOpen, onClose, onToggleTheme, theme }
       icon: Github,
       action: () => {
         window.open('https://github.com/13507-IN', '_blank');
+        onClose();
+      },
+    },
+    {
+      id: 'action-twitter',
+      category: 'External Links',
+      label: 'Follow on X (Twitter)',
+      icon: TwitterXIcon,
+      action: () => {
+        window.open('https://x.com/RishirajDekcda', '_blank');
         onClose();
       },
     },
